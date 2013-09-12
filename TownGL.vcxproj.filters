@@ -24,6 +24,9 @@
     <ClCompile Include="townwnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="townsdl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="draw.h">
