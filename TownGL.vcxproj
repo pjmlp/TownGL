@@ -86,9 +86,6 @@
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="town.cpp" />
     <ClCompile Include="townsdl.cpp" />
-    <ClCompile Include="townwnd.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="draw.h" />

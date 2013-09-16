@@ -32,7 +32,6 @@
 
 
 /*** Variáveis globais ***/
-extern HDC   ghDC;
 
 
 /* Raio da circunferência */

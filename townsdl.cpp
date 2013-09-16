@@ -17,7 +17,6 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#include <iostream>
 #include <SDL.h>
 
 #include "glos.h"
@@ -73,14 +72,12 @@ static void Town_OnChar(SDL_Keycode sym)
 }
 
 
-
-
 int main (int argc, char** argv)
 {
 	atexit(SDL_Quit); // Make sure SDL is always properly terminated
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < -1) {
-		std::cout << "Error initializing SDL " << SDL_GetError() << std::endl;
+		SDL_Log("Error initializing SDL %s\n", SDL_GetError());
 		return -1;
 	}
 
@@ -94,10 +91,10 @@ int main (int argc, char** argv)
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		640, 480,
-		SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+		SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
 	if ( screen == NULL ) {
-		std::cout << "Couldn't set GL mode: " << SDL_GetError() << std::endl;
+		SDL_Log("Couldn't set GL mode: %s\n", SDL_GetError());
 		return -1;
 	}
 
@@ -106,29 +103,38 @@ int main (int argc, char** argv)
 	// Initialize GLEW
 	GLenum err = glewInit();
 	if (GLEW_OK != err) {
-		std::cout << "Couldn't configure GLEW: " << std::endl;
+		SDL_Log("Couldn't configure GLEW: %s\n", SDL_GetError());
 		return -1;
 	}
 	initializeGL ();
+	OnResize (640, 480);
 
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-		case SDL_WINDOWEVENT_RESIZED:
-			OnResize (event.window.data1, event.window.data2);
-			break;
+	bool done = false;
+	while (!done) {
+		SDL_Event ev;
+		while (!done && SDL_PollEvent(&ev)) {
+			if (ev.type == SDL_WINDOWEVENT) {
+				switch(ev.window.event){
+				case SDL_WINDOWEVENT_RESIZED:
+					OnResize (ev.window.data1, ev.window.data2);
+					break;
 
-		case SDL_KEYDOWN:
-			Town_OnChar(event.key.keysym.sym);
-			break;
-
-		default:
-			MainLoop();
+				case SDL_WINDOWEVENT_CLOSE:
+					done = true;
+					break;
+				}
+			}
+			else if (ev.type == SDL_KEYDOWN) {
+				Town_OnChar(ev.key.keysym.sym);
+			}
 		}
+
+
+		MainLoop();
 		SDL_GL_SwapWindow(screen);
 	}
-
 	SDL_GL_DeleteContext(glcontext);
+
 
 	return 0;
 }
