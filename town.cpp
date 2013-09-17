@@ -17,8 +17,6 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#include "glos.h"
-
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <stdio.h>
@@ -58,21 +56,23 @@ static const GLint MIN_INC_FRAME = 1;
 
 
 /*** Variáveis globais a este módulo ***/
-static GLboolean isPaused = GL_FALSE;    /* Indica se estamos em modo pausa */
-static GLboolean isAbove = GL_FALSE;     /* Indica a posicao de visao */
+static bool isPaused = false;    /* Indica se estamos em modo pausa */
+static bool isAbove = false;     /* Indica a posicao de visao */
 static GLsizei lastWidth, lastHeight;    /* Dimensões correntes da janela */  
 static GLfloat altitude = 0.5;           /* Altitude corrente */  
 static GLuint incFrame = 1;              /* Velocidade corrente */  
-static GLboolean isLightOn = GL_TRUE;    /* Indica se a iluminação se encontra ligada */
-static clock_t currentTime = 0.0f;       /* The current time */
+static bool isLightOn = true;    /* Indica se a iluminação se encontra ligada */
+static clock_t currentTime = 0;       /* The current time */
 static GLfloat currentFrame = 0.0f;
 
 
 
 
 
-
-void initializeGL (void)
+/**
+ * Sets the initial configuration of the demo.
+ */
+void InitializeGL ()
 {	
   TurnOnLighting ();
 
@@ -84,10 +84,10 @@ void initializeGL (void)
 
 
 
-/*
- * Rotina responsavel pelo ciclo principal
+/**
+ * Updates the application's state
  */
-void MainLoop (void)
+void MainLoop ()
 {
   if (!isPaused) {
     clock_t now = clock();
@@ -103,18 +103,18 @@ void MainLoop (void)
 }
 
 
-/*
- * Rotina que muda liga/desliga o modo de pausa
+/**
+ * Stops/starts the application.
  */
-void OnPKey (void)
+void OnPKey ()
 {
   isPaused = !isPaused;
 }
 
-/*
- * Rotina que muda o ponto de visão
+/**
+ * Changes the user's viewpoint
  */
-void OnVKey (void)
+void OnVKey ()
 {
   isAbove = !isAbove;
   if (isAbove) {
@@ -125,10 +125,10 @@ void OnVKey (void)
   }
 }
 
-/*
- * Rotina que liga/desliga a iluminação
+/**
+ * Enables/disables the demo lighting.
  */
-void OnLKey (void)
+void OnLKey ()
 {
   if (isLightOn)
     glDisable (GL_LIGHTING);
@@ -138,58 +138,58 @@ void OnLKey (void)
   isLightOn = !isLightOn;
 }
 
-/*
- * Rotina que restora os valores por omissão
+/**
+ * Resets the application settings.
  */
-void OnRKey (void)
+void OnRKey ()
 {
-  isLightOn = GL_TRUE;
-  isAbove = GL_TRUE;
+  isLightOn = true;
+  isAbove = true;
   altitude = DEFAULT_ALTITUDE;
   incFrame = MIN_INC_FRAME;
   glEnable (GL_LIGHTING);
 }
 
 
-/*
- * Rotina que aumenta a altitude
+/**
+ * Increases the viewer's height.
  */
-void OnUpKey (void)
+void OnUpKey ()
 {
   if (altitude < MAX_ALTITUDE || isAbove)
     altitude += INC_ALTITUDE; 
 }
 
-/*
- * Rotina que diminui a altitude
+/**
+ * Decreases the viewer's height.
  */
-void OnDownKey (void)
+void OnDownKey ()
 {
   if (altitude > MIN_ALTITUDE)
     altitude -= INC_ALTITUDE; 
 }
 
-/*
- * Rotina que aumenta a velocidade 
+/**
+ * Increases the viewer's speed.
  */
-void OnIncKey (void)
+void OnIncKey ()
 {
   if (incFrame < MAX_INC_FRAME)
     incFrame++; 
 }
 
-/*
- * Rotina que diminui a velocidade
+/**
+ * Decreases the viewer's speed.
  */
-void OnDecKey (void)
+void OnDecKey ()
 {
   if (incFrame > MIN_INC_FRAME)
     incFrame--; 
 }
 
 
-/*
- * Rotina que trata o redimensionamento da janela
+/**
+ * Handles the window resize by the user.
  */
 void OnResize (GLsizei w, GLsizei h)
 {
@@ -201,16 +201,18 @@ void OnResize (GLsizei w, GLsizei h)
   lastHeight = h;
 }
 
-/*
- * Cria a projecção
+/**
+ * Sets up the OpenGL projection, based on the window size.
+ * @param w windows' width
+ * @param h windows' height
  */
 void Project (GLsizei w, GLsizei h)
 {
-  GLdouble xEye, yEye, zEye;
-  GLdouble xTarget, yTarget, zTarget;
-  GLdouble xUpVector, yUpVector, zUpVector;
-  static GLdouble angle = 0.0f;
-  GLdouble cosAngle, sinAngle;
+  GLfloat xEye, yEye, zEye;
+  GLfloat xTarget, yTarget, zTarget;
+  GLfloat xUpVector, yUpVector, zUpVector;
+  static GLfloat angle = 0.0f;
+  GLfloat cosAngle, sinAngle;
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -221,10 +223,8 @@ void Project (GLsizei w, GLsizei h)
 		glScalef ((GLfloat)h/(GLfloat)w, 1, 1);
 
   gluPerspective (45, 1, 0.5, 100.0);
-
-
   
-  /* Coloca a camera no sitio actual */
+  // sets the camera on the proper place.
 
   angle += 10 * currentFrame;
   if (angle > 360)
@@ -261,31 +261,30 @@ void Project (GLsizei w, GLsizei h)
     zUpVector = 0.0;
   }
 
-  gluLookAt ( xEye,           yEye,      zEye,   /* Posicao do olho */
-              xTarget,     yTarget,   zTarget,   /* Posicao do ponto de referencia */  
-              xUpVector, yUpVector, zUpVector);  /* Up Vector */
+  gluLookAt ( xEye,           yEye,      zEye,   
+              xTarget,     yTarget,   zTarget,   
+              xUpVector, yUpVector, zUpVector);  
 
-
-  /* Transformações referentes às projecções dos objectos */
+  // Objects related transformations follow this calls
 }
 
 
-/*
- * Inicializa a iluminação da cena
+/**
+ * Lighting settings
  */
-void TurnOnLighting (void)
+void TurnOnLighting ()
 {
-  GLfloat position[] = {1.0, 1.0, 1.0, 1.0}; /* Vector de Iluminação */
-  GLfloat ambient [] = {1.0, 1.0, 1.0, 1.0}; /* RGBA da cor ambiente */
+  GLfloat position[] = {1.0, 1.0, 1.0, 1.0};
+  GLfloat ambient [] = {1.0, 1.0, 1.0, 1.0};
 
-  glShadeModel (GL_SMOOTH); /* Sabemos que é o default mas é só para realçar */
+  glShadeModel (GL_SMOOTH);
   glEnable (GL_LIGHTING);
   glEnable (GL_LIGHT0);
   glDepthFunc (GL_LESS);
   glEnable (GL_DEPTH_TEST);
   glEnable (GL_COLOR_MATERIAL);
   
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, true);
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
   glLightfv (GL_LIGHT0, GL_POSITION, position);
   glColorMaterial (GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);

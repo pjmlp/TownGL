@@ -22,6 +22,6 @@
 
 const float PI = 3.1415927f;
 
-inline double UTIL_TO_RADIANS(double angle) { return angle * PI / 180; }
+inline float UTIL_TO_RADIANS(float angle) { return angle * PI / 180; }
 
 #endif /* PI_H_ */

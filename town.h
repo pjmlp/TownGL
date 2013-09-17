@@ -20,7 +20,6 @@
 #ifndef TOWN_H_
 #define TOWN_H_
 
-#include "glos.h"
 #include <GL/gl.h>
 
 void DescribeProgram ();
@@ -36,6 +35,6 @@ void OnDecKey ();
 void OnResize (GLsizei w, GLsizei h);
 void Project (GLsizei w, GLsizei h);
 void TurnOnLighting ();
-void initializeGL ();
+void InitializeGL ();
 
 #endif TOWN_H_

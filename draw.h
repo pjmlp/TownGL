@@ -19,7 +19,6 @@
 #ifndef DRAW_H_
 #define DRAW_H_
 
-#include "glos.h"
 #include <GL/glew.h>
 
 /*

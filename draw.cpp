@@ -16,7 +16,6 @@
 * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * Boston, MA 02111-1307, USA.
 */
-#include "glos.h"
 #include <GL/glew.h>
 #include <GL/glaux.h>
 #include <math.h>
@@ -30,7 +29,7 @@
 static void DrawArc (GLfloat depth);
 static void DrawRoof ();
 static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth);
-static void DrawCylinder(GLdouble radius, GLdouble height);
+static void DrawCylinder(GLfloat radius, GLfloat height);
 static void DrawCone(GLdouble radius, GLdouble height);
 static void DrawSolidTunnel ();
 static void DrawSolidArcTunnel ();
@@ -215,7 +214,7 @@ void DrawSolidWindmill (GLfloat angle)
 static void DrawTraject ()
 {
   int i;
-  double x, z;
+  float x, z;
   GLUquadric *sphere;
 
   glMatrixMode(GL_MODELVIEW);
@@ -225,8 +224,8 @@ static void DrawTraject ()
   glColor3f (1, 0, 1);
   for (i = 0; i < 360; i+=10) {
     glPushMatrix ();
-      x = 10 * cos (UTIL_TO_RADIANS (i));
-      z = 10 * sin (UTIL_TO_RADIANS (i));
+      x = 10.0f * cos (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
+      z = 10.0f * sin (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
       glTranslatef (x, 0, z);
       //auxSolidSphere (0.5);
       gluSphere(sphere, 0.5, 10, 10);
@@ -363,8 +362,8 @@ static void DrawArc (GLfloat depth)
         vertex[idx++] = depth;
 
 
-        GLfloat x = 5.5 * cos (UTIL_TO_RADIANS (i));
-        GLfloat y = 0.5 + 5.5 * sin (UTIL_TO_RADIANS (i));
+        GLfloat x = 5.5f * cos (static_cast<GLfloat>(i));
+        GLfloat y = 0.5f + 5.5f * sin (static_cast<GLfloat>(i));
 
         vertex[idx++] = x;
         vertex[idx++] = y;
@@ -373,8 +372,8 @@ static void DrawArc (GLfloat depth)
         lastXTop = x;
         lastYTop = y;
 
-        x = 4.5 * cos (UTIL_TO_RADIANS (i));
-        y = 0.5 + 4.5 * sin (UTIL_TO_RADIANS (i));
+        x = 4.5f * cos (static_cast<GLfloat>(i));
+        y = 0.5f + 4.5f * sin (static_cast<GLfloat>(i));
 
         vertex[idx++] = x;
         vertex[idx++] = y;
@@ -424,8 +423,8 @@ static void DrawRoof ()
         vertex[idx++] = -2.5;
 
 
-      GLfloat x = 5.5 * cos (UTIL_TO_RADIANS (i));
-      GLfloat y = 0.5 + 5.5 * sin (UTIL_TO_RADIANS (i));
+      GLfloat x = 5.5f * cos (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
+      GLfloat y = 0.5f + 5.5f * sin (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
 
         vertex[idx++] = x;
         vertex[idx++] = y;
@@ -512,7 +511,7 @@ static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth)
  * @param radius the circle radius
  * @param height the circle height
  */
-void DrawCylinder(GLdouble radius, GLdouble height)
+void DrawCylinder(GLfloat radius, GLfloat height)
 {
     const int slices = 20;
     const GLfloat x = 0.0f;

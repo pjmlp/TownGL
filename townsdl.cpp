@@ -19,30 +19,15 @@
 
 #include <SDL.h>
 
-#include "glos.h"
 #include <GL/glew.h>
 
 
 #include "town.h"
 
 
-// window name
-static const char* CAPTION_NAME = "TownGL";
-
-
-/*** Protótipos das funções privadas ***/
-static void Town_OnChar(SDL_Keycode sym);
-
-
-
-
-
-/*** Funções privadas ***/
-
-
-/*
-* Processa a mensagem WM_CHAR
-* Permite rodar a imagem.
+/**
+* Handles keyboard notifications
+* @param sym key code
 */
 static void Town_OnChar(SDL_Keycode sym)
 {
@@ -71,7 +56,9 @@ static void Town_OnChar(SDL_Keycode sym)
 	}
 }
 
-
+/**
+* Application entry point.
+*/
 int main (int argc, char** argv)
 {
 	atexit(SDL_Quit); // Make sure SDL is always properly terminated
@@ -87,7 +74,7 @@ int main (int argc, char** argv)
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
-	SDL_Window *screen = SDL_CreateWindow(CAPTION_NAME,
+	SDL_Window *screen = SDL_CreateWindow("TownGL",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		640, 480,
@@ -106,7 +93,7 @@ int main (int argc, char** argv)
 		SDL_Log("Couldn't configure GLEW: %s\n", SDL_GetError());
 		return -1;
 	}
-	initializeGL ();
+	InitializeGL ();
 	OnResize (640, 480);
 
 	bool done = false;
