@@ -29,40 +29,56 @@
 
 
 
-/*** Variáveis globais ***/
+// Global constant declarations
 
 
-/* Raio da circunferência */
+/** circle radius */
 static const GLfloat RADIUS = 9.5f;
 
-/* Altitude máxima */
+/** Maximum altitude allowed for the view from above.*/
 static const GLint MAX_ALTITUDE = 100;
 
-/* Altitude miníma */
+/** Minimum altitude allowed for the view from above. */
 static const GLfloat MIN_ALTITUDE = 0.5f;
 
-/* Incremento/Decremento da altitude */
+/** Increment/decrement step for the altitude change. */
 static const GLfloat INC_ALTITUDE = 0.5f;
 
-/* Altitude default para a vista por cima */
+/** Starting altitude when the user changes view mode. */
 static const GLint DEFAULT_ALTITUDE = 53;
 
-/* Velocidade máxima */
+/** Maximum speed */
 static const GLint MAX_INC_FRAME = 10;
 
-/* Velocidade miníma */
+/** Minimum speed */
 static const GLint MIN_INC_FRAME = 1;
 
 
 
-/*** Variáveis globais a este módulo ***/
-static bool isPaused = false;    /* Indica se estamos em modo pausa */
-static bool isAbove = false;     /* Indica a posicao de visao */
-static GLsizei lastWidth, lastHeight;    /* Dimensões correntes da janela */  
-static GLfloat altitude = 0.5;           /* Altitude corrente */  
-static GLuint incFrame = 1;              /* Velocidade corrente */  
-static bool isLightOn = true;    /* Indica se a iluminação se encontra ligada */
-static clock_t currentTime = 0;       /* The current time */
+// Module global variables
+
+/** Is the animation paused. */
+static bool isPaused = false;
+
+/** Using the overhead view. */
+static bool isAbove = false;
+
+/** Current window size */
+static GLsizei lastWidth, lastHeight;
+
+/** Current altitude */
+static GLfloat altitude = 0.5;
+
+/** Current speed in terms of frame rate increments. */
+static GLuint incFrame = 1;
+
+/** Is the lightning enabled. */
+static bool isLightOn = true;
+
+/** time at the begining of the frame */
+static clock_t currentTime = 0;
+
+/** Frame value in terms of time. */
 static GLfloat currentFrame = 0.0f;
 
 
@@ -233,7 +249,7 @@ void Project (GLsizei w, GLsizei h)
   cosAngle = cos (UTIL_TO_RADIANS (angle));
   sinAngle = sin (UTIL_TO_RADIANS (angle));
 
-  if (isAbove) { /* Vista de cima */
+  if (isAbove) { /* view from above */
     xTarget = 0;
     yTarget = 0;
     zTarget = 0;
@@ -246,7 +262,7 @@ void Project (GLsizei w, GLsizei h)
     yUpVector = 0.0;
     zUpVector = -1.0;
   }
-  else { /* Percurso normal */
+  else { /* normal route */
     xEye = RADIUS * cosAngle;
     yEye = altitude;
     zEye = RADIUS * sinAngle;
