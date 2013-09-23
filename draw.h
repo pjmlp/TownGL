@@ -19,8 +19,6 @@
 #ifndef DRAW_H_
 #define DRAW_H_
 
-#include <GL/glew.h>
-
 /*
  * Draws the world representing the town.
  * @param frame current animation frame.
