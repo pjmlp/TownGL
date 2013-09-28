@@ -61,7 +61,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32.lib;glaux.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\SDL2-2.0.0\lib\x86;..\glew-1.9.0\lib;..\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="draw.h" />
-    <ClInclude Include="glos.h" />
     <ClInclude Include="pi.h" />
     <ClInclude Include="town.h" />
   </ItemGroup>

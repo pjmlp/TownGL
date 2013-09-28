@@ -35,8 +35,5 @@
     <ClInclude Include="town.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="glos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
