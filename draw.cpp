@@ -17,7 +17,6 @@
 * Boston, MA 02111-1307, USA.
 */
 #include <GL/glew.h>
-#include <GL/glaux.h>
 #include <math.h>
 
 #include "pi.h"
@@ -153,7 +152,7 @@ void DrawSolidWindmill (GLfloat angle)
 {
   GLfloat length = 0.75, lastX, lastY, x, y;
 	GLint i;
-	BOOL isFlag = FALSE;
+	bool isFlag = false;
 
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
@@ -227,7 +226,6 @@ static void DrawTraject ()
       x = 10.0f * cos (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
       z = 10.0f * sin (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
       glTranslatef (x, 0, z);
-      //auxSolidSphere (0.5);
       gluSphere(sphere, 0.5, 10, 10);
     glPopMatrix ();
   }
@@ -581,7 +579,14 @@ void DrawCylinder(GLfloat radius, GLfloat height)
  */
 void DrawCone(GLdouble radius, GLdouble height)
 {
-    auxSolidCone (radius, height);
+  GLUquadric *cone;
+
+  cone = gluNewQuadric();
+  gluCylinder (cone, radius, 0, height, 20, 20);
+
+  gluDeleteQuadric(cone);
+
+
 #if 0
     const int slices = 20;
     const GLfloat x = 0.0f;
