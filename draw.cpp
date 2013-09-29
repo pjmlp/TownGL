@@ -33,7 +33,7 @@ static void DrawCone(GLdouble radius, GLdouble height);
 static void DrawSolidTunnel ();
 static void DrawSolidArcTunnel ();
 static void DrawSolidBuilding ();
-static void DrawSolidWindmill (GLfloat angle);
+static void DrawSolidWindmill (GLfloat frame);
 
 // Public functions implementations
 
@@ -144,11 +144,11 @@ void DrawSolidRoad ()
 
 
 
-/*
- * Desenha um moínho sólido
- * O ângulo é em graus
+/**
+ * Draws a windmill
+ * @param frame the current animation frame
  */
-void DrawSolidWindmill (GLfloat angle)
+void DrawSolidWindmill (GLfloat frame)
 {
   GLfloat length = 0.75, lastX, lastY, x, y;
 	GLint i;
@@ -158,50 +158,74 @@ void DrawSolidWindmill (GLfloat angle)
   glPushMatrix ();
 
 
-  /* Desenha a base do moínho */
-  glColor3f (0.4f, 0.5f, 0);  /* Castanho */
+  // draws the base
+  glColor3f (0.4f, 0.5f, 0);  // brown
   DrawCylinder (1, 1);
 
-  /* Desenha o telhado */
-  glColor3f (1, 0, 0);   /* Vermelho */
+  // draws the roof
+  glColor3f (1, 0, 0);   // red
   glPushMatrix ();
     glTranslatef (0, 1, 0);
     glRotatef (-90, 1, 0, 0);
     DrawCone (1, 0.5f);
   glPopMatrix ();
 
-  /* Desenha as velas */
+  // draws the sails
   glColor3f (1.0f, 0.8f, 0.0f);
   glTranslatef (0, 1, 1);
-  glRotatef (angle, 0.0f, 0.0f, 1.0f); /* Rotação aplicada às velas */
+  glRotatef (angle, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
   glPolygonMode (GL_FRONT, GL_FILL);
-	glPolygonMode (GL_BACK, GL_LINE);
+  glPolygonMode (GL_BACK, GL_LINE);
   lastX = length;
 	lastY = 0.0;
   
 
-  /* Desenha as velas */
-  
+	const int ELEMS = 12 * 3 * 2;
+	GLfloat vertex[ELEMS];
+	GLint startingElements[12];
+	GLint counts[12];
+
+	int id = 0;
+	int idx = 0;
+
 	for (i = 1; i <= 12; i++) 
 	{
-	  glBegin (GL_POLYGON);
-      glVertex2f (lastX, lastY);
-		  x = length * cos (i * PI / 6);
-		  y = length * sin (i * PI / 6);
-		  if (isFlag) {
-		    glVertex2f (x, y);
-			  glVertex2f (0.0, 0.0);
-		  }
-		  else {
-			  glVertex2f (0.0, 0.0);
-			  glVertex2f (x, y);
-		  }
-		glEnd ();
+		vertex[idx++] = lastX;
+		vertex[idx++] = lastY;
+
+		x = length * cos (i * PI / 6);
+		y = length * sin (i * PI / 6);
+
+		if (isFlag) {
+			vertex[idx++] = x;
+			vertex[idx++] = y;
+
+			vertex[idx++] = 0;
+			vertex[idx++] = 0;
+		}
+		else {
+			vertex[idx++] = 0;
+			vertex[idx++] = 0;
+
+			vertex[idx++] = x;
+			vertex[idx++] = y;
+		}
+
+		startingElements[id] = id * 3;
+		counts [id++] = 3;
+
 		lastX = x;
 		lastY = y;
 		isFlag = !isFlag;
 	}
-  
+
+
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertex);
+    glMultiDrawArrays(GL_POLYGON, const_cast<const GLint*>(startingElements), const_cast<const GLint*>(counts), id);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
   glPopMatrix ();
 }
 
