@@ -29,7 +29,7 @@ static void DrawArc (GLfloat depth);
 static void DrawRoof ();
 static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth);
 static void DrawCylinder(GLfloat radius, GLfloat height);
-static void DrawCone(GLdouble radius, GLdouble height);
+static void DrawCone(GLfloat radius, GLfloat height);
 static void DrawSolidTunnel ();
 static void DrawSolidArcTunnel ();
 static void DrawSolidBuilding ();
@@ -110,7 +110,7 @@ void DrawSolidFloor ()
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
-    glColor3f (0.2f, 0.3f, 0.5f);
+    glColor4f (0.2f, 0.3f, 0.5f, 0.0f);
     glRotatef (-90, 1, 0, 0);
     diskObj = gluNewQuadric ();
     gluDisk(diskObj, 0, 50, 10, 20);
@@ -130,7 +130,7 @@ void DrawSolidRoad ()
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
-    glColor3f (0, 0, 0);
+    glColor4f (0, 0, 0, 0);
     glTranslatef (0, 0.1f, 0);
     glRotatef (-90, 1, 0, 0);
     roadObj = gluNewQuadric ();
@@ -159,11 +159,11 @@ void DrawSolidWindmill (GLfloat frame)
 
 
   // draws the base
-  glColor3f (0.4f, 0.5f, 0);  // brown
+  glColor4f (0.4f, 0.5f, 0, 0);  // brown
   DrawCylinder (1, 1);
 
   // draws the roof
-  glColor3f (1, 0, 0);   // red
+  glColor4f (1, 0, 0, 0);   // red
   glPushMatrix ();
     glTranslatef (0, 1, 0);
     glRotatef (-90, 1, 0, 0);
@@ -171,9 +171,9 @@ void DrawSolidWindmill (GLfloat frame)
   glPopMatrix ();
 
   // draws the sails
-  glColor3f (1.0f, 0.8f, 0.0f);
+  glColor4f (1.0f, 0.8f, 0.0f, 0.0f);
   glTranslatef (0, 1, 1);
-  glRotatef (angle, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
+  glRotatef (frame, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
   glPolygonMode (GL_FRONT, GL_FILL);
   glPolygonMode (GL_BACK, GL_LINE);
   lastX = length;
@@ -223,7 +223,11 @@ void DrawSolidWindmill (GLfloat frame)
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(2, GL_FLOAT, 0, vertex);
-    glMultiDrawArrays(GL_POLYGON, const_cast<const GLint*>(startingElements), const_cast<const GLint*>(counts), id);
+	for (int i = 0; i < id; i++) {
+		if (counts[i] > 0) {
+			glDrawArrays(GL_TRIANGLES, startingElements[i], counts[i]);
+		}
+	}
     glDisableClientState(GL_VERTEX_ARRAY);
 
   glPopMatrix ();
@@ -244,7 +248,7 @@ static void DrawTraject ()
   glPushMatrix ();
 
   sphere = gluNewQuadric();
-  glColor3f (1, 0, 1);
+  glColor4f (1, 0, 1, 0);
   for (i = 0; i < 360; i+=10) {
     glPushMatrix ();
       x = 10.0f * cos (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
@@ -323,7 +327,7 @@ void DrawWorld (GLfloat frame)
   glPushMatrix ();
     glEnable (GL_NORMALIZE);
     glTranslatef (10, 4, -17);
-    glColor3f (0, 0, 1);
+    glColor4f (0, 0, 1, 0);
     DrawSolidBuilding ();
     glDisable (GL_NORMALIZE);
   glPopMatrix ();
@@ -332,7 +336,7 @@ void DrawWorld (GLfloat frame)
   glPushMatrix ();
     glEnable (GL_NORMALIZE);
     glTranslatef (-15, 4, -10);
-    glColor3f (0, 1, 0);
+    glColor4f (0, 1, 0, 0);
     DrawSolidBuilding ();
     glDisable (GL_NORMALIZE);
   glPopMatrix ();
@@ -341,7 +345,7 @@ void DrawWorld (GLfloat frame)
   glPushMatrix ();
     glEnable (GL_NORMALIZE);
     glTranslatef (13, 4, 8);
-    glColor3f (1, 0, 0);
+    glColor4f (1, 0, 0, 0);
     DrawSolidBuilding ();
     glDisable (GL_NORMALIZE);
   glPopMatrix ();
@@ -412,7 +416,11 @@ static void DrawArc (GLfloat depth)
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glMultiDrawArrays(GL_POLYGON, const_cast<const GLint*>(startingElements), const_cast<const GLint*>(counts), id);
+	for (int i = 0; i < id; i++) {
+		if (counts[i] > 0) {
+			glDrawArrays(GL_TRIANGLES, startingElements[i], counts[i]);
+		}
+	}
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
@@ -467,7 +475,11 @@ static void DrawRoof ()
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glMultiDrawArrays(GL_POLYGON, const_cast<const GLint*>(startingElements), const_cast<const GLint*>(counts), id);
+	for (int i = 0; i < id; i++) {
+		if (counts[i] > 0) {
+			glDrawArrays(GL_TRIANGLES, startingElements[i], counts[i]);
+		}
+	}
     glDisableClientState(GL_VERTEX_ARRAY);
 
 }
@@ -601,7 +613,7 @@ void DrawCylinder(GLfloat radius, GLfloat height)
  * @param radius the radius of the cone base
  * @param height the cone's height
  */
-void DrawCone(GLdouble radius, GLdouble height)
+void DrawCone(GLfloat radius, GLfloat height)
 {
   GLUquadric *cone;
 
