@@ -17,11 +17,10 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#include <GL/glew.h>
-#include <GL/glut.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
+#include "glos.h"
+#include <cstdio>
+#include <cmath>
+#include <ctime>
 
 #include "draw.h"
 #include "pi.h"
@@ -217,6 +216,7 @@ void OnResize (GLsizei w, GLsizei h)
   lastHeight = h;
 }
 
+
 /**
  * Sets up the OpenGL projection, based on the window size.
  * @param w windows' width
@@ -300,8 +300,6 @@ void TurnOnLighting ()
   glEnable (GL_DEPTH_TEST);
   glEnable (GL_COLOR_MATERIAL);
   
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, true);
   glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
   glLightfv (GL_LIGHT0, GL_POSITION, position);
-  glColorMaterial (GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 }
