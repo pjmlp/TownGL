@@ -17,7 +17,7 @@
 * Boston, MA 02111-1307, USA.
 */
 #include <GL/glew.h>
-#include <math.h>
+#include <cmath>
 
 #include "pi.h"
 #include "draw.h"
