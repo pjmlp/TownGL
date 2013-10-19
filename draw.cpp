@@ -16,9 +16,9 @@
 * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * Boston, MA 02111-1307, USA.
 */
-#include <GL/glew.h>
 #include <cmath>
 
+#include "glos.h"
 #include "pi.h"
 #include "draw.h"
 
@@ -174,27 +174,27 @@ void DrawSolidWindmill (GLfloat frame)
   glColor4f (1.0f, 0.8f, 0.0f, 0.0f);
   glTranslatef (0, 1, 1);
   glRotatef (frame, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
-  glPolygonMode (GL_FRONT, GL_FILL);
-  glPolygonMode (GL_BACK, GL_LINE);
   lastX = length;
 	lastY = 0.0;
   
-
-	const int ELEMS = 12 * 3 * 2;
+    const GLint VERTEX_COUNT = 3;
+    const GLint POINTS = 2;
+    const GLint SLICES = 12;
+	const int ELEMS = SLICES * VERTEX_COUNT * POINTS;
 	GLfloat vertex[ELEMS];
-	GLint startingElements[12];
-	GLint counts[12];
+    GLfloat countour[ELEMS];
 
-	int id = 0;
+	int idxx = 0;
 	int idx = 0;
 
-	for (i = 1; i <= 12; i++) 
+	for (i = 1; i <= SLICES; i++) 
 	{
 		vertex[idx++] = lastX;
 		vertex[idx++] = lastY;
 
-		x = length * cos (i * PI / 6);
-		y = length * sin (i * PI / 6);
+        GLfloat angle = 2 * i * PI / SLICES;
+		x = length * cos (angle);
+		y = length * sin (angle);
 
 		if (isFlag) {
 			vertex[idx++] = x;
@@ -211,55 +211,28 @@ void DrawSolidWindmill (GLfloat frame)
 			vertex[idx++] = y;
 		}
 
-		startingElements[id] = id * 3;
-		counts [id++] = 3;
-
-		lastX = x;
-		lastY = y;
+		countour[idxx++] = lastX = x;
+		countour[idxx++] = lastY = y;
 		isFlag = !isFlag;
 	}
 
-
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(POINTS, GL_FLOAT, 0, vertex);
+	for (int i = 0; i < SLICES; i++) {
+        if (i % 2 == 0)
+            glDrawArrays(GL_TRIANGLES, i * VERTEX_COUNT, VERTEX_COUNT);
+	}
+    glDisableClientState(GL_VERTEX_ARRAY);
 
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2, GL_FLOAT, 0, vertex);
-	for (int i = 0; i < id; i++) {
-		if (counts[i] > 0) {
-			glDrawArrays(GL_TRIANGLES, startingElements[i], counts[i]);
-		}
-	}
+    glVertexPointer(POINTS, GL_FLOAT, 0, countour);
+    glDrawArrays(GL_LINE_STRIP, 0, idxx);
     glDisableClientState(GL_VERTEX_ARRAY);
 
   glPopMatrix ();
 }
 
 
-
-/*
- * Desenha o trajecto
- */
-static void DrawTraject ()
-{
-  int i;
-  float x, z;
-  GLUquadric *sphere;
-
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix ();
-
-  sphere = gluNewQuadric();
-  glColor4f (1, 0, 1, 0);
-  for (i = 0; i < 360; i+=10) {
-    glPushMatrix ();
-      x = 10.0f * cos (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
-      z = 10.0f * sin (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
-      glTranslatef (x, 0, z);
-      gluSphere(sphere, 0.5, 10, 10);
-    glPopMatrix ();
-  }
-  gluDeleteQuadric(sphere);
-  glPopMatrix ();
-}
 
 /*
  * Desenha o mundo
@@ -412,8 +385,6 @@ static void DrawArc (GLfloat depth)
         counts [id++] = 4;
     }
 
-    glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
-
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertex);
 	for (int i = 0; i < id; i++) {
@@ -470,8 +441,6 @@ static void DrawRoof ()
       startingElements[id] = id * 4;
       counts [id++] = 4;
   }
-
-    glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertex);
