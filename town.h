@@ -20,7 +20,7 @@
 #ifndef TOWN_H_
 #define TOWN_H_
 
-#include <GL/gl.h>
+#include "glos.h"
 
 void DescribeProgram ();
 void MainLoop ();
