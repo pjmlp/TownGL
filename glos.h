@@ -23,7 +23,12 @@
     #include <EGL/egl.h>
     #include <GLES/gl.h>
 
-    void gluPerspectiveES (GLfloat fovy, GLfloat aspect,  GLfloat zNear, GLfloat zFar);
+    void gluPerspective (GLfloat fovy, GLfloat aspect,  GLfloat zNear, GLfloat zFar);
+    void gluLookAt (GLfloat eyex, GLfloat eyey, GLfloat eyez,
+                    GLfloat centerx, GLfloat centery, GLfloat centerz,
+                    GLfloat upx, GLfloat upy, GLfloat upz);
+
+    
 #else
     #include <GL/glew.h>
     #include <GL/glut.h>
