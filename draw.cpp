@@ -29,11 +29,13 @@ static void DrawArc (GLfloat depth);
 static void DrawRoof ();
 static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth);
 static void DrawCylinder(GLfloat radius, GLfloat height);
+static void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
 static void DrawCone(GLfloat radius, GLfloat height);
 static void DrawSolidTunnel ();
 static void DrawSolidArcTunnel ();
 static void DrawSolidBuilding ();
 static void DrawSolidWindmill (GLfloat frame);
+static void DrawDisk (GLfloat innerRadius, GLfloat outerRadius, GLint slices);
 
 // Public functions implementations
 
@@ -100,42 +102,35 @@ void DrawSolidBuilding ()
   glPopMatrix ();
 }
 
-/*
- * Desenha um chão sólido
+/**
+ * Draws the floor, so that there is a nice separation between the global color,
+ * road and floor.
  */
 void DrawSolidFloor ()
 {
-  GLUquadricObj* diskObj;
-
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     glColor4f (0.2f, 0.3f, 0.5f, 0.0f);
     glRotatef (-90, 1, 0, 0);
-    diskObj = gluNewQuadric ();
-    gluDisk(diskObj, 0, 50, 10, 20);
-    gluDeleteQuadric(diskObj);
+	DrawDisk (0, 50, 10);
   
   glPopMatrix ();
 }
 
 
-/*
- * Desenha a estrada 
+/**
+ * Draws a circular road around the buildings.
  */
 void DrawSolidRoad ()
 {
-  GLUquadricObj* roadObj;
-
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     glColor4f (0, 0, 0, 0);
     glTranslatef (0, 0.1f, 0);
     glRotatef (-90, 1, 0, 0);
-    roadObj = gluNewQuadric ();
-    gluDisk(roadObj, 9, 11, 25, 25);
-    gluDeleteQuadric(roadObj);
+    DrawDisk(9, 11, 25);
   
   glPopMatrix ();
 }
@@ -223,12 +218,12 @@ void DrawSolidWindmill (GLfloat frame)
             glDrawArrays(GL_TRIANGLES, i * VERTEX_COUNT, VERTEX_COUNT);
 	}
     glDisableClientState(GL_VERTEX_ARRAY);
-
+	/*
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(POINTS, GL_FLOAT, 0, countour);
     glDrawArrays(GL_LINE_STRIP, 0, idxx);
     glDisableClientState(GL_VERTEX_ARRAY);
-
+	*/
   glPopMatrix ();
 }
 
@@ -508,13 +503,18 @@ static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth)
 }
 
 
+void DrawCylinder(GLfloat radius, GLfloat height)
+{
+	DrawCylinder(radius, radius, height);
+}
+
 /**
  * Cylinder drawing
  *
  * @param radius the circle radius
  * @param height the circle height
  */
-void DrawCylinder(GLfloat radius, GLfloat height)
+void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
 {
     const int slices = 20;
     const GLfloat x = 0.0f;
@@ -530,9 +530,9 @@ void DrawCylinder(GLfloat radius, GLfloat height)
     vertex[idx++] = y;
     vertex[idx++] = z;
     for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
+        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*lowerRadius;
         vertex[idx++] = y;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
+        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*lowerRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -547,9 +547,9 @@ void DrawCylinder(GLfloat radius, GLfloat height)
     vertex[idx++] = y + height;
     vertex[idx++] = z;
     for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
+        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*upperRadius;
         vertex[idx++] = y + height;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
+        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*upperRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -561,13 +561,13 @@ void DrawCylinder(GLfloat radius, GLfloat height)
     idx = 0;
     // the rest
     for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
+        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*lowerRadius;
         vertex[idx++] = y;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
+        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*lowerRadius;
 
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
+        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*upperRadius;
         vertex[idx++] = y + height;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
+        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*upperRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -584,86 +584,50 @@ void DrawCylinder(GLfloat radius, GLfloat height)
  */
 void DrawCone(GLfloat radius, GLfloat height)
 {
+	
   GLUquadric *cone;
 
   cone = gluNewQuadric();
   gluCylinder (cone, radius, 0, height, 20, 20);
 
   gluDeleteQuadric(cone);
-
+  
 
 #if 0
-    const int slices = 20;
-    const GLfloat x = 0.0f;
-    const GLfloat y = 0.0f;
-    const GLfloat z = 0.0f;
-
-    const int ELEMS = (slices + 1) * 3 * 2;
-    GLfloat vertex[ELEMS];
-
-    int idx = 0;
-    // bottom circle
-    vertex[idx++] = x;
-    vertex[idx++] = y;
-    vertex[idx++] = z;
-    for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
-        vertex[idx++] = y;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
-    }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, slices);
-    glDisableClientState(GL_VERTEX_ARRAY);
-
-
-    idx = 0;
-    // top circle
-    vertex[idx++] = x;
-    vertex[idx++] = y + height;
-    vertex[idx++] = z;
-    for(int i=0; i<slices; i++) {
-        vertex[idx++] = x;
-        vertex[idx++] = y + height;
-        vertex[idx++] = z;
-    }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, slices);
-    glDisableClientState(GL_VERTEX_ARRAY);
-
-
-    idx = 0;
-    // the rest
-    /*
-    for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
-        vertex[idx++] = y;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
-
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
-        vertex[idx++] = y + height;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
-    }
-*/
-
-     for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*radius;
-        vertex[idx++] = y;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*radius;
-
-        vertex[idx++] = x;
-        vertex[idx++] = y + height;
-        vertex[idx++] = z;
-    }
-
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, slices * 2);
-    glDisableClientState(GL_VERTEX_ARRAY);
+	DrawCylinder(radius, 0, height);
 #endif
 
+}
+
+
+/**
+ * Draws a disk similar to gluDisk.
+ * @param innerRadius the inner radius of the circle from the center.
+ * @param outerRadius the outer radius of the circle from the center.
+ * @param slices the amount of slices to cut the circle when calculating the vertices.
+ */
+void DrawDisk (GLfloat innerRadius, GLfloat outerRadius, GLint slices)
+{
+	const GLfloat step = 2 * PI / slices;
+	const GLint vertexCount = 4 * (slices + 1);
+    GLfloat *vertex = new GLfloat [vertexCount];
+
+	GLint idx = 0;
+    for (int i = 0; i <= slices; i++) {
+		GLfloat angle = i * step;
+
+		vertex[idx++] = outerRadius * cos (angle);
+		vertex[idx++] = outerRadius * sin (angle);
+
+		vertex[idx++] = innerRadius * cos (angle);
+		vertex[idx++] = innerRadius * sin (angle);
+
+	}
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertex);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, vertexCount);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+	delete[] vertex;
 }
