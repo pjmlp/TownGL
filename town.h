@@ -37,4 +37,4 @@ void Project (GLsizei w, GLsizei h);
 void TurnOnLighting ();
 void InitializeGL ();
 
-#endif TOWN_H_
+#endif //TOWN_H_
