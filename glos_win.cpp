@@ -1,5 +1,5 @@
-/* townwnd.h -  Draws the town.
-* Copyright (C) 2012 Paulo Pinto
+/* glos_win.cpp -  Contains OpenGL platform specific issues for Windows
+* Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -17,24 +17,17 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef TOWN_H_
-#define TOWN_H_
-
 #include "glos.h"
 
-void DescribeProgram ();
-bool MainLoop ();
-void OnPKey ();
-void ChangeViewPoint ();
-void ChangeLighting ();
-void ResetSettings ();
-void IncreaseAltitude ();
-void DecreaseAltitude ();
-void IncreaseSpeed ();
-void DecreaseSpeed ();
-void OnResize (GLsizei w, GLsizei h);
-void Project (GLsizei w, GLsizei h);
-void TurnOnLighting ();
-void InitializeGL ();
+#include <cmath>
 
-#endif //TOWN_H_
+
+/**
+ * Used for Glew Initialization on Windows.
+ */
+bool InitializeGlew()
+{
+	// Initialize GLEW
+	GLenum err = glewInit();
+	return (GLEW_OK == err);
+}

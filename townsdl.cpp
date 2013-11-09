@@ -20,7 +20,7 @@
 #include <cstdlib>
 #include <SDL.h>
 
-#include <GL/glew.h>
+#include "glos.h"
 
 
 #include "town.h"
@@ -30,30 +30,36 @@
 * Handles keyboard notifications
 * @param sym key code
 */
-static void Town_OnChar(SDL_Keycode sym)
+static void HandleKeys(SDL_Keycode sym)
 {
 	switch (sym) {
 	case SDLK_p : OnPKey ();
 		break;
 
-	case SDLK_v : OnVKey ();
+	case SDLK_v : ChangeViewPoint ();
 		break;
 
-	case SDLK_l : OnLKey ();
+	case SDLK_l : ChangeLighting ();
 		break;
 
-	case SDLK_a : OnIncKey ();
+	case SDLK_a : IncreaseSpeed ();
 		break;
 
-	case SDLK_z : OnDecKey ();
+	case SDLK_z : DecreaseSpeed ();
 		break;
 
-	case SDLK_UP : OnUpKey ();
+	case SDLK_UP : IncreaseAltitude ();
 		break;
 
-	case SDLK_DOWN : OnDownKey ();
+	case SDLK_DOWN : DecreaseAltitude ();
 		break;
 
+	case SDLK_ESCAPE : // Ask nicely to close the window
+		SDL_Event ev;
+		ev.type = SDL_WINDOWEVENT;
+		ev.window.event = SDL_WINDOWEVENT_CLOSE;
+		SDL_PushEvent(&ev);
+		break;
 	}
 }
 
@@ -69,6 +75,20 @@ int main (int argc, char** argv)
 		return -1;
 	}
 
+	int modeCount;
+	if ( (modeCount = SDL_GetNumDisplayModes(0)) < 1) {
+		SDL_Log("Couldn't not query number of available display modes: %s\n", SDL_GetError());
+		return -1;
+	}
+
+	SDL_DisplayMode mode;
+	if (SDL_GetDisplayMode(0, 0, &mode) < 0) {
+		SDL_Log("Couldn't not query display modes: %s\n", SDL_GetError());
+		return -1;
+	}
+
+	SDL_Log("mode: %d x %d\n", mode.w, mode.h);
+
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
 	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
@@ -78,8 +98,8 @@ int main (int argc, char** argv)
 	SDL_Window *screen = SDL_CreateWindow("TownGL",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		640, 480,
-		SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+		mode.w, mode.h,
+		SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
 
 	if ( screen == NULL ) {
 		SDL_Log("Couldn't set GL mode: %s\n", SDL_GetError());
@@ -88,14 +108,13 @@ int main (int argc, char** argv)
 
 	SDL_GLContext glcontext = SDL_GL_CreateContext(screen);
 
-	// Initialize GLEW
-	GLenum err = glewInit();
-	if (GLEW_OK != err) {
+	if (!InitializeGlew()) {
 		SDL_Log("Couldn't configure GLEW: %s\n", SDL_GetError());
 		return -1;
 	}
+    
 	InitializeGL ();
-	OnResize (640, 480);
+	OnResize (mode.w, mode.h);
 
 	bool done = false;
 	while (!done) {
@@ -113,13 +132,14 @@ int main (int argc, char** argv)
 				}
 			}
 			else if (ev.type == SDL_KEYDOWN) {
-				Town_OnChar(ev.key.keysym.sym);
+				HandleKeys(ev.key.keysym.sym);
 			}
 		}
 
 
-		MainLoop();
-		SDL_GL_SwapWindow(screen);
+		if(MainLoop()) {
+			SDL_GL_SwapWindow(screen);
+		}
 	}
 	SDL_GL_DeleteContext(glcontext);
 

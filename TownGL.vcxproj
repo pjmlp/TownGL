@@ -84,11 +84,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="draw.cpp" />
+    <ClCompile Include="glos_win.cpp" />
     <ClCompile Include="town.cpp" />
     <ClCompile Include="townsdl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="draw.h" />
+    <ClInclude Include="glos.h" />
     <ClInclude Include="pi.h" />
     <ClInclude Include="town.h" />
   </ItemGroup>

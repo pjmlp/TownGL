@@ -24,6 +24,9 @@
     <ClCompile Include="townsdl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="glos_win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="draw.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="town.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="glos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

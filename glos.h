@@ -28,10 +28,13 @@
                     GLfloat centerx, GLfloat centery, GLfloat centerz,
                     GLfloat upx, GLfloat upy, GLfloat upz);
 
-    
+    // No Glew on Android, always return true
+    #define InitializeGlew() (true)
 #else
     #include <GL/glew.h>
     #include <GL/glut.h>
+
+    bool InitializeGlew();
 #endif //ANDROID
 
 #endif /* GLOS_H_ */

@@ -22,6 +22,7 @@
 #include <cmath>
 #include <ctime>
 
+
 #include "draw.h"
 #include "pi.h"
 #include "town.h"
@@ -102,7 +103,7 @@ void InitializeGL ()
 /**
  * Updates the application's state
  */
-void MainLoop ()
+bool MainLoop ()
 {
   if (!isPaused) {
     clock_t now = clock();
@@ -115,6 +116,7 @@ void MainLoop ()
 
     currentTime = now;
   }
+  return !isPaused;
 }
 
 
@@ -129,7 +131,7 @@ void OnPKey ()
 /**
  * Changes the user's viewpoint
  */
-void OnVKey ()
+void ChangeViewPoint ()
 {
   isAbove = !isAbove;
   if (isAbove) {
@@ -143,7 +145,7 @@ void OnVKey ()
 /**
  * Enables/disables the demo lighting.
  */
-void OnLKey ()
+void ChangeLighting ()
 {
   if (isLightOn)
     glDisable (GL_LIGHTING);
@@ -156,7 +158,7 @@ void OnLKey ()
 /**
  * Resets the application settings.
  */
-void OnRKey ()
+void ResetSettings ()
 {
   isLightOn = true;
   isAbove = true;
@@ -169,7 +171,7 @@ void OnRKey ()
 /**
  * Increases the viewer's height.
  */
-void OnUpKey ()
+void IncreaseAltitude ()
 {
   if (altitude < MAX_ALTITUDE || isAbove)
     altitude += INC_ALTITUDE; 
@@ -178,7 +180,7 @@ void OnUpKey ()
 /**
  * Decreases the viewer's height.
  */
-void OnDownKey ()
+void DecreaseAltitude ()
 {
   if (altitude > MIN_ALTITUDE)
     altitude -= INC_ALTITUDE; 
@@ -187,7 +189,7 @@ void OnDownKey ()
 /**
  * Increases the viewer's speed.
  */
-void OnIncKey ()
+void IncreaseSpeed ()
 {
   if (incFrame < MAX_INC_FRAME)
     incFrame++; 
@@ -196,7 +198,7 @@ void OnIncKey ()
 /**
  * Decreases the viewer's speed.
  */
-void OnDecKey ()
+void DecreaseSpeed ()
 {
   if (incFrame > MIN_INC_FRAME)
     incFrame--; 
