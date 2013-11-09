@@ -17,6 +17,7 @@
 * Boston, MA 02111-1307, USA.
 */
 #include <cmath>
+#include <cassert>
 
 #include "glos.h"
 #include "pi.h"
@@ -604,10 +605,11 @@ void DrawCone(GLfloat radius, GLfloat height)
  * Draws a disk similar to gluDisk.
  * @param innerRadius the inner radius of the circle from the center.
  * @param outerRadius the outer radius of the circle from the center.
- * @param slices the amount of slices to cut the circle when calculating the vertices.
+ * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
  */
 void DrawDisk (GLfloat innerRadius, GLfloat outerRadius, GLint slices)
 {
+	assert(slices > 0);
 	const GLfloat step = 2 * PI / slices;
 	const GLint vertexCount = 4 * (slices + 1);
     GLfloat *vertex = new GLfloat [vertexCount];
