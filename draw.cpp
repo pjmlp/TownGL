@@ -341,10 +341,7 @@ static void DrawArc (GLfloat depth)
 
   const int ELEMS = 19 * 4 * 3;
   GLfloat vertex[ELEMS];
-  GLint startingElements[19];
-  GLint counts[19];
 
-  int id = 0;
   int idx = 0;
   for (int i = 10; i <= 180; i += 10) {
         vertex[idx++] = lastXBottom;
@@ -376,17 +373,12 @@ static void DrawArc (GLfloat depth)
 
         lastXBottom = x;
         lastYBottom = y;
-
-        startingElements[id] = id * 4;
-        counts [id++] = 4;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertex);
-	for (int i = 0; i < id; i++) {
-		if (counts[i] > 0) {
-			glDrawArrays(GL_TRIANGLES, startingElements[i], counts[i]);
-		}
+	for (int i = 0; i < 19; i++) {
+		glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
 	}
     glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -403,9 +395,6 @@ static void DrawRoof ()
 
   const int ELEMS = 19 * 4 * 3;
   GLfloat vertex[ELEMS];
-  GLint startingElements[19];
-  GLint counts[19];
-
   int id = 0;
   int idx = 0;
 
@@ -433,17 +422,13 @@ static void DrawRoof ()
 
       lastX = x;
       lastY = y;
-
-      startingElements[id] = id * 4;
-      counts [id++] = 4;
+	  id++;
   }
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertex);
-	for (int i = 0; i < id; i++) {
-		if (counts[i] > 0) {
-			glDrawArrays(GL_TRIANGLES, startingElements[i], counts[i]);
-		}
+	for (int i = 0; i < 19; i++) {
+		glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
 	}
     glDisableClientState(GL_VERTEX_ARRAY);
 
