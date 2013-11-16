@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <cmath>
 #include <ctime>
-
+#include <SDL.h>
 
 #include "draw.h"
 #include "pi.h"
@@ -103,7 +103,7 @@ void InitializeGL ()
 /**
  * Updates the application's state
  */
-bool MainLoop ()
+void MainLoop (SDL_Window *screen)
 {
   if (!isPaused) {
     clock_t now = clock();
@@ -115,17 +115,20 @@ bool MainLoop ()
     glFlush ();
 
     currentTime = now;
+    SDL_GL_SwapWindow(screen);
   }
-  return !isPaused;
 }
 
 
 /**
  * Stops/starts the application.
  */
-void OnPKey ()
+void ChangePauseMode ()
 {
   isPaused = !isPaused;
+  if (!isPaused) {
+	  currentTime = clock();
+  }
 }
 
 /**

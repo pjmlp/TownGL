@@ -33,7 +33,7 @@
 static void HandleKeys(SDL_Keycode sym)
 {
 	switch (sym) {
-	case SDLK_p : OnPKey ();
+	case SDLK_p : ChangePauseMode ();
 		break;
 
 	case SDLK_v : ChangeViewPoint ();
@@ -98,8 +98,10 @@ int main (int argc, char** argv)
 	SDL_Window *screen = SDL_CreateWindow("TownGL",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		mode.w, mode.h,
-		SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+		//mode.w, mode.h,
+		800, 600,
+		//SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+		SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
 	if ( screen == NULL ) {
 		SDL_Log("Couldn't set GL mode: %s\n", SDL_GetError());
@@ -122,6 +124,7 @@ int main (int argc, char** argv)
 		while (!done && SDL_PollEvent(&ev)) {
 			if (ev.type == SDL_WINDOWEVENT) {
 				switch(ev.window.event){
+				case SDL_WINDOWEVENT_SIZE_CHANGED:
 				case SDL_WINDOWEVENT_RESIZED:
 					OnResize (ev.window.data1, ev.window.data2);
 					break;
@@ -134,12 +137,22 @@ int main (int argc, char** argv)
 			else if (ev.type == SDL_KEYDOWN) {
 				HandleKeys(ev.key.keysym.sym);
 			}
+			else if (ev.type == SDL_KEYDOWN) {
+				HandleKeys(ev.key.keysym.sym);
+			} else if (ev.type == SDL_FINGERDOWN) {
+				ChangePauseMode();
+			} else if (ev.type == SDL_FINGERMOTION) {
+				if (ev.tfinger.dy > 0) {
+					IncreaseAltitude();
+				} else if (ev.tfinger.dy < 0) {
+					DecreaseAltitude();
+				}
+			} else if (ev.type == SDL_QUIT) {
+				done = true;
+			}
 		}
 
-
-		if(MainLoop()) {
-			SDL_GL_SwapWindow(screen);
-		}
+		MainLoop(screen);
 	}
 	SDL_GL_DeleteContext(glcontext);
 

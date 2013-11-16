@@ -21,10 +21,11 @@
 #define TOWN_H_
 
 #include "glos.h"
+#include <SDL.h>
 
 void DescribeProgram ();
-bool MainLoop ();
-void OnPKey ();
+void MainLoop (SDL_Window *screen);
+void ChangePauseMode ();
 void ChangeViewPoint ();
 void ChangeLighting ();
 void ResetSettings ();

@@ -439,6 +439,9 @@ static void DrawRoof ()
  */
 static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth)
 {
+	const GLint SCALE = 2;
+	const GLint VERTEX_COUNT = 3;
+	const GLint POINTS = 12;
     static const GLfloat vertex[] = {
     -1.0f,-1.0f,-1.0f, 
     -1.0f,-1.0f, 1.0f,
@@ -480,10 +483,10 @@ static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth)
 
 
     glPushMatrix();
-    glScalef(width/2, height/2, depth/2);
+    glScalef(width/SCALE, height/SCALE, depth/SCALE);
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLES, 0, 12*3);
+    glVertexPointer(VERTEX_COUNT, GL_FLOAT, 0, vertex);
+    glDrawArrays(GL_TRIANGLES, 0, POINTS * VERTEX_COUNT);
     glDisableClientState(GL_VERTEX_ARRAY);
     glPopMatrix();
 }
@@ -570,6 +573,7 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
  */
 void DrawCone(GLfloat radius, GLfloat height)
 {
+	/*
 	
   GLUquadric *cone;
 
@@ -577,7 +581,7 @@ void DrawCone(GLfloat radius, GLfloat height)
   gluCylinder (cone, radius, 0, height, 20, 20);
 
   gluDeleteQuadric(cone);
-  
+  */
 
 #if 0
 	DrawCylinder(radius, 0, height);
@@ -595,13 +599,13 @@ void DrawCone(GLfloat radius, GLfloat height)
 void DrawDisk (GLfloat innerRadius, GLfloat outerRadius, GLint slices)
 {
 	assert(slices > 0);
-	const GLfloat step = 2 * PI / slices;
-	const GLint vertexCount = 4 * (slices + 1);
-    GLfloat *vertex = new GLfloat [vertexCount];
+	const GLfloat STEP = 2 * PI / slices;
+	const GLint VERTEX_COUNT = 4 * (slices + 1);
+    GLfloat *vertex = new GLfloat [VERTEX_COUNT];
 
 	GLint idx = 0;
     for (int i = 0; i <= slices; i++) {
-		GLfloat angle = i * step;
+		GLfloat angle = i * STEP;
 
 		vertex[idx++] = outerRadius * cos (angle);
 		vertex[idx++] = outerRadius * sin (angle);
@@ -613,7 +617,7 @@ void DrawDisk (GLfloat innerRadius, GLfloat outerRadius, GLint slices)
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(2, GL_FLOAT, 0, vertex);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, vertexCount);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, VERTEX_COUNT);
     glDisableClientState(GL_VERTEX_ARRAY);
 
 	delete[] vertex;
