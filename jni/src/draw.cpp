@@ -21,6 +21,7 @@
 
 #include "glos.h"
 #include "pi.h"
+#include "diskmesh.h"
 #include "draw.h"
 
 
@@ -36,7 +37,6 @@ static void DrawSolidTunnel ();
 static void DrawSolidArcTunnel ();
 static void DrawSolidBuilding ();
 static void DrawSolidWindmill (GLfloat frame);
-static void DrawDisk (GLfloat innerRadius, GLfloat outerRadius, GLint slices);
 
 // Public functions implementations
 
@@ -61,7 +61,7 @@ void DrawSolidTunnel ()
     glTranslatef (-5, 0.55f, 0);
     DrawSolidBox (11, 0.10f, 5);
 
-  
+
   glPopMatrix ();
 }
 
@@ -109,12 +109,13 @@ void DrawSolidBuilding ()
  */
 void DrawSolidFloor ()
 {
+	DiskMesh disk(0, 50, 10);
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     glColor4f (0.2f, 0.3f, 0.5f, 0.0f);
     glRotatef (-90, 1, 0, 0);
-	DrawDisk (0, 50, 10);
+	disk.render();
   
   glPopMatrix ();
 }
@@ -125,13 +126,14 @@ void DrawSolidFloor ()
  */
 void DrawSolidRoad ()
 {
+	DiskMesh disk(9, 11, 25);
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     glColor4f (0, 0, 0, 0);
     glTranslatef (0, 0.1f, 0);
     glRotatef (-90, 1, 0, 0);
-    DrawDisk(9, 11, 25);
+    disk.render();
   
   glPopMatrix ();
 }
@@ -589,36 +591,3 @@ void DrawCone(GLfloat radius, GLfloat height)
 
 }
 
-
-/**
- * Draws a disk similar to gluDisk.
- * @param innerRadius the inner radius of the circle from the center.
- * @param outerRadius the outer radius of the circle from the center.
- * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
- */
-void DrawDisk (GLfloat innerRadius, GLfloat outerRadius, GLint slices)
-{
-	assert(slices > 0);
-	const GLfloat STEP = 2 * PI / slices;
-	const GLint VERTEX_COUNT = 4 * (slices + 1);
-    GLfloat *vertex = new GLfloat [VERTEX_COUNT];
-
-	GLint idx = 0;
-    for (int i = 0; i <= slices; i++) {
-		GLfloat angle = i * STEP;
-
-		vertex[idx++] = outerRadius * cos (angle);
-		vertex[idx++] = outerRadius * sin (angle);
-
-		vertex[idx++] = innerRadius * cos (angle);
-		vertex[idx++] = innerRadius * sin (angle);
-
-	}
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2, GL_FLOAT, 0, vertex);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, VERTEX_COUNT);
-    glDisableClientState(GL_VERTEX_ARRAY);
-
-	delete[] vertex;
-}
