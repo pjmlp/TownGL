@@ -22,6 +22,8 @@
 #include "glos.h"
 #include "pi.h"
 #include "diskmesh.h"
+#include "boxmesh.h"
+
 #include "draw.h"
 
 
@@ -29,7 +31,6 @@
 
 static void DrawArc (GLfloat depth);
 static void DrawRoof ();
-static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth);
 static void DrawCylinder(GLfloat radius, GLfloat height);
 static void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
 static void DrawCone(GLfloat radius, GLfloat height);
@@ -51,15 +52,18 @@ void DrawSolidTunnel ()
 
     // Left wall
     glTranslatef (-5, 0, 0);
-    DrawSolidBox (1.0f, 1.0f, 5.0f);
+	BoxMesh leftWall(1.0f, 1.0f, 5.0f);
+	leftWall.render();
 
     // Right wall
     glTranslatef (10, 0, 0);
-    DrawSolidBox (1.0f, 1.0f, 5.0f);
+	BoxMesh rightWall(1.0f, 1.0f, 5.0f);
+	rightWall.render();
 
     // Ceiling
     glTranslatef (-5, 0.55f, 0);
-    DrawSolidBox (11, 0.10f, 5);
+	BoxMesh ceiling(11, 0.10f, 5);
+	ceiling.render();
 
 
   glPopMatrix ();
@@ -80,11 +84,13 @@ void DrawSolidArcTunnel ()
 
     // left wall
     glTranslatef (-5, 0, 0);
-    DrawSolidBox (1.0f, 1.0f, 5.0f);
+    BoxMesh leftWall (1.0f, 1.0f, 5.0f);
+	leftWall.render();
 
     // right wall
     glTranslatef (10, 0, 0);
-    DrawSolidBox (1.0f, 1.0f, 5.0f);
+	BoxMesh rigthWall (1.0f, 1.0f, 5.0f);
+	rigthWall.render();
   
   glPopMatrix ();
 }
@@ -98,7 +104,8 @@ void DrawSolidBuilding ()
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
-    DrawSolidBox (2.0f, 8.0f, 2.0f);
+  BoxMesh building (2.0f, 8.0f, 2.0f);
+  building.render();
 
   glPopMatrix ();
 }
