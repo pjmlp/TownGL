@@ -29,7 +29,7 @@
  * @param outerRadius the outer radius of the circle from the center.
  * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
  */
-DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices):vertex(0) {
+DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices):vertex(nullptr) {
 	assert(slices > 0);
 	const GLfloat STEP = 2 * PI / slices;
 	VERTEX_COUNT = 4 * (slices + 1);
