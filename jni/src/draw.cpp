@@ -363,8 +363,8 @@ static void DrawArc (GLfloat depth)
         vertex[idx++] = depth;
 
 
-        GLfloat x = 5.5f * cos (static_cast<GLfloat>(i));
-        GLfloat y = 0.5f + 5.5f * sin (static_cast<GLfloat>(i));
+		GLfloat x = 5.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
+		GLfloat y = 0.5f + 5.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
 
         vertex[idx++] = x;
         vertex[idx++] = y;
@@ -373,8 +373,8 @@ static void DrawArc (GLfloat depth)
         lastXTop = x;
         lastYTop = y;
 
-        x = 4.5f * cos (static_cast<GLfloat>(i));
-        y = 0.5f + 4.5f * sin (static_cast<GLfloat>(i));
+		x = 4.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
+		y = 0.5f + 4.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
 
         vertex[idx++] = x;
         vertex[idx++] = y;
