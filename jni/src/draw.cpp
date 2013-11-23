@@ -47,22 +47,23 @@ static void DrawSolidWindmill (GLfloat frame);
  */
 void DrawSolidTunnel ()
 {
+  BoxMesh leftWall(1.0f, 1.0f, 5.0f);
+  BoxMesh rightWall(1.0f, 1.0f, 5.0f);
+  BoxMesh ceiling(11, 0.10f, 5);
+
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     // Left wall
     glTranslatef (-5, 0, 0);
-	BoxMesh leftWall(1.0f, 1.0f, 5.0f);
 	leftWall.render();
 
     // Right wall
     glTranslatef (10, 0, 0);
-	BoxMesh rightWall(1.0f, 1.0f, 5.0f);
 	rightWall.render();
 
     // Ceiling
     glTranslatef (-5, 0.55f, 0);
-	BoxMesh ceiling(11, 0.10f, 5);
 	ceiling.render();
 
 
@@ -74,9 +75,12 @@ void DrawSolidTunnel ()
  */
 void DrawSolidArcTunnel ()
 {
+	BoxMesh leftWall(1.0f, 1.0f, 5.0f);
+	BoxMesh rigthWall(1.0f, 1.0f, 5.0f);
+
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
-
+  
     // ceiling
     DrawArc (2.5);
     DrawArc (-2.5);
@@ -84,12 +88,10 @@ void DrawSolidArcTunnel ()
 
     // left wall
     glTranslatef (-5, 0, 0);
-    BoxMesh leftWall (1.0f, 1.0f, 5.0f);
 	leftWall.render();
 
     // right wall
     glTranslatef (10, 0, 0);
-	BoxMesh rigthWall (1.0f, 1.0f, 5.0f);
 	rigthWall.render();
   
   glPopMatrix ();
@@ -155,6 +157,12 @@ void DrawSolidRoad ()
  */
 void DrawSolidWindmill (GLfloat frame)
 {
+	/* temporary move here, this code should be removed when the framerate is fixed */
+	static GLfloat drawAngle = 0.0f;    
+	drawAngle += 10 * frame;
+	if (drawAngle > 360)
+		drawAngle -= 360;
+
   GLfloat length = 0.75, lastX, lastY, x, y;
 	GLint i;
 	bool isFlag = false;
@@ -178,7 +186,7 @@ void DrawSolidWindmill (GLfloat frame)
   // draws the sails
   glColor4f (1.0f, 0.8f, 0.0f, 0.0f);
   glTranslatef (0, 1, 1);
-  glRotatef (frame, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
+  glRotatef(drawAngle, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
   lastX = length;
 	lastY = 0.0;
   
@@ -245,18 +253,9 @@ void DrawSolidWindmill (GLfloat frame)
  */
 void DrawWorld (GLfloat frame)
 {
-  static GLfloat angle = 0.0f;
-
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode (GL_MODELVIEW);
   glLoadIdentity ();
-
-
-  /* Ângulo de rotação das velas */
-  angle += 10 * frame;
-  if (angle > 360)
-    angle -= 360;
-
 
   /* Desenha o chão */
   DrawSolidFloor ();
@@ -269,14 +268,14 @@ void DrawWorld (GLfloat frame)
   glPushMatrix ();
     glTranslatef (4.2f, 0, 13);
     glRotatef (120, 0, 1, 0);
-    DrawSolidWindmill (angle);
+    DrawSolidWindmill (frame);
   glPopMatrix ();
 
   
   /* 2º Moinho */
   glPushMatrix ();
     glTranslatef (15, 0, -15);
-    DrawSolidWindmill (angle);
+    DrawSolidWindmill (frame);
   glPopMatrix ();
 
   /* 1º Túnel */
@@ -582,7 +581,7 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
  */
 void DrawCone(GLfloat radius, GLfloat height)
 {
-	/*
+	
 	
   GLUquadric *cone;
 
@@ -590,7 +589,7 @@ void DrawCone(GLfloat radius, GLfloat height)
   gluCylinder (cone, radius, 0, height, 20, 20);
 
   gluDeleteQuadric(cone);
-  */
+  
 
 #if 0
 	DrawCylinder(radius, 0, height);
