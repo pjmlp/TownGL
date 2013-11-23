@@ -64,7 +64,7 @@ static const GLfloat vertex[] = {
 
 
 
-BoxMesh::BoxMesh(GLfloat width, GLfloat height, GLfloat depth) : width(width), height(height/2), depth(depth/2)
+BoxMesh::BoxMesh(GLfloat width, GLfloat height, GLfloat depth) : width(width/2), height(height/2), depth(depth/2)
 {
 
 }
