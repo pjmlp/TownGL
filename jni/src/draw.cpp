@@ -51,7 +51,6 @@ void DrawSolidTunnel ()
   BoxMesh rightWall(1.0f, 1.0f, 5.0f);
   BoxMesh ceiling(11, 0.10f, 5);
 
-  glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     // Left wall
@@ -78,7 +77,6 @@ void DrawSolidArcTunnel ()
 	BoxMesh leftWall(1.0f, 1.0f, 5.0f);
 	BoxMesh rigthWall(1.0f, 1.0f, 5.0f);
 
-  glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
   
     // ceiling
@@ -103,7 +101,6 @@ void DrawSolidArcTunnel ()
  */
 void DrawSolidBuilding ()
 {
-  glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
   BoxMesh building (2.0f, 8.0f, 2.0f);
@@ -119,7 +116,6 @@ void DrawSolidBuilding ()
 void DrawSolidFloor ()
 {
 	DiskMesh disk(0, 50, 10);
-  glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     glColor4f (0.2f, 0.3f, 0.5f, 0.0f);
@@ -136,7 +132,6 @@ void DrawSolidFloor ()
 void DrawSolidRoad ()
 {
 	DiskMesh disk(9, 11, 25);
-  glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
     glColor4f (0, 0, 0, 0);
@@ -167,7 +162,6 @@ void DrawSolidWindmill (GLfloat frame)
 	GLint i;
 	bool isFlag = false;
 
-  glMatrixMode(GL_MODELVIEW);
   glPushMatrix ();
 
 
