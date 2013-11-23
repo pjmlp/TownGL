@@ -31,7 +31,7 @@ public:
 	DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices);
 	virtual ~DiskMesh();
 
-	virtual void render ();
+	virtual void render () override;
 private:
 	GLfloat *vertex;
 	GLint VERTEX_COUNT;
