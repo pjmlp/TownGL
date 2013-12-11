@@ -23,14 +23,14 @@
 #include "pi.h"
 #include "diskmesh.h"
 #include "boxmesh.h"
+#include "arcmesh.h"
+#include "roofmesh.h"
 
 #include "draw.h"
 
 
 // Internal functions prototypes.
 
-static void DrawArc (GLfloat depth);
-static void DrawRoof ();
 static void DrawCylinder(GLfloat radius, GLfloat height);
 static void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
 static void DrawCone(GLfloat radius, GLfloat height);
@@ -76,13 +76,18 @@ void DrawSolidArcTunnel ()
 {
 	BoxMesh leftWall(1.0f, 1.0f, 5.0f);
 	BoxMesh rigthWall(1.0f, 1.0f, 5.0f);
+    ArcMesh frontArc(2.5);
+    ArcMesh backArc(-2.5);
+    RoofMesh roof;
+
+    
 
   glPushMatrix ();
   
     // ceiling
-    DrawArc (2.5);
-    DrawArc (-2.5);
-    DrawRoof ();
+  frontArc.render();
+  backArc.render();
+  roof.render();
 
     // left wall
     glTranslatef (-5, 0, 0);
@@ -330,168 +335,6 @@ void DrawWorld (GLfloat frame)
 
 
 
-/**
- * Draws an arc. Used by the tunnels in arc form.
- * @param depth How long the arch is.
- */
-static void DrawArc (GLfloat depth)
-{
-  GLfloat lastXTop = 5.5;
-  GLfloat lastYTop = 0.5;
-  GLfloat lastXBottom = 4.5;
-  GLfloat lastYBottom = 0.5;
-
-  const int ELEMS = 19 * 4 * 3;
-  GLfloat vertex[ELEMS];
-
-  int idx = 0;
-  for (int i = 10; i <= 180; i += 10) {
-        vertex[idx++] = lastXBottom;
-        vertex[idx++] = lastYBottom;
-        vertex[idx++] = depth;
-
-
-        vertex[idx++] = lastXTop;
-        vertex[idx++] = lastYTop;
-        vertex[idx++] = depth;
-
-
-		GLfloat x = 5.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-		GLfloat y = 0.5f + 5.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = depth;
-
-        lastXTop = x;
-        lastYTop = y;
-
-		x = 4.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-		y = 0.5f + 4.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = depth;
-
-        lastXBottom = x;
-        lastYBottom = y;
-    }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-	for (int i = 0; i < 19; i++) {
-		glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
-	}
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-
-/**
- * Draws the tunnel roof. Used by the tunnels in rectangular form.
- * @param depth How long the arch is.
- */
-static void DrawRoof ()
-{
-  GLfloat lastX = 5.5;
-  GLfloat lastY = 0.5;
-
-  const int ELEMS = 19 * 4 * 3;
-  GLfloat vertex[ELEMS];
-  int id = 0;
-  int idx = 0;
-
-  for (int i = 10; i <= 180; i += 10) {
-        vertex[idx++] = lastX;
-        vertex[idx++] = lastY;
-        vertex[idx++] = 2.5;
-
-
-        vertex[idx++] = lastX;
-        vertex[idx++] = lastY;
-        vertex[idx++] = -2.5;
-
-
-      GLfloat x = 5.5f * cos (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
-      GLfloat y = 0.5f + 5.5f * sin (UTIL_TO_RADIANS (static_cast<GLfloat>(i)));
-
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = -2.5;
-
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = 2.5;
-
-      lastX = x;
-      lastY = y;
-	  id++;
-  }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-	for (int i = 0; i < 19; i++) {
-		glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
-	}
-    glDisableClientState(GL_VERTEX_ARRAY);
-
-}
-
-/**
- * Draws a box
- */
-static void DrawSolidBox(GLfloat width, GLfloat height, GLfloat depth)
-{
-	const GLint SCALE = 2;
-	const GLint VERTEX_COUNT = 3;
-	const GLint POINTS = 12;
-    static const GLfloat vertex[] = {
-    -1.0f,-1.0f,-1.0f, 
-    -1.0f,-1.0f, 1.0f,
-    -1.0f, 1.0f, 1.0f, 
-    1.0f, 1.0f,-1.0f, 
-    -1.0f,-1.0f,-1.0f,
-    -1.0f, 1.0f,-1.0f, 
-    1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f, 1.0f,
-    -1.0f,-1.0f,-1.0f,
-    -1.0f, 1.0f, 1.0f,
-    -1.0f,-1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f,
-    1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f,-1.0f,
-    1.0f,-1.0f,-1.0f,
-    1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f,
-    1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f,-1.0f,
-    -1.0f, 1.0f,-1.0f,
-    1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f,-1.0f,
-    -1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f, 1.0f,
-    1.0f,-1.0f, 1.0f
-    };
-
-
-    glPushMatrix();
-    glScalef(width/SCALE, height/SCALE, depth/SCALE);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(VERTEX_COUNT, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLES, 0, POINTS * VERTEX_COUNT);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glPopMatrix();
-}
 
 
 void DrawCylinder(GLfloat radius, GLfloat height)
@@ -520,10 +363,11 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
     vertex[idx++] = x;
     vertex[idx++] = y;
     vertex[idx++] = z;
-    for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*lowerRadius;
+    for(int i=0; i<=slices; i++) {
+        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
+        vertex[idx++] = x + cos(angle)*lowerRadius;
         vertex[idx++] = y;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*lowerRadius;
+        vertex[idx++] = z+sin(angle)*lowerRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -537,10 +381,11 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
     vertex[idx++] = x;
     vertex[idx++] = y + height;
     vertex[idx++] = z;
-    for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*upperRadius;
+    for(int i=0; i<=slices; i++) {
+        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
+        vertex[idx++] = x + cos(angle)*upperRadius;
         vertex[idx++] = y + height;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*upperRadius;
+        vertex[idx++] = z+sin(angle)*upperRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -551,14 +396,15 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
 
     idx = 0;
     // the rest
-    for(int i=0; i<slices; i++) {
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*lowerRadius;
+    for(int i=0; i<=slices; i++) {
+        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
+        vertex[idx++] = x + cos(angle)*lowerRadius;
         vertex[idx++] = y;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*lowerRadius;
+        vertex[idx++] = z+sin(angle)*lowerRadius;
 
-        vertex[idx++] = x + cos((float)i/slices * 2 *PI)*upperRadius;
+        vertex[idx++] = x + cos(angle)*upperRadius;
         vertex[idx++] = y + height;
-        vertex[idx++] = z+sin((float)i/slices * 2 * PI)*upperRadius;
+        vertex[idx++] = z+sin(angle)*upperRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -576,14 +422,14 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
 void DrawCone(GLfloat radius, GLfloat height)
 {
 	
-	
+    /*
   GLUquadric *cone;
 
   cone = gluNewQuadric();
   gluCylinder (cone, radius, 0, height, 20, 20);
 
   gluDeleteQuadric(cone);
-  
+  */
 
 #if 0
 	DrawCylinder(radius, 0, height);
