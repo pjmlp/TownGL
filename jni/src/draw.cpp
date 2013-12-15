@@ -279,56 +279,42 @@ void DrawWorld (GLfloat frame)
 
   /* 1º Túnel */
   glPushMatrix ();
-    glEnable (GL_NORMALIZE);
     glTranslatef (0, 0, -10);
     glScalef (1, 0.5, 0.5);
     glRotatef (90, 0, 1, 0);
 
     DrawSolidArcTunnel ();
-    glDisable (GL_NORMALIZE);
   glPopMatrix ();
 
   /* 2º Túnel */
   glPushMatrix ();
-    glEnable (GL_NORMALIZE);
     glTranslatef (-6, 0, 8);
     glScalef (0.5, 2, 0.5);
     glRotatef (60, 0, 1, 0);
     DrawSolidTunnel ();
-    glDisable (GL_NORMALIZE);
   glPopMatrix ();
 
 
   /* 1º Edifício */
   glPushMatrix ();
-    glEnable (GL_NORMALIZE);
     glTranslatef (10, 4, -17);
     glColor4f (0, 0, 1, 0);
     DrawSolidBuilding ();
-    glDisable (GL_NORMALIZE);
   glPopMatrix ();
 
   /* 2º Edifício */
   glPushMatrix ();
-    glEnable (GL_NORMALIZE);
     glTranslatef (-15, 4, -10);
     glColor4f (0, 1, 0, 0);
     DrawSolidBuilding ();
-    glDisable (GL_NORMALIZE);
   glPopMatrix ();
 
   /* 3º Edifício */
   glPushMatrix ();
-    glEnable (GL_NORMALIZE);
     glTranslatef (13, 4, 8);
     glColor4f (1, 0, 0, 0);
     DrawSolidBuilding ();
-    glDisable (GL_NORMALIZE);
   glPopMatrix ();
-
-
-  
-//  DrawTraject ();
 }
 
 // Internal functions implementation
@@ -351,23 +337,20 @@ void DrawCylinder(GLfloat radius, GLfloat height)
 void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
 {
     const int slices = 20;
-    const GLfloat x = 0.0f;
-    const GLfloat y = 0.0f;
-    const GLfloat z = 0.0f;
 
     const int ELEMS = (slices + 1) * 3 * 2;
     GLfloat vertex[ELEMS];
 
     int idx = 0;
     // bottom circle
-    vertex[idx++] = x;
-    vertex[idx++] = y;
-    vertex[idx++] = z;
+    vertex[idx++] = 0.0f;
+    vertex[idx++] = 0.0f;
+    vertex[idx++] = 0.0f;
     for(int i=0; i<=slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        vertex[idx++] = x + cos(angle)*lowerRadius;
-        vertex[idx++] = y;
-        vertex[idx++] = z+sin(angle)*lowerRadius;
+        vertex[idx++] = cos(angle)*lowerRadius;
+        vertex[idx++] = 0.0f;
+        vertex[idx++] = sin(angle)*lowerRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -378,14 +361,14 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
 
     idx = 0;
     // top circle
-    vertex[idx++] = x;
-    vertex[idx++] = y + height;
-    vertex[idx++] = z;
+    vertex[idx++] = 0.0f;
+    vertex[idx++] = height;
+    vertex[idx++] = 0.0f;
     for(int i=0; i<=slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        vertex[idx++] = x + cos(angle)*upperRadius;
-        vertex[idx++] = y + height;
-        vertex[idx++] = z+sin(angle)*upperRadius;
+        vertex[idx++] = cos(angle)*upperRadius;
+        vertex[idx++] = height;
+        vertex[idx++] = sin(angle)*upperRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -398,13 +381,13 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
     // the rest
     for(int i=0; i<=slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        vertex[idx++] = x + cos(angle)*lowerRadius;
-        vertex[idx++] = y;
-        vertex[idx++] = z+sin(angle)*lowerRadius;
+        vertex[idx++] = cos(angle)*lowerRadius;
+        vertex[idx++] = 0.0f;
+        vertex[idx++] = sin(angle)*lowerRadius;
 
-        vertex[idx++] = x + cos(angle)*upperRadius;
-        vertex[idx++] = y + height;
-        vertex[idx++] = z+sin(angle)*upperRadius;
+        vertex[idx++] = cos(angle)*upperRadius;
+        vertex[idx++] = height;
+        vertex[idx++] = sin(angle)*upperRadius;
     }
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -422,14 +405,12 @@ void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
 void DrawCone(GLfloat radius, GLfloat height)
 {
 	
-    /*
   GLUquadric *cone;
 
   cone = gluNewQuadric();
   gluCylinder (cone, radius, 0, height, 20, 20);
 
   gluDeleteQuadric(cone);
-  */
 
 #if 0
 	DrawCylinder(radius, 0, height);
