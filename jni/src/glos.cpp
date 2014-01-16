@@ -21,21 +21,6 @@
 
 #include <cmath>
 
-#ifndef ANDROID 
-#define glFrustumf glFrustum
-#endif 
-
-/**
- * OpenGL ES implementation of the well known GLU helper function.
- */
-void gluPerspective (GLfloat fovy, GLfloat aspect,  GLfloat zNear, GLfloat zFar)
-{
-    GLfloat range=zNear*tan(fovy*0.008841941282883074f);
-    aspect*=range;
-    glFrustumf(-aspect,aspect,-range,range,zNear,zFar);
-}
-
-
 void gluLookAt (GLfloat eyex, GLfloat eyey, GLfloat eyez,
           GLfloat centerx, GLfloat centery, GLfloat centerz,
           GLfloat upx, GLfloat upy, GLfloat upz)

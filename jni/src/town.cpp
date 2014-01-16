@@ -241,9 +241,17 @@ void Project (GLsizei w, GLsizei h)
 	if (w <= h) 
 	  glScalef (1, (GLfloat)w/(GLfloat)h, 1);
 	else 
-		glScalef ((GLfloat)h/(GLfloat)w, 1, 1);
+	  glScalef ((GLfloat)h/(GLfloat)w, 1, 1);
 
-  gluPerspective (45, 1, 0.5, 100.0);
+    const GLfloat aspect = 1.0f;
+    const GLfloat fovy = 45;
+    const GLfloat zNear = 0.5f;
+    const GLfloat zFar = 100.0f;
+    const GLfloat height = zNear*tan(fovy*0.008841941282883074f);
+    const GLfloat width = height * aspect;
+    glFrustum(-width, width, -height, height, zNear, zFar);
+
+
   
   // sets the camera on the proper place.
 
