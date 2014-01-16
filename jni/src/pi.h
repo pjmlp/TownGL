@@ -20,7 +20,7 @@
 #define PI_H_
 
 
-const GLfloat PI = 3.1415927f;
+const GLfloat PI = 3.1415926535897932384626433832795f;
 
 inline GLfloat UTIL_TO_RADIANS(GLfloat angle) { return angle * PI / 180; }
 
