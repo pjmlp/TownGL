@@ -25,6 +25,7 @@
 #include "boxmesh.h"
 #include "arcmesh.h"
 #include "roofmesh.h"
+#include "cylindermesh.h"
 
 #include "draw.h"
 
@@ -32,7 +33,6 @@
 // Internal functions prototypes.
 
 static void DrawCylinder(GLfloat radius, GLfloat height);
-static void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
 static void DrawCone(GLfloat radius, GLfloat height);
 static void DrawSolidTunnel ();
 static void DrawSolidArcTunnel ();
@@ -172,14 +172,15 @@ void DrawSolidWindmill (GLfloat frame)
 
   // draws the base
   glColor4f (0.4f, 0.5f, 0, 0);  // brown
-  DrawCylinder (1, 1);
+  CylinderMesh base(1, 1, 1);
+  base.render();
 
   // draws the roof
+  CylinderMesh roof(1, 0, 0.5f);
   glColor4f (1, 0, 0, 0);   // red
   glPushMatrix ();
     glTranslatef (0, 1, 0);
-    glRotatef (-90, 1, 0, 0);
-    DrawCone (1, 0.5f);
+    roof.render();
   glPopMatrix ();
 
   // draws the sails
@@ -316,105 +317,3 @@ void DrawWorld (GLfloat frame)
     DrawSolidBuilding ();
   glPopMatrix ();
 }
-
-// Internal functions implementation
-
-
-
-
-
-void DrawCylinder(GLfloat radius, GLfloat height)
-{
-	DrawCylinder(radius, radius, height);
-}
-
-/**
- * Cylinder drawing
- *
- * @param radius the circle radius
- * @param height the circle height
- */
-void DrawCylinder(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
-{
-    const int slices = 20;
-
-    const int ELEMS = (slices + 1) * 3 * 2;
-    GLfloat vertex[ELEMS];
-
-    int idx = 0;
-    // bottom circle
-    vertex[idx++] = 0.0f;
-    vertex[idx++] = 0.0f;
-    vertex[idx++] = 0.0f;
-    for(int i=0; i<=slices; i++) {
-        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        vertex[idx++] = cos(angle)*lowerRadius;
-        vertex[idx++] = 0.0f;
-        vertex[idx++] = sin(angle)*lowerRadius;
-    }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, slices);
-    glDisableClientState(GL_VERTEX_ARRAY);
-
-
-    idx = 0;
-    // top circle
-    vertex[idx++] = 0.0f;
-    vertex[idx++] = height;
-    vertex[idx++] = 0.0f;
-    for(int i=0; i<=slices; i++) {
-        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        vertex[idx++] = cos(angle)*upperRadius;
-        vertex[idx++] = height;
-        vertex[idx++] = sin(angle)*upperRadius;
-    }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, slices);
-    glDisableClientState(GL_VERTEX_ARRAY);
-
-
-    idx = 0;
-    // the rest
-    for(int i=0; i<=slices; i++) {
-        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        vertex[idx++] = cos(angle)*lowerRadius;
-        vertex[idx++] = 0.0f;
-        vertex[idx++] = sin(angle)*lowerRadius;
-
-        vertex[idx++] = cos(angle)*upperRadius;
-        vertex[idx++] = height;
-        vertex[idx++] = sin(angle)*upperRadius;
-    }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, slices * 2);
-    glDisableClientState(GL_VERTEX_ARRAY);
-
-}
-
-/**
- * Cone drawing
- * @param radius the radius of the cone base
- * @param height the cone's height
- */
-void DrawCone(GLfloat radius, GLfloat height)
-{
-	
-  GLUquadric *cone;
-
-  cone = gluNewQuadric();
-  gluCylinder (cone, radius, 0, height, 20, 20);
-
-  gluDeleteQuadric(cone);
-
-#if 0
-	DrawCylinder(radius, 0, height);
-#endif
-
-}
-
