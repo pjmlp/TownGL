@@ -16,12 +16,21 @@
 * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * Boston, MA 02111-1307, USA.
 */
+
+#include <cassert>
+
 #include "mesh.h"
 
 //#include "SDL.h"
 //#include <iostream>
 
-Mesh::Mesh() : idx(0), vertex(nullptr), vertexCount(0)
+Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), idx(0), vertex(nullptr), vertexCount(0)
+{
+    // nothing to do
+    //SDL_Log("Hi");
+}
+
+Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), idx(0), vertex(nullptr), vertexCount(0)
 {
     // nothing to do
     //SDL_Log("Hi");
@@ -39,9 +48,27 @@ Mesh::~Mesh()
 void Mesh::render()
 {
     if (vertex != nullptr && idx > 0) {
+        GLenum renderMode;
+        switch (drawMode) {
+        case RenderMode::triangles:
+            renderMode = GL_TRIANGLES;
+            break;
+
+        case RenderMode::triangle_strip:
+            renderMode = GL_TRIANGLE_STRIP;
+            break;
+
+        case RenderMode::triangle_fan:
+            renderMode = GL_TRIANGLE_FAN;
+            break;
+
+        default:
+            assert(false);
+        }
+
         glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_FLOAT, 0, vertex);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, idx);
+        glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, vertex);
+        glDrawArrays(renderMode, 0, idx);
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 }

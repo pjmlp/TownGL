@@ -26,7 +26,8 @@ class Mesh {
 public:
     enum class RenderMode { triangles, triangle_strip, triangle_fan };
 
-    Mesh();
+    explicit Mesh();
+    explicit Mesh(GLint coordinatesPerVertex, RenderMode mode);
 	virtual ~Mesh();
 
 	virtual void render ();
@@ -35,6 +36,9 @@ public:
     void addVertex(GLfloat x, GLfloat y);
 
 private:
+    GLint coordinatesPerVertex;
+    RenderMode drawMode;
+
     GLint idx;
     GLfloat *vertex;
     GLint vertexCount;
