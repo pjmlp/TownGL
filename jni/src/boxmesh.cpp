@@ -84,7 +84,7 @@ void BoxMesh::render()
 	glPushMatrix();
 	glScalef(width, height, depth);
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(VERTEX_COUNT, GL_FLOAT, 0, vertex);
+	glVertexPointer(VERTEX_COUNT, GL_FLOAT, 0, ::vertex);
 	glDrawArrays(GL_TRIANGLES, 0, POINTS * VERTEX_COUNT);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopMatrix();

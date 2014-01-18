@@ -29,36 +29,26 @@
  * @param outerRadius the outer radius of the circle from the center.
  * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
  */
-DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices):vertex(nullptr) {
-	assert(slices > 0);
-	const GLfloat STEP = 2 * PI / slices;
-	VERTEX_COUNT = 4 * (slices + 1);
-    vertex = new GLfloat [VERTEX_COUNT];
-
-	GLint idx = 0;
-    for (int i = 0; i <= slices; i++) {
-		GLfloat angle = i * STEP;
-
-		vertex[idx++] = outerRadius * cos (angle);
-		vertex[idx++] = outerRadius * sin (angle);
-
-		vertex[idx++] = innerRadius * cos (angle);
-		vertex[idx++] = innerRadius * sin (angle);
-
-	}
-}
-
-DiskMesh::~DiskMesh() {
-	if (vertex) {
-		delete[] vertex;
-	}
-}
-
-
-void DiskMesh::render ()
+DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices)
 {
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2, GL_FLOAT, 0, vertex);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, VERTEX_COUNT);
-    glDisableClientState(GL_VERTEX_ARRAY);
+	assert(slices > 0);
+    const GLfloat step = 2 * PI / slices;
+    GLint vertexCount = 4 * (slices + 1);
+    reserveMeshSize(vertexCount);
+
+    GLint idx = 0;
+    for (int i = 0; i <= slices; i++) {
+        GLfloat angle = i * step;
+
+        addVertex(outerRadius * cos(angle), outerRadius * sin(angle));
+
+        addVertex(innerRadius * cos(angle), innerRadius * sin(angle));
+
+    }
 }
+
+DiskMesh::~DiskMesh()
+{
+
+}
+

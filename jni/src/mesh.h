@@ -20,12 +20,24 @@
 #ifndef MESH_H_
 #define MESH_H_
 
+#include "glos.h"
+
 class Mesh {
 public:
+    enum class RenderMode { triangles, triangle_strip, triangle_fan };
 
+    Mesh();
 	virtual ~Mesh();
 
-	virtual void render () = 0;
+	virtual void render ();
+
+    void reserveMeshSize(GLint count);
+    void addVertex(GLfloat x, GLfloat y);
+
+private:
+    GLint idx;
+    GLfloat *vertex;
+    GLint vertexCount;
 };
 
 #endif /* MESH_H_ */

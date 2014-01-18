@@ -30,11 +30,6 @@ class DiskMesh: public Mesh {
 public:
 	DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices);
 	virtual ~DiskMesh();
-
-	virtual void render () override;
-private:
-	GLfloat *vertex;
-	GLint VERTEX_COUNT;
 };
 
 #endif /* DISKMESH_H_ */

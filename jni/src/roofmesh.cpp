@@ -36,26 +36,26 @@ RoofMesh::RoofMesh()
     int idx = 0;
 
     for (int i = 10; i <= 180; i += 10) {
-        vertex[idx++] = lastX;
-        vertex[idx++] = lastY;
-        vertex[idx++] = 2.5;
+        ::vertex[idx++] = lastX;
+        ::vertex[idx++] = lastY;
+        ::vertex[idx++] = 2.5;
 
 
-        vertex[idx++] = lastX;
-        vertex[idx++] = lastY;
-        vertex[idx++] = -2.5;
+        ::vertex[idx++] = lastX;
+        ::vertex[idx++] = lastY;
+        ::vertex[idx++] = -2.5;
 
 
         GLfloat x = 5.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
         GLfloat y = 0.5f + 5.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
 
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = -2.5;
+        ::vertex[idx++] = x;
+        ::vertex[idx++] = y;
+        ::vertex[idx++] = -2.5;
 
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = 2.5;
+        ::vertex[idx++] = x;
+        ::vertex[idx++] = y;
+        ::vertex[idx++] = 2.5;
 
         lastX = x;
         lastY = y;
@@ -70,7 +70,7 @@ RoofMesh::~RoofMesh()
 void RoofMesh::render()
 {
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
+    glVertexPointer(3, GL_FLOAT, 0, ::vertex);
     for (int i = 0; i < 19; i++) {
         glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
     }

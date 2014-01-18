@@ -18,8 +18,45 @@
 */
 #include "mesh.h"
 
+//#include "SDL.h"
+//#include <iostream>
 
-Mesh::~Mesh() {
-	// nothing to do
+Mesh::Mesh() : idx(0), vertex(nullptr), vertexCount(0)
+{
+    // nothing to do
+    //SDL_Log("Hi");
 }
 
+Mesh::~Mesh()
+{
+	// nothing to do
+  //  SDL_Log("Bye");
+    if (vertex) {
+        delete[] vertex;
+    }
+}
+
+void Mesh::render()
+{
+    if (vertex != nullptr && idx > 0) {
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, GL_FLOAT, 0, vertex);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, idx);
+        glDisableClientState(GL_VERTEX_ARRAY);
+    }
+}
+
+void Mesh::reserveMeshSize(GLint count)
+{
+    vertexCount = count;
+    vertex = new GLfloat[count];
+    idx = 0;
+}
+
+void Mesh::addVertex(GLfloat x, GLfloat y)
+{
+    if (vertex != nullptr && idx + 2 < vertexCount) {
+        vertex[idx++] = x;
+        vertex[idx++] = y;
+    }
+}

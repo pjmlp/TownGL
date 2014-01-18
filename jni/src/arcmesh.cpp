@@ -39,22 +39,22 @@ ArcMesh::ArcMesh(GLfloat depth)
 
     int idx = 0;
     for (int i = 10; i <= 180; i += 10) {
-        vertex[idx++] = lastXBottom;
-        vertex[idx++] = lastYBottom;
-        vertex[idx++] = depth;
+        ::vertex[idx++] = lastXBottom;
+        ::vertex[idx++] = lastYBottom;
+        ::vertex[idx++] = depth;
 
 
-        vertex[idx++] = lastXTop;
-        vertex[idx++] = lastYTop;
-        vertex[idx++] = depth;
+        ::vertex[idx++] = lastXTop;
+        ::vertex[idx++] = lastYTop;
+        ::vertex[idx++] = depth;
 
 
         GLfloat x = 5.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
         GLfloat y = 0.5f + 5.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
 
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = depth;
+        ::vertex[idx++] = x;
+        ::vertex[idx++] = y;
+        ::vertex[idx++] = depth;
 
         lastXTop = x;
         lastYTop = y;
@@ -62,9 +62,9 @@ ArcMesh::ArcMesh(GLfloat depth)
         x = 4.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
         y = 0.5f + 4.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
 
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = depth;
+        ::vertex[idx++] = x;
+        ::vertex[idx++] = y;
+        ::vertex[idx++] = depth;
 
         lastXBottom = x;
         lastYBottom = y;
@@ -78,7 +78,7 @@ ArcMesh::~ArcMesh()
 void ArcMesh::render()
 {
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertex);
+    glVertexPointer(3, GL_FLOAT, 0, ::vertex);
     for (int i = 0; i < 19; i++) {
         glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
     }
