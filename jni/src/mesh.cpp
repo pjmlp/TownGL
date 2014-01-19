@@ -62,6 +62,7 @@ void Mesh::render()
 
         case RenderMode::triangle_fan:
             renderMode = GL_TRIANGLE_FAN;
+            count = idx / coordinatesPerVertex;
             break;
 
         default:
@@ -69,9 +70,16 @@ void Mesh::render()
         }
 
         glEnableClientState(GL_VERTEX_ARRAY);
+        printOpenGLError();
+
         glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, vertex);
+        printOpenGLError();
+
         glDrawArrays(renderMode, 0, count);
+        printOpenGLError();
+
         glDisableClientState(GL_VERTEX_ARRAY);
+        printOpenGLError();
     }
 }
 
@@ -87,6 +95,15 @@ void Mesh::addVertex(GLfloat x, GLfloat y)
     if (vertex != nullptr && idx + 2 < vertexCount) {
         vertex[idx++] = x;
         vertex[idx++] = y;
+    }
+}
+
+void Mesh::addVertex(GLfloat x, GLfloat y, GLfloat z)
+{
+    if (vertex != nullptr && idx + 3 <= vertexCount) {
+        vertex[idx++] = x;
+        vertex[idx++] = y;
+        vertex[idx++] = z;
     }
 }
 

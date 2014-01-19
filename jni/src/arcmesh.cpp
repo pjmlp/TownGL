@@ -24,47 +24,40 @@
 #include "arcmesh.h"
 
 
-static const int ELEMS = 19 * 4 * 3;
-static GLfloat vertex[ELEMS];
-
 /**
  * @param depth How long the arch is.
  */
-ArcMesh::ArcMesh(GLfloat depth)
+ArcMesh::ArcMesh(GLfloat depth) : meshdata(nullptr), elems(19)
 {
+    meshdata = new Mesh*[elems];
+    for (int i = 0; i < elems; i++)
+        meshdata[i] = nullptr;
+
+    
     GLfloat lastXTop = 5.5;
     GLfloat lastYTop = 0.5;
     GLfloat lastXBottom = 4.5;
     GLfloat lastYBottom = 0.5;
 
-    int idx = 0;
-    for (int i = 10; i <= 180; i += 10) {
-        ::vertex[idx++] = lastXBottom;
-        ::vertex[idx++] = lastYBottom;
-        ::vertex[idx++] = depth;
+    for (int i = 0, angle = 10; i < elems && angle < 180; i++, angle += 10) {
+        meshdata[i] = new Mesh(3, Mesh::RenderMode::triangle_fan);
+        meshdata[i]->reserveMeshSize(12);
 
+        meshdata[i]->addVertex(lastXBottom, lastYBottom, depth);
+        meshdata[i]->addVertex(lastXTop, lastYTop, depth);
 
-        ::vertex[idx++] = lastXTop;
-        ::vertex[idx++] = lastYTop;
-        ::vertex[idx++] = depth;
+        GLfloat x = 5.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(angle)));
+        GLfloat y = 0.5f + 5.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(angle)));
 
-
-        GLfloat x = 5.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-        GLfloat y = 0.5f + 5.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-
-        ::vertex[idx++] = x;
-        ::vertex[idx++] = y;
-        ::vertex[idx++] = depth;
+        meshdata[i]->addVertex(x, y, depth);
 
         lastXTop = x;
         lastYTop = y;
 
-        x = 4.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-        y = 0.5f + 4.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
+        x = 4.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(angle)));
+        y = 0.5f + 4.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(angle)));
 
-        ::vertex[idx++] = x;
-        ::vertex[idx++] = y;
-        ::vertex[idx++] = depth;
+        meshdata[i]->addVertex(x, y, depth);
 
         lastXBottom = x;
         lastYBottom = y;
@@ -73,14 +66,21 @@ ArcMesh::ArcMesh(GLfloat depth)
 
 ArcMesh::~ArcMesh()
 {
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+             if (meshdata[i] != nullptr) {
+                 delete[] meshdata[i];
+                 meshdata[i] = nullptr;
+             }
+    }
 }
 
 void ArcMesh::render()
 {
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, ::vertex);
-    for (int i = 0; i < 19; i++) {
-        glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            meshdata[i]->render();
+        }
     }
-    glDisableClientState(GL_VERTEX_ARRAY);
 }

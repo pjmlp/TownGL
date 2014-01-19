@@ -22,16 +22,21 @@
 
 #include "glos.h"
 #include "mesh.h"
+#include "primitive.h"
 
 /**
  * Draws an arc. Used by the tunnels in arc form.
  */
-class ArcMesh: public Mesh {
+class ArcMesh: public Primitive {
 public:
     ArcMesh(GLfloat depth);
 	virtual ~ArcMesh();
 
 	virtual void render () override;
+
+private:
+    Mesh** meshdata;
+    GLint elems;
 };
 
 #endif /* ARCMESH_H_ */
