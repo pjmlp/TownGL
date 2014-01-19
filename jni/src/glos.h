@@ -40,4 +40,8 @@
     bool InitializeGlew();
 #endif //ANDROID
 
+#define printOpenGLError() showOpenGLError(__FILE__, __LINE__)
+
+GLint showOpenGLError(const char *file, const GLint line);
+
 #endif /* GLOS_H_ */
