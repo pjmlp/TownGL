@@ -48,10 +48,12 @@ Mesh::~Mesh()
 void Mesh::render()
 {
     if (vertex != nullptr && idx > 0) {
+        GLint count = idx;
         GLenum renderMode;
         switch (drawMode) {
         case RenderMode::triangles:
             renderMode = GL_TRIANGLES;
+            count = idx / coordinatesPerVertex;
             break;
 
         case RenderMode::triangle_strip:
@@ -68,7 +70,7 @@ void Mesh::render()
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, vertex);
-        glDrawArrays(renderMode, 0, idx);
+        glDrawArrays(renderMode, 0, count);
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 }
@@ -85,5 +87,13 @@ void Mesh::addVertex(GLfloat x, GLfloat y)
     if (vertex != nullptr && idx + 2 < vertexCount) {
         vertex[idx++] = x;
         vertex[idx++] = y;
+    }
+}
+
+void Mesh::addVertices(const GLfloat *vertices, GLint size)
+{
+    if (vertex != nullptr && size <= vertexCount) {
+        for (idx = 0; idx < size; idx++)
+            vertex[idx] = vertices[idx];
     }
 }

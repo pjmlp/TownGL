@@ -64,9 +64,14 @@ static const GLfloat vertex[] = {
 
 
 
-BoxMesh::BoxMesh(GLfloat width, GLfloat height, GLfloat depth) : width(width/2), height(height/2), depth(depth/2)
+BoxMesh::BoxMesh(GLfloat width, GLfloat height, GLfloat depth): Mesh(3, RenderMode::triangles), width(width/2), height(height/2), depth(depth/2)
 {
+    const GLint vertexCount = 3;
+    const GLint points = 12;
+    const GLint size = 3 * points * vertexCount;
 
+    reserveMeshSize(size);
+    addVertices(::vertex, size);
 }
 
 
@@ -77,16 +82,11 @@ BoxMesh::~BoxMesh()
 
 void BoxMesh::render()
 {
+    glPushMatrix();
+    glScalef(width, height, depth);
 
-	const GLint VERTEX_COUNT = 3;
-	const GLint POINTS = 12;
+    Mesh::render();
 
-	glPushMatrix();
-	glScalef(width, height, depth);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(VERTEX_COUNT, GL_FLOAT, 0, ::vertex);
-	glDrawArrays(GL_TRIANGLES, 0, POINTS * VERTEX_COUNT);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glPopMatrix();
+    glPopMatrix();
 
 }

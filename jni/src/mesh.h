@@ -34,6 +34,7 @@ public:
 
     void reserveMeshSize(GLint count);
     void addVertex(GLfloat x, GLfloat y);
+    void addVertices(const GLfloat *vertices, GLint size);
 
 private:
     GLint coordinatesPerVertex;
