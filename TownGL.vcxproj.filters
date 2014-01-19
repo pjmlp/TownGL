@@ -18,9 +18,6 @@
     <ClInclude Include="jni\src\diskmesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jni\src\draw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="jni\src\glos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -66,12 +63,12 @@
     <ClInclude Include="jni\src\windmillprimitive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\src\world.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\src\diskmesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jni\src\draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\src\glos_win.cpp">
@@ -117,6 +114,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\src\windmillprimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\world.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

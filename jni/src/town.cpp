@@ -23,7 +23,7 @@
 #include <ctime>
 #include <SDL.h>
 
-#include "draw.h"
+#include "world.h"
 #include "pi.h"
 #include "town.h"
 

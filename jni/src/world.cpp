@@ -1,4 +1,4 @@
-/* draw.cpp - Model drawing functions for the town
+/* world.cpp - Model drawing functions for the town
 * Copyright (C) 2012 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@
 #include "tunnelprimitive.h"
 #include "windmillprimitive.h"
 
-#include "draw.h"
+#include "world.h"
 
 
 // Internal functions prototypes.
@@ -48,11 +48,7 @@ World::World()
     objects[2] = new WindmillPrimitive();
     objects[3] = new ArcTunnelPrimitive();
     objects[4] = new TunnelPrimitive();
-
     objects[5] = new BuildingPrimitive();
-
-    
-    
 }
 
 World::~World()
@@ -98,7 +94,7 @@ void World::render(GLfloat frame)
     glTranslatef(0, 0, -10);
     glScalef(1, 0.5, 0.5);
     glRotatef(90, 0, 1, 0);
-
+    objects[3]->render();
     
     glPopMatrix();
 

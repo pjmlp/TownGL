@@ -1,4 +1,4 @@
-/* draw.h - Interface for the model drawing functions for the town
+/* world.h - Interface for the model drawing functions for the town
 * Copyright (C) 2012 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -16,8 +16,8 @@
 * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * Boston, MA 02111-1307, USA.
 */
-#ifndef DRAW_H_
-#define DRAW_H_
+#ifndef WORLD_H_
+#define WORLD_H_
 
 #include "glos.h"
 
@@ -40,4 +40,4 @@ private:
     Primitive* objects[elems];
 };
 
-#endif /* DRAW_H_ */
+#endif /* WORLD_H_ */
