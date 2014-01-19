@@ -1,4 +1,4 @@
-/* diskmesh.h -  Represents a simple 2D circle.
+/* primitive.h -  Represents a 3D object that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,25 +17,15 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef DISKMESH_H_
-#define DISKMESH_H_
+#ifndef PRIMITIVE_H_
+#define PRIMITIVE_H_
 
-#include "mesh.h"
-#include "primitive.h"
-#include "glos.h"
-
-/**
- * Mesh for rendering circles similar to gluDisk.
- */
-class DiskMesh: public Primitive {
+class Primitive {
 public:
-	DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices);
-	virtual ~DiskMesh();
 
-    virtual void render() override;
+    virtual ~Primitive();
 
-private:
-    Mesh mesh;
+	virtual void render () = 0;
 };
 
-#endif /* DISKMESH_H_ */
+#endif /* PRIMITIVE_H_ */

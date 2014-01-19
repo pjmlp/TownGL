@@ -21,8 +21,9 @@
 #define BOXMESH_H_
 
 #include "mesh.h"
+#include "primitive.h"
 
-class BoxMesh :	public Mesh
+class BoxMesh :	public Primitive
 {
 public:
 	BoxMesh(GLfloat width, GLfloat height, GLfloat depth);
@@ -31,6 +32,7 @@ public:
 	virtual void render() override;
 private:
 	GLfloat width, height, depth;
+    Mesh mesh;
 };
 
 #endif /* BOXMESH_H_ */

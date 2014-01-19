@@ -29,20 +29,20 @@
  * @param outerRadius the outer radius of the circle from the center.
  * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
  */
-DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : Mesh(2, RenderMode::triangle_strip)
+DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : mesh(2, Mesh::RenderMode::triangle_strip)
 {
 	assert(slices > 0);
     const GLfloat step = 2 * PI / slices;
     GLint vertexCount = 4 * (slices + 1);
-    reserveMeshSize(vertexCount);
+    mesh.reserveMeshSize(vertexCount);
 
     GLint idx = 0;
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = i * step;
 
-        addVertex(outerRadius * cos(angle), outerRadius * sin(angle));
+        mesh.addVertex(outerRadius * cos(angle), outerRadius * sin(angle));
 
-        addVertex(innerRadius * cos(angle), innerRadius * sin(angle));
+        mesh.addVertex(innerRadius * cos(angle), innerRadius * sin(angle));
 
     }
 }
@@ -52,3 +52,7 @@ DiskMesh::~DiskMesh()
 
 }
 
+void DiskMesh::render()
+{
+    mesh.render();
+}

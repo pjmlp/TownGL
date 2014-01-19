@@ -19,6 +19,7 @@
     <ClInclude Include="jni\src\glos.h" />
     <ClInclude Include="jni\src\mesh.h" />
     <ClInclude Include="jni\src\pi.h" />
+    <ClInclude Include="jni\src\primitive.h" />
     <ClInclude Include="jni\src\roofmesh.h" />
     <ClInclude Include="jni\src\town.h" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <ClCompile Include="jni\src\draw.cpp" />
     <ClCompile Include="jni\src\glos_win.cpp" />
     <ClCompile Include="jni\src\mesh.cpp" />
+    <ClCompile Include="jni\src\primitive.cpp" />
     <ClCompile Include="jni\src\roofmesh.cpp" />
     <ClCompile Include="jni\src\town.cpp" />
     <ClCompile Include="jni\src\townsdl.cpp" />
