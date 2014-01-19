@@ -1,4 +1,4 @@
-/* cylindermesh.h -  Represents a cylinder circle.
+/* tunnelprimitive.h -  Represents a tunnel that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,31 +17,25 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
+#ifndef TUNNELPRIMITIVE_H_
+#define TUNNELPRIMITIVE_H_
 
-#include "mesh.h"
 #include "primitive.h"
-#include "glos.h"
+#include "boxmesh.h"
 
 /**
- * Mesh for rendering cylinders
- */
-class CylinderMesh: public Primitive {
+* Draws the tunnel
+*/
+class TunnelPrimitive: public Primitive {
 public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+    TunnelPrimitive();
+    virtual ~TunnelPrimitive();
 
 	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
 
-    Mesh** meshdata;
-    GLint elems;
+private:
+    static const GLint elems = 3;
+    BoxMesh* objects[elems];
 };
 
-#endif /* CYLINDERMESH_H_ */
+#endif /* TUNNELPRIMITIVE_H_ */

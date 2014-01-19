@@ -23,3 +23,6 @@ Primitive::~Primitive()
 {
     // nothing to do
 }
+
+void Primitive::update(GLfloat frame)
+{}

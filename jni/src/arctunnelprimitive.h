@@ -1,4 +1,4 @@
-/* cylindermesh.h -  Represents a cylinder circle.
+/* arctunnelprimitive.h -  Represents an arc tunnel that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,31 +17,21 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
+#ifndef ARCTUNNELPRIMITIVE_H_
+#define ARCTUNNELPRIMITIVE_H_
 
-#include "mesh.h"
 #include "primitive.h"
-#include "glos.h"
 
-/**
- * Mesh for rendering cylinders
- */
-class CylinderMesh: public Primitive {
+class ArcTunnelPrimitive: public Primitive {
 public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+    ArcTunnelPrimitive();
+    virtual ~ArcTunnelPrimitive();
 
 	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
 
-    Mesh** meshdata;
-    GLint elems;
+private:
+    Primitive** modelData;
+    int elems;
 };
 
-#endif /* CYLINDERMESH_H_ */
+#endif /* ARCTUNNELPRIMITIVE_H_ */

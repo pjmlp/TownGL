@@ -1,4 +1,4 @@
-/* cylindermesh.h -  Represents a cylinder circle.
+/* roadprimitive.h -  Represents a road that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,31 +17,24 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
+#ifndef ROADPRIMITIVE_H_
+#define ROADPRIMITIVE_H_
 
-#include "mesh.h"
 #include "primitive.h"
-#include "glos.h"
+#include "diskmesh.h"
 
 /**
- * Mesh for rendering cylinders
- */
-class CylinderMesh: public Primitive {
+* Draws a circular road around the buildings.
+*/
+class RoadPrimitive: public Primitive {
 public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+    RoadPrimitive();
+    virtual ~RoadPrimitive();
 
 	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
 
-    Mesh** meshdata;
-    GLint elems;
+private:
+    DiskMesh road;
 };
 
-#endif /* CYLINDERMESH_H_ */
+#endif /* ROADPRIMITIVE_H_ */

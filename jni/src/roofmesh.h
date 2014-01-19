@@ -20,12 +20,12 @@
 #ifndef ROOFMESH_H_
 #define ROOFMESH_H_
 
-#include "mesh.h"
+#include "primitive.h"
 
 /**
  * Draws the tunnel roof. Used by the tunnels in rectangular form
  */
-class RoofMesh: public Mesh {
+class RoofMesh: public Primitive {
 public:
     RoofMesh();
     virtual ~RoofMesh();

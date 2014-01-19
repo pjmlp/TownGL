@@ -19,10 +19,25 @@
 #ifndef DRAW_H_
 #define DRAW_H_
 
-/*
- * Draws the world representing the town.
- * @param frame current animation frame.
+#include "glos.h"
+
+//Forward declarations
+class Primitive;
+
+/**
+ * Represents the 3D being shown.
  */
-void DrawWorld (GLfloat frame);
+class World
+{
+public:
+    World();
+    ~World();
+
+    void render(GLfloat frame);
+
+private:
+    static const GLint elems = 6;
+    Primitive* objects[elems];
+};
 
 #endif /* DRAW_H_ */

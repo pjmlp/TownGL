@@ -82,7 +82,7 @@ static clock_t currentTime = 0;
 static GLfloat currentFrame = 0.0f;
 
 
-
+static World world;
 
 
 /**
@@ -111,7 +111,7 @@ void MainLoop (SDL_Window *screen)
   
     currentFrame = duration;
     Project (lastWidth, lastHeight);
-    DrawWorld (duration);
+    world.render (duration);
     glFlush ();
 
     currentTime = now;

@@ -1,4 +1,4 @@
-/* cylindermesh.h -  Represents a cylinder circle.
+/* floorprimitive.h -  Represents a floor that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,31 +17,25 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
+#ifndef FLOORPRIMITIVE_H_
+#define FLOORPRIMITIVE_H_
 
-#include "mesh.h"
 #include "primitive.h"
-#include "glos.h"
+#include "diskmesh.h"
 
 /**
- * Mesh for rendering cylinders
- */
-class CylinderMesh: public Primitive {
+* Draws the floor, so that there is a nice separation between the global color,
+* road and floor.
+*/
+class FloorPrimitive: public Primitive {
 public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+    FloorPrimitive();
+    virtual ~FloorPrimitive();
 
 	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
 
-    Mesh** meshdata;
-    GLint elems;
+private:
+    DiskMesh disk;
 };
 
-#endif /* CYLINDERMESH_H_ */
+#endif /* FLOORPRIMITIVE_H_ */

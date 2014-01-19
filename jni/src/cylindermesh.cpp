@@ -33,79 +33,75 @@ static const int slices = 20;
  * @param height the cylinder height
  */
 CylinderMesh::CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height) :
- lowerVertex(nullptr), upperVertex(nullptr), roundVertex(nullptr)
+/*lowerVertex(nullptr), upperVertex(nullptr), roundVertex(nullptr),*/ meshdata(nullptr), elems(3)
 {
+    /*
     const int ELEMS = (slices + 1) * 3 * 2;
     lowerVertex = new GLfloat [ELEMS];
     upperVertex = new GLfloat[ELEMS];
     roundVertex = new GLfloat[ELEMS];
+    */
 
-    int idx = 0;
+    meshdata = new Mesh*[elems];
+    for (int i = 0; i < elems; i++)
+        meshdata[i] = nullptr;
+
     // bottom circle
-    lowerVertex[idx++] = 0.0f;
-    lowerVertex[idx++] = 0.0f;
-    lowerVertex[idx++] = 0.0f;
+    meshdata[0] = new Mesh(3, Mesh::RenderMode::triangle_fan);
+    meshdata[0]->reserveMeshSize(slices * 3);
+    meshdata[0]->addVertex(0.0f, 0.0f, 0.0f);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        lowerVertex[idx++] = cos(angle)*lowerRadius;
-        lowerVertex[idx++] = 0.0f;
-        lowerVertex[idx++] = sin(angle)*lowerRadius;
+
+        meshdata[0]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
     }
 
-
-
-
-    idx = 0;
     // top circle
-    upperVertex[idx++] = 0.0f;
-    upperVertex[idx++] = height;
-    upperVertex[idx++] = 0.0f;
+    meshdata[1] = new Mesh(3, Mesh::RenderMode::triangle_fan);
+    meshdata[1]->reserveMeshSize(slices * 3);
+    meshdata[1]->addVertex(0.0f, height, 0.0f);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        upperVertex[idx++] = cos(angle)*upperRadius;
-        upperVertex[idx++] = height;
-        upperVertex[idx++] = sin(angle)*upperRadius;
+
+        meshdata[1]->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
     }
 
-
-
-
-    idx = 0;
     // the rest
+    meshdata[2] = new Mesh(3, Mesh::RenderMode::triangle_strip);
+    meshdata[2]->reserveMeshSize(slices * 3);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
-        roundVertex[idx++] = cos(angle)*lowerRadius;
-        roundVertex[idx++] = 0.0f;
-        roundVertex[idx++] = sin(angle)*lowerRadius;
 
-        roundVertex[idx++] = cos(angle)*upperRadius;
-        roundVertex[idx++] = height;
-        roundVertex[idx++] = sin(angle)*upperRadius;
+        meshdata[2]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
+
+        meshdata[2]->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
     }
-
-
-
 }
 
-CylinderMesh::~CylinderMesh() {
-    if (lowerVertex) {
-        delete[] lowerVertex;
-	}
-
-    if (upperVertex) {
-        delete[] upperVertex;
+CylinderMesh::~CylinderMesh()
+{
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            delete meshdata[i];
+            meshdata[i] = nullptr;
+        }
+        delete[] meshdata;
     }
-
-    if (roundVertex) {
-        delete[] roundVertex;
-    }
-
-
 }
 
 
 void CylinderMesh::render ()
 {
+
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            meshdata[i]->render();
+        }
+    }
+
+    /*
     // render lower part
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, lowerVertex);
@@ -122,5 +118,5 @@ void CylinderMesh::render ()
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, roundVertex);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, slices * 2);
-    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);*/
 }

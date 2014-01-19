@@ -48,6 +48,24 @@
     <ClInclude Include="jni\src\primitive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\src\arctunnelprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\src\buildingprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\src\floorprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\src\roadprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\src\tunnelprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\src\windmillprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\src\diskmesh.cpp">
@@ -81,6 +99,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\src\primitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\arctunnelprimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\buildingprimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\floorprimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\roadprimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\tunnelprimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\windmillprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

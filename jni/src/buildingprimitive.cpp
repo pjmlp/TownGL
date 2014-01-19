@@ -1,4 +1,4 @@
-/* cylindermesh.h -  Represents a cylinder circle.
+/* buildingprimitive.cpp -  Represents a building that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,31 +17,24 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
-
-#include "mesh.h"
-#include "primitive.h"
 #include "glos.h"
 
-/**
- * Mesh for rendering cylinders
- */
-class CylinderMesh: public Primitive {
-public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+#include "buildingprimitive.h"
 
-	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
 
-    Mesh** meshdata;
-    GLint elems;
-};
+BuildingPrimitive::BuildingPrimitive(): building(2.0f, 8.0f, 2.0f)
+{
+    // nothing else to do
+}
 
-#endif /* CYLINDERMESH_H_ */
+BuildingPrimitive::~BuildingPrimitive()
+{
+    // nothing to do
+}
+
+void BuildingPrimitive::render()
+{
+    glPushMatrix();
+    building.render();
+    glPopMatrix();
+}

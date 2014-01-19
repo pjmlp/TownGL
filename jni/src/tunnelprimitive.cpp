@@ -1,4 +1,4 @@
-/* cylindermesh.h -  Represents a cylinder circle.
+/* tunnelprimitive.cpp -  Represents a tunnel that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,31 +17,40 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
-
-#include "mesh.h"
-#include "primitive.h"
 #include "glos.h"
 
-/**
- * Mesh for rendering cylinders
- */
-class CylinderMesh: public Primitive {
-public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+#include "tunnelprimitive.h"
 
-	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
 
-    Mesh** meshdata;
-    GLint elems;
-};
+TunnelPrimitive::TunnelPrimitive()
+{
+    objects[0] = new BoxMesh(1.0f, 1.0f, 5.0f);
+    objects[1] = new BoxMesh(1.0f, 1.0f, 5.0f);
+    objects[2] = new BoxMesh(11, 0.10f, 5);
+}
 
-#endif /* CYLINDERMESH_H_ */
+TunnelPrimitive::~TunnelPrimitive()
+{
+    for (int i = 0; i < elems; i++)
+        delete objects[i];
+}
+
+void TunnelPrimitive::render()
+{
+    glPushMatrix();
+
+    // Left wall
+    glTranslatef(-5, 0, 0);
+    objects[0]->render();
+
+    // Right wall
+    glTranslatef(10, 0, 0);
+    objects[1]->render();
+
+    // Ceiling
+    glTranslatef(-5, 0.55f, 0);
+    objects[2]->render();
+
+
+    glPopMatrix();
+}

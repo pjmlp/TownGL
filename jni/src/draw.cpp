@@ -26,294 +26,109 @@
 #include "arcmesh.h"
 #include "roofmesh.h"
 #include "cylindermesh.h"
+#include "primitive.h"
+#include "arctunnelprimitive.h"
+#include "buildingprimitive.h"
+#include "floorprimitive.h"
+#include "roadprimitive.h"
+#include "tunnelprimitive.h"
+#include "windmillprimitive.h"
 
 #include "draw.h"
 
 
 // Internal functions prototypes.
 
-static void DrawCylinder(GLfloat radius, GLfloat height);
-static void DrawCone(GLfloat radius, GLfloat height);
-static void DrawSolidTunnel ();
-static void DrawSolidArcTunnel ();
-static void DrawSolidBuilding ();
 static void DrawSolidWindmill (GLfloat frame);
 
-// Public functions implementations
-
-
-/**
- * Draws the tunnel
- */
-void DrawSolidTunnel ()
+World::World()
 {
-  BoxMesh leftWall(1.0f, 1.0f, 5.0f);
-  BoxMesh rightWall(1.0f, 1.0f, 5.0f);
-  BoxMesh ceiling(11, 0.10f, 5);
+    objects[0] = new FloorPrimitive();
+    objects[1] = new RoadPrimitive();
+    objects[2] = new WindmillPrimitive();
+    objects[3] = new ArcTunnelPrimitive();
+    objects[4] = new TunnelPrimitive();
 
-  glPushMatrix ();
-
-    // Left wall
-    glTranslatef (-5, 0, 0);
-	leftWall.render();
-
-    // Right wall
-    glTranslatef (10, 0, 0);
-	rightWall.render();
-
-    // Ceiling
-    glTranslatef (-5, 0.55f, 0);
-	ceiling.render();
-
-
-  glPopMatrix ();
-}
-
-/**
- *  Draws the tunnel
- */
-void DrawSolidArcTunnel ()
-{
-	BoxMesh leftWall(1.0f, 1.0f, 5.0f);
-	BoxMesh rigthWall(1.0f, 1.0f, 5.0f);
-    ArcMesh frontArc(2.5);
-    ArcMesh backArc(-2.5);
-    RoofMesh roof;
+    objects[5] = new BuildingPrimitive();
 
     
-
-  glPushMatrix ();
-  
-    // ceiling
-  frontArc.render();
-  backArc.render();
-  roof.render();
-
-    // left wall
-    glTranslatef (-5, 0, 0);
-	leftWall.render();
-
-    // right wall
-    glTranslatef (10, 0, 0);
-	rigthWall.render();
-  
-  glPopMatrix ();
+    
 }
 
-
-/**
- * Buildings
- */
-void DrawSolidBuilding ()
+World::~World()
 {
-  glPushMatrix ();
-
-  BoxMesh building (2.0f, 8.0f, 2.0f);
-  building.render();
-
-  glPopMatrix ();
+    for (int i = 0; i < elems; i++)
+        delete objects[i];
 }
 
 /**
- * Draws the floor, so that there is a nice separation between the global color,
- * road and floor.
- */
-void DrawSolidFloor ()
+* Draws the world representing the town.
+* @param frame current animation frame.
+*/
+void World::render(GLfloat frame)
 {
-	DiskMesh disk(0, 50, 10);
-  glPushMatrix ();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-    glColor4f (0.2f, 0.3f, 0.5f, 0.0f);
-    glRotatef (-90, 1, 0, 0);
-	disk.render();
-  
-  glPopMatrix ();
-}
+    // draws the floor
+    objects[0]->render();
 
+    // draws the road
+    objects[1]->render();
 
-/**
- * Draws a circular road around the buildings.
- */
-void DrawSolidRoad ()
-{
-	DiskMesh disk(9, 11, 25);
-  glPushMatrix ();
-
-    glColor4f (0, 0, 0, 0);
-    glTranslatef (0, 0.1f, 0);
-    glRotatef (-90, 1, 0, 0);
-    disk.render();
-  
-  glPopMatrix ();
-}
+    /* 1º Moinho */
+    glPushMatrix();
+    glTranslatef(4.2f, 0, 13);
+    glRotatef(120, 0, 1, 0);
+    objects[2]->update(frame);
+    objects[2]->render();
+    glPopMatrix();
 
 
+    /* 2º Moinho */
+    glPushMatrix();
+    glTranslatef(15, 0, -15);
+    objects[2]->render();
+    
+    glPopMatrix();
 
+    /* 1º Túnel */
+    glPushMatrix();
+    glTranslatef(0, 0, -10);
+    glScalef(1, 0.5, 0.5);
+    glRotatef(90, 0, 1, 0);
 
+    
+    glPopMatrix();
 
-/**
- * Draws a windmill
- * @param frame the current animation frame
- */
-void DrawSolidWindmill (GLfloat frame)
-{
-	/* temporary move here, this code should be removed when the framerate is fixed */
-	static GLfloat drawAngle = 0.0f;    
-	drawAngle += 10 * frame;
-	if (drawAngle > 360)
-		drawAngle -= 360;
+    /* 2º Túnel */
+    glPushMatrix();
+    glTranslatef(-6, 0, 8);
+    glScalef(0.5, 2, 0.5);
+    glRotatef(60, 0, 1, 0);
+    objects[4]->render();
+    glPopMatrix();
 
-  GLfloat length = 0.75, lastX, lastY, x, y;
-	GLint i;
-	bool isFlag = false;
+    /* 1º Edifício */
+    glPushMatrix();
+    glTranslatef(10, 4, -17);
+    glColor4f(0, 0, 1, 0);
+    objects[5]->render();
+    glPopMatrix();
 
-  glPushMatrix ();
+    /* 2º Edifício */
+    glPushMatrix();
+    glTranslatef(-15, 4, -10);
+    glColor4f(0, 1, 0, 0);
+    objects[5]->render();
+    glPopMatrix();
 
+    /* 3º Edifício */
+    glPushMatrix();
+    glTranslatef(13, 4, 8);
+    glColor4f(1, 0, 0, 0);
+    objects[5]->render();
+    glPopMatrix();
 
-  // draws the base
-  glColor4f (0.4f, 0.5f, 0, 0);  // brown
-  CylinderMesh base(1, 1, 1);
-  base.render();
-
-  // draws the roof
-  CylinderMesh roof(1, 0, 0.5f);
-  glColor4f (1, 0, 0, 0);   // red
-  glPushMatrix ();
-    glTranslatef (0, 1, 0);
-    roof.render();
-  glPopMatrix ();
-
-  // draws the sails
-  glColor4f (1.0f, 0.8f, 0.0f, 0.0f);
-  glTranslatef (0, 1, 1);
-  glRotatef(drawAngle, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
-  lastX = length;
-	lastY = 0.0;
-  
-    const GLint VERTEX_COUNT = 3;
-    const GLint POINTS = 2;
-    const GLint SLICES = 12;
-	const int ELEMS = SLICES * VERTEX_COUNT * POINTS;
-	GLfloat vertex[ELEMS];
-    GLfloat countour[ELEMS];
-
-	int idxx = 0;
-	int idx = 0;
-
-	for (i = 1; i <= SLICES; i++) 
-	{
-		vertex[idx++] = lastX;
-		vertex[idx++] = lastY;
-
-        GLfloat angle = 2 * i * PI / SLICES;
-		x = length * cos (angle);
-		y = length * sin (angle);
-
-		if (isFlag) {
-			vertex[idx++] = x;
-			vertex[idx++] = y;
-
-			vertex[idx++] = 0;
-			vertex[idx++] = 0;
-		}
-		else {
-			vertex[idx++] = 0;
-			vertex[idx++] = 0;
-
-			vertex[idx++] = x;
-			vertex[idx++] = y;
-		}
-
-		countour[idxx++] = lastX = x;
-		countour[idxx++] = lastY = y;
-		isFlag = !isFlag;
-	}
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(POINTS, GL_FLOAT, 0, vertex);
-	for (int i = 0; i < SLICES; i++) {
-        if (i % 2 == 0)
-            glDrawArrays(GL_TRIANGLES, i * VERTEX_COUNT, VERTEX_COUNT);
-	}
-    glDisableClientState(GL_VERTEX_ARRAY);
-	/*
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(POINTS, GL_FLOAT, 0, countour);
-    glDrawArrays(GL_LINE_STRIP, 0, idxx);
-    glDisableClientState(GL_VERTEX_ARRAY);
-	*/
-  glPopMatrix ();
-}
-
-
-
-/*
- * Desenha o mundo
- * frame é o frame actual
- */
-void DrawWorld (GLfloat frame)
-{
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glMatrixMode (GL_MODELVIEW);
-  glLoadIdentity ();
-
-  /* Desenha o chão */
-  DrawSolidFloor ();
-  
-
-  /* Desenha a estrada */
-  DrawSolidRoad ();
-
-  /* 1º Moinho */
-  glPushMatrix ();
-    glTranslatef (4.2f, 0, 13);
-    glRotatef (120, 0, 1, 0);
-    DrawSolidWindmill (frame);
-  glPopMatrix ();
-
-  
-  /* 2º Moinho */
-  glPushMatrix ();
-    glTranslatef (15, 0, -15);
-    DrawSolidWindmill (frame);
-  glPopMatrix ();
-
-  /* 1º Túnel */
-  glPushMatrix ();
-    glTranslatef (0, 0, -10);
-    glScalef (1, 0.5, 0.5);
-    glRotatef (90, 0, 1, 0);
-
-    DrawSolidArcTunnel ();
-  glPopMatrix ();
-
-  /* 2º Túnel */
-  glPushMatrix ();
-    glTranslatef (-6, 0, 8);
-    glScalef (0.5, 2, 0.5);
-    glRotatef (60, 0, 1, 0);
-    DrawSolidTunnel ();
-  glPopMatrix ();
-
-
-  /* 1º Edifício */
-  glPushMatrix ();
-    glTranslatef (10, 4, -17);
-    glColor4f (0, 0, 1, 0);
-    DrawSolidBuilding ();
-  glPopMatrix ();
-
-  /* 2º Edifício */
-  glPushMatrix ();
-    glTranslatef (-15, 4, -10);
-    glColor4f (0, 1, 0, 0);
-    DrawSolidBuilding ();
-  glPopMatrix ();
-
-  /* 3º Edifício */
-  glPushMatrix ();
-    glTranslatef (13, 4, 8);
-    glColor4f (1, 0, 0, 0);
-    DrawSolidBuilding ();
-  glPopMatrix ();
 }

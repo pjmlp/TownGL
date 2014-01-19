@@ -1,4 +1,4 @@
-/* cylindermesh.h -  Represents a cylinder circle.
+/* windmillprimitive.h -  Represents a Windmill that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,31 +17,27 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
+#ifndef WINDMILLPRIMITIVE_H_
+#define WINDMILLPRIMITIVE_H_
 
-#include "mesh.h"
 #include "primitive.h"
-#include "glos.h"
+#include "cylindermesh.h"
 
 /**
- * Mesh for rendering cylinders
- */
-class CylinderMesh: public Primitive {
+* Draws a windmill
+* @param frame the current animation frame
+*/
+class WindmillPrimitive: public Primitive {
 public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+    WindmillPrimitive();
+    virtual ~WindmillPrimitive();
 
+    virtual void update(GLfloat frame) override;
 	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
 
-    Mesh** meshdata;
-    GLint elems;
+private:
+    CylinderMesh base, roof;
+    GLfloat drawAngle;
 };
 
-#endif /* CYLINDERMESH_H_ */
+#endif /* WINDMILLPRIMITIVE_H_ */

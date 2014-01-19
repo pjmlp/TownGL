@@ -69,9 +69,10 @@ ArcMesh::~ArcMesh()
     if (meshdata != nullptr) {
         for (int i = 0; i < elems; i++)
              if (meshdata[i] != nullptr) {
-                 delete[] meshdata[i];
+                 delete meshdata[i];
                  meshdata[i] = nullptr;
              }
+         delete[] meshdata;
     }
 }
 

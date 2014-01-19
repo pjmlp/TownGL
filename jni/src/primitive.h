@@ -20,11 +20,14 @@
 #ifndef PRIMITIVE_H_
 #define PRIMITIVE_H_
 
+#include "glos.h"
+
 class Primitive {
 public:
 
     virtual ~Primitive();
 
+    virtual void update(GLfloat frame);
 	virtual void render () = 0;
 };
 
