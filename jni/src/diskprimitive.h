@@ -1,4 +1,4 @@
-/* arcmesh.h -  Represents an Arc that can be rendered.
+/* DiskPrimitive.h -  Represents a simple 2D circle.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,26 +17,26 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef ARCMESH_H_
-#define ARCMESH_H_
+#ifndef DiskPrimitive_H_
+#define DiskPrimitive_H_
 
-#include "glos.h"
 #include "mesh.h"
 #include "primitive.h"
+#include "glos.h"
 
 /**
- * Draws an arc. Used by the tunnels in arc form.
+ * Mesh for rendering circles similar to gluDisk.
  */
-class ArcMesh: public Primitive {
+class DiskPrimitive: public Primitive {
 public:
-    ArcMesh(GLfloat depth);
-	virtual ~ArcMesh();
+	DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices);
+	virtual ~DiskPrimitive();
 
-	virtual void render () override;
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
+    virtual void render() override;
 
 private:
-    Mesh** meshdata;
-    GLint elems;
+    Mesh mesh;
 };
 
-#endif /* ARCMESH_H_ */
+#endif /* DiskPrimitive_H_ */

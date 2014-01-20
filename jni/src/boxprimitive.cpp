@@ -1,4 +1,4 @@
-/* boxmesh.cpp -  Represents a box
+/* BoxPrimitive.cpp -  Represents a box
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 
 #include "glos.h"
 
-#include "boxmesh.h"
+#include "boxprimitive.h"
 
 
 
@@ -64,7 +64,7 @@ static const GLfloat vertex[] = {
 
 
 
-BoxMesh::BoxMesh(GLfloat width, GLfloat height, GLfloat depth): mesh(3, Mesh::RenderMode::triangles), width(width/2), height(height/2), depth(depth/2)
+BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): mesh(3, Mesh::RenderMode::triangles), width(width/2), height(height/2), depth(depth/2)
 {
     const GLint vertexCount = 3;
     const GLint points = 12;
@@ -75,12 +75,16 @@ BoxMesh::BoxMesh(GLfloat width, GLfloat height, GLfloat depth): mesh(3, Mesh::Re
 }
 
 
-BoxMesh::~BoxMesh()
+BoxPrimitive::~BoxPrimitive()
 {
 }
 
+void BoxPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+    mesh.setColor(r, g, b, a);
+}
 
-void BoxMesh::render()
+void BoxPrimitive::render()
 {
     glPushMatrix();
     glScalef(width, height, depth);

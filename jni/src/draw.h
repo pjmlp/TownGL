@@ -1,5 +1,5 @@
-/* cylindermesh.h -  Represents a cylinder circle.
-* Copyright (C) 2013 Paulo Pinto
+/* draw.h - Interface for the model drawing functions for the town
+* Copyright (C) 2012 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -16,32 +16,13 @@
 * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * Boston, MA 02111-1307, USA.
 */
+#ifndef DRAW_H_
+#define DRAW_H_
 
-#ifndef CYLINDERMESH_H_
-#define CYLINDERMESH_H_
-
-#include "mesh.h"
-#include "primitive.h"
-#include "glos.h"
-
-/**
- * Mesh for rendering cylinders
+/*
+ * Draws the world representing the town.
+ * @param frame current animation frame.
  */
-class CylinderMesh: public Primitive {
-public:
-    CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
-    virtual ~CylinderMesh();
+void DrawWorld (GLfloat frame);
 
-	virtual void render () override;
-private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
-
-    Mesh** meshdata;
-    GLint elems;
-};
-
-#endif /* CYLINDERMESH_H_ */
+#endif /* DRAW_H_ */

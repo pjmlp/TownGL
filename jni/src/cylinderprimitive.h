@@ -1,4 +1,4 @@
-/* roofmesh.h -  Draws the tunnel roof. Used by the tunnels in rectangular form
+/* CylinderPrimitive.h -  Represents a cylinder circle.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,20 +17,31 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef ROOFMESH_H_
-#define ROOFMESH_H_
+#ifndef CylinderPrimitive_H_
+#define CylinderPrimitive_H_
 
+#include "mesh.h"
 #include "primitive.h"
+#include "glos.h"
 
 /**
- * Draws the tunnel roof. Used by the tunnels in rectangular form
+ * Mesh for rendering cylinders
  */
-class RoofMesh: public Primitive {
+class CylinderPrimitive: public Primitive {
 public:
-    RoofMesh();
-    virtual ~RoofMesh();
+    CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
+    virtual ~CylinderPrimitive();
 
 	virtual void render () override;
+private:
+    /*
+	GLfloat *lowerVertex;
+    GLfloat *upperVertex;
+    GLfloat *roundVertex;
+	GLint VERTEX_COUNT;*/
+
+    Mesh** meshdata;
+    GLint elems;
 };
 
-#endif // ROOFMESH_H_
+#endif /* CylinderPrimitive_H_ */

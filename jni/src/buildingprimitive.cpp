@@ -32,6 +32,10 @@ BuildingPrimitive::~BuildingPrimitive()
     // nothing to do
 }
 
+void BuildingPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+    building.setColor(r, g, b, a);
+}
 void BuildingPrimitive::render()
 {
     glPushMatrix();

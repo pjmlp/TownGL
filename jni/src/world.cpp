@@ -21,11 +21,11 @@
 
 #include "glos.h"
 #include "pi.h"
-#include "diskmesh.h"
-#include "boxmesh.h"
-#include "arcmesh.h"
-#include "roofmesh.h"
-#include "cylindermesh.h"
+#include "diskprimitive.h"
+#include "boxprimitive.h"
+#include "arcprimitive.h"
+#include "roofprimitive.h"
+#include "cylinderprimitive.h"
 #include "primitive.h"
 #include "arctunnelprimitive.h"
 #include "buildingprimitive.h"
@@ -36,11 +36,6 @@
 
 #include "world.h"
 
-
-// Internal functions prototypes.
-
-static void DrawSolidWindmill (GLfloat frame);
-
 World::World()
 {
     objects[0] = new FloorPrimitive();
@@ -49,6 +44,11 @@ World::World()
     objects[3] = new ArcTunnelPrimitive();
     objects[4] = new TunnelPrimitive();
     objects[5] = new BuildingPrimitive();
+    objects[5]->setColor(0, 0, 1, 0);
+    objects[6] = new BuildingPrimitive();
+    objects[6]->setColor(0, 1, 0, 0);
+    objects[7] = new BuildingPrimitive();
+    objects[7]->setColor(1, 0, 0, 0);
 }
 
 World::~World()
@@ -73,6 +73,7 @@ void World::render(GLfloat frame)
     // draws the road
     objects[1]->render();
 
+#if 0
     /* 1º Moinho */
     glPushMatrix();
     glTranslatef(4.2f, 0, 13);
@@ -88,6 +89,7 @@ void World::render(GLfloat frame)
     objects[2]->render();
     
     glPopMatrix();
+#endif
 
     /* 1º Túnel */
     glPushMatrix();
@@ -106,25 +108,24 @@ void World::render(GLfloat frame)
     objects[4]->render();
     glPopMatrix();
 
+
     /* 1º Edifício */
     glPushMatrix();
     glTranslatef(10, 4, -17);
-    glColor4f(0, 0, 1, 0);
     objects[5]->render();
     glPopMatrix();
 
     /* 2º Edifício */
     glPushMatrix();
     glTranslatef(-15, 4, -10);
-    glColor4f(0, 1, 0, 0);
-    objects[5]->render();
+    objects[6]->render();
     glPopMatrix();
 
     /* 3º Edifício */
     glPushMatrix();
     glTranslatef(13, 4, 8);
-    glColor4f(1, 0, 0, 0);
-    objects[5]->render();
+    objects[7]->render();
     glPopMatrix();
+
 
 }

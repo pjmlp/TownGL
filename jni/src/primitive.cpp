@@ -17,6 +17,7 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include "glos.h"
 #include "primitive.h"
 
 Primitive::~Primitive()
@@ -26,3 +27,8 @@ Primitive::~Primitive()
 
 void Primitive::update(GLfloat frame)
 {}
+
+
+void Primitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+}

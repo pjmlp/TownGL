@@ -1,4 +1,4 @@
-/* cylindermesh.cpp -  Represents a cylinder circle.
+/* CylinderPrimitive.cpp -  Represents a cylinder circle.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
 #include <cmath>
 
 
-#include "cylindermesh.h"
+#include "cylinderprimitive.h"
 #include "pi.h"
 
 
@@ -32,7 +32,7 @@ static const int slices = 20;
  * @param upperRadius the upper radius of the cylinder.
  * @param height the cylinder height
  */
-CylinderMesh::CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height) :
+CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height) :
 /*lowerVertex(nullptr), upperVertex(nullptr), roundVertex(nullptr),*/ meshdata(nullptr), elems(3)
 {
     /*
@@ -78,7 +78,7 @@ CylinderMesh::CylinderMesh(GLfloat lowerRadius, GLfloat upperRadius, GLfloat hei
     }
 }
 
-CylinderMesh::~CylinderMesh()
+CylinderPrimitive::~CylinderPrimitive()
 {
     if (meshdata != nullptr) {
         for (int i = 0; i < elems; i++)
@@ -91,7 +91,7 @@ CylinderMesh::~CylinderMesh()
 }
 
 
-void CylinderMesh::render ()
+void CylinderPrimitive::render ()
 {
 
     if (meshdata != nullptr) {

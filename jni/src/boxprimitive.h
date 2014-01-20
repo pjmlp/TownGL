@@ -1,4 +1,4 @@
-/* diskmesh.h -  Represents a simple 2D circle.
+/* BoxPrimitive.h -  Represents a box
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,25 +17,23 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef DISKMESH_H_
-#define DISKMESH_H_
+#ifndef BoxPrimitive_H_
+#define BoxPrimitive_H_
 
 #include "mesh.h"
 #include "primitive.h"
-#include "glos.h"
 
-/**
- * Mesh for rendering circles similar to gluDisk.
- */
-class DiskMesh: public Primitive {
+class BoxPrimitive :	public Primitive
+{
 public:
-	DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices);
-	virtual ~DiskMesh();
+	BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth);
+	virtual ~BoxPrimitive();
 
-    virtual void render() override;
-
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
+	virtual void render() override;
 private:
+	GLfloat width, height, depth;
     Mesh mesh;
 };
 
-#endif /* DISKMESH_H_ */
+#endif /* BoxPrimitive_H_ */

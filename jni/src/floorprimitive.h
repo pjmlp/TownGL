@@ -21,7 +21,7 @@
 #define FLOORPRIMITIVE_H_
 
 #include "primitive.h"
-#include "diskmesh.h"
+#include "diskprimitive.h"
 
 /**
 * Draws the floor, so that there is a nice separation between the global color,
@@ -35,7 +35,7 @@ public:
 	virtual void render () override;
 
 private:
-    DiskMesh disk;
+    DiskPrimitive disk;
 };
 
 #endif /* FLOORPRIMITIVE_H_ */

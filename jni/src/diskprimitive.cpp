@@ -1,4 +1,4 @@
-/* diskmesh.cpp -  Represents a simple 2D circle.
+/* DiskPrimitive.cpp -  Represents a simple 2D circle.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
 #include <cmath>
 
 
-#include "diskmesh.h"
+#include "diskprimitive.h"
 #include "pi.h"
 
 /**
@@ -29,7 +29,7 @@
  * @param outerRadius the outer radius of the circle from the center.
  * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
  */
-DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : mesh(2, Mesh::RenderMode::triangle_strip)
+DiskPrimitive::DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : mesh(2, Mesh::RenderMode::triangle_strip)
 {
 	assert(slices > 0);
     const GLfloat step = 2 * PI / slices;
@@ -47,12 +47,17 @@ DiskMesh::DiskMesh(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : mes
     }
 }
 
-DiskMesh::~DiskMesh()
+DiskPrimitive::~DiskPrimitive()
 {
 
 }
 
-void DiskMesh::render()
+void DiskPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+    mesh.setColor(r, g, b, a);
+}
+
+void DiskPrimitive::render()
 {
     mesh.render();
 }

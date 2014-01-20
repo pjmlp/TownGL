@@ -24,7 +24,7 @@
 
 FloorPrimitive::FloorPrimitive() : disk(0, 50, 10)
 {
-    // nothing else to do
+    disk.setColor(0.2f, 0.3f, 0.5f, 0.0f);
 }
 
 FloorPrimitive::~FloorPrimitive()
@@ -36,8 +36,6 @@ void FloorPrimitive::render()
 {
     glPushMatrix();
 
-    glColor4f(0, 0, 0, 0);
-    glTranslatef(0, 0.1f, 0);
     glRotatef(-90, 1, 0, 0);
     disk.render();
 

@@ -17,9 +17,9 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#include "boxmesh.h"
-#include "arcmesh.h"
-#include "roofmesh.h"
+#include "boxprimitive.h"
+#include "arcprimitive.h"
+#include "roofprimitive.h"
 
 #include "arctunnelprimitive.h"
 
@@ -27,11 +27,15 @@ ArcTunnelPrimitive::ArcTunnelPrimitive():
 modelData(nullptr), elems(5)
 {
     modelData = new Primitive*[elems];
-    modelData[0] =  new ArcMesh(2.5);
-    modelData[1] =  new ArcMesh(-2.5);
-    modelData[2] = new RoofMesh();
-    modelData[3] = new BoxMesh(1.0f, 1.0f, 5.0f);
-    modelData[4] = new BoxMesh(1.0f, 1.0f, 5.0f);
+    modelData[0] =  new ArcPrimitive(2.5);
+    modelData[1] =  new ArcPrimitive(-2.5);
+    modelData[2] = new RoofPrimitive();
+    modelData[3] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    modelData[4] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+
+    // Make sure all pieces have the proper color
+    for (int i = 0; i < elems; i++)
+        modelData[i]->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 }
 
 ArcTunnelPrimitive::~ArcTunnelPrimitive()
@@ -63,5 +67,6 @@ void ArcTunnelPrimitive::render()
             }
             modelData[i]->render();
         }
+        glPopMatrix();
     }
 }

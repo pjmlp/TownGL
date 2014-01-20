@@ -36,7 +36,7 @@ public:
     void render(GLfloat frame);
 
 private:
-    static const GLint elems = 6;
+    static const GLint elems = 8;
     Primitive* objects[elems];
 };
 

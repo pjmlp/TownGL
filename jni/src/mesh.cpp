@@ -24,13 +24,13 @@
 //#include "SDL.h"
 //#include <iostream>
 
-Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), idx(0), vertex(nullptr), vertexCount(0)
+Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f)
 {
     // nothing to do
     //SDL_Log("Hi");
 }
 
-Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), idx(0), vertex(nullptr), vertexCount(0)
+Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f)
 {
     // nothing to do
     //SDL_Log("Hi");
@@ -69,6 +69,9 @@ void Mesh::render()
             assert(false);
         }
 
+
+        glColor4f(r, g, b, a);
+
         glEnableClientState(GL_VERTEX_ARRAY);
         printOpenGLError();
 
@@ -92,7 +95,7 @@ void Mesh::reserveMeshSize(GLint count)
 
 void Mesh::addVertex(GLfloat x, GLfloat y)
 {
-    if (vertex != nullptr && idx + 2 < vertexCount) {
+    if (vertex != nullptr && idx + 2 <= vertexCount) {
         vertex[idx++] = x;
         vertex[idx++] = y;
     }
@@ -113,4 +116,13 @@ void Mesh::addVertices(const GLfloat *vertices, GLint size)
         for (idx = 0; idx < size; idx++)
             vertex[idx] = vertices[idx];
     }
+}
+
+void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+    this->r = r;
+    this->g = g;
+    this->b = b;
+    this->a = a;
+
 }

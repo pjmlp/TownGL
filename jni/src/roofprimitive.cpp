@@ -1,4 +1,4 @@
-/* roofmesh.cpp -  Draws the tunnel roof. Used by the tunnels in rectangular form
+/* RoofPrimitive.cpp -  Draws the tunnel roof. Used by the tunnels in rectangular form
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -21,13 +21,13 @@
 
 #include "glos.h"
 #include "pi.h"
-#include "roofmesh.h"
+#include "roofprimitive.h"
 
 
 static const int ELEMS = 19 * 4 * 3;
 static GLfloat vertex[ELEMS];
 
-RoofMesh::RoofMesh()
+RoofPrimitive::RoofPrimitive()
 {
     GLfloat lastX = 5.5;
     GLfloat lastY = 0.5;
@@ -63,11 +63,11 @@ RoofMesh::RoofMesh()
     }
 }
 
-RoofMesh::~RoofMesh()
+RoofPrimitive::~RoofPrimitive()
 {
 }
 
-void RoofMesh::render()
+void RoofPrimitive::render()
 {
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, ::vertex);

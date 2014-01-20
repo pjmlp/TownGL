@@ -24,9 +24,12 @@
 
 TunnelPrimitive::TunnelPrimitive()
 {
-    objects[0] = new BoxMesh(1.0f, 1.0f, 5.0f);
-    objects[1] = new BoxMesh(1.0f, 1.0f, 5.0f);
-    objects[2] = new BoxMesh(11, 0.10f, 5);
+    objects[0] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    objects[1] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    objects[2] = new BoxPrimitive(11, 0.10f, 5);
+
+    for (int i = 0; i < elems; i++)
+        objects[i]->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 }
 
 TunnelPrimitive::~TunnelPrimitive()

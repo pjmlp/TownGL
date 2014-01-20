@@ -37,6 +37,8 @@ public:
     void addVertex(GLfloat x, GLfloat y, GLfloat z);
     void addVertices(const GLfloat *vertices, GLint size);
 
+    void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+
 private:
     GLint coordinatesPerVertex;
     RenderMode drawMode;
@@ -44,6 +46,8 @@ private:
     GLint idx;
     GLfloat *vertex;
     GLint vertexCount;
+
+    GLfloat r, g, b, a;
 };
 
 #endif /* MESH_H_ */

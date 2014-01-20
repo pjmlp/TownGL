@@ -1,4 +1,4 @@
-/* tunnelprimitive.h -  Represents a tunnel that can be rendered.
+/* RoofPrimitive.h -  Draws the tunnel roof. Used by the tunnels in rectangular form
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,25 +17,20 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef TUNNELPRIMITIVE_H_
-#define TUNNELPRIMITIVE_H_
+#ifndef RoofPrimitive_H_
+#define RoofPrimitive_H_
 
 #include "primitive.h"
-#include "boxprimitive.h"
 
 /**
-* Draws the tunnel
-*/
-class TunnelPrimitive: public Primitive {
+ * Draws the tunnel roof. Used by the tunnels in rectangular form
+ */
+class RoofPrimitive: public Primitive {
 public:
-    TunnelPrimitive();
-    virtual ~TunnelPrimitive();
+    RoofPrimitive();
+    virtual ~RoofPrimitive();
 
 	virtual void render () override;
-
-private:
-    static const GLint elems = 3;
-    BoxPrimitive* objects[elems];
 };
 
-#endif /* TUNNELPRIMITIVE_H_ */
+#endif // RoofPrimitive_H_

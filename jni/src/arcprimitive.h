@@ -1,4 +1,4 @@
-/* boxmesh.h -  Represents a box
+/* ArcPrimitive.h -  Represents an Arc that can be rendered.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,22 +17,27 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef BOXMESH_H_
-#define BOXMESH_H_
+#ifndef ArcPrimitive_H_
+#define ArcPrimitive_H_
 
+#include "glos.h"
 #include "mesh.h"
 #include "primitive.h"
 
-class BoxMesh :	public Primitive
-{
+/**
+ * Draws an arc. Used by the tunnels in arc form.
+ */
+class ArcPrimitive: public Primitive {
 public:
-	BoxMesh(GLfloat width, GLfloat height, GLfloat depth);
-	virtual ~BoxMesh();
+    ArcPrimitive(GLfloat depth);
+	virtual ~ArcPrimitive();
 
-	virtual void render() override;
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
+	virtual void render () override;
+
 private:
-	GLfloat width, height, depth;
-    Mesh mesh;
+    Mesh** meshdata;
+    GLint elems;
 };
 
-#endif /* BOXMESH_H_ */
+#endif /* ArcPrimitive_H_ */

@@ -24,7 +24,7 @@
 
 RoadPrimitive::RoadPrimitive() : road(9, 11, 25)
 {
-    // nothing else to do
+    road.setColor(0, 0, 0, 0);
 }
 
 RoadPrimitive::~RoadPrimitive()
@@ -36,7 +36,6 @@ void RoadPrimitive::render()
 {
     glPushMatrix();
 
-    glColor4f(0, 0, 0, 0);
     glTranslatef(0, 0.1f, 0);
     glRotatef(-90, 1, 0, 0);
     road.render();

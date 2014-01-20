@@ -21,7 +21,7 @@
 #define ROADPRIMITIVE_H_
 
 #include "primitive.h"
-#include "diskmesh.h"
+#include "diskprimitive.h"
 
 /**
 * Draws a circular road around the buildings.
@@ -34,7 +34,7 @@ public:
 	virtual void render () override;
 
 private:
-    DiskMesh road;
+    DiskPrimitive road;
 };
 
 #endif /* ROADPRIMITIVE_H_ */

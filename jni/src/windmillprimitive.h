@@ -21,7 +21,7 @@
 #define WINDMILLPRIMITIVE_H_
 
 #include "primitive.h"
-#include "cylindermesh.h"
+#include "cylinderprimitive.h"
 
 /**
 * Draws a windmill
@@ -36,7 +36,7 @@ public:
 	virtual void render () override;
 
 private:
-    CylinderMesh base, roof;
+    CylinderPrimitive base, roof;
     GLfloat drawAngle;
 };
 

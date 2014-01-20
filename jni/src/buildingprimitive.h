@@ -21,17 +21,18 @@
 #define BUILDINGPRIMITIVE_H_
 
 #include "primitive.h"
-#include "boxmesh.h"
+#include "boxprimitive.h"
 
 class BuildingPrimitive: public Primitive {
 public:
     BuildingPrimitive();
     virtual ~BuildingPrimitive();
 
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 	virtual void render () override;
 
 private:
-    BoxMesh building;
+    BoxPrimitive building;
 };
 
 #endif /* BUILDINGPRIMITIVE_H_ */
