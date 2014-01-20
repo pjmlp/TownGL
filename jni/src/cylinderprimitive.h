@@ -32,14 +32,9 @@ public:
     CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
     virtual ~CylinderPrimitive();
 
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 	virtual void render () override;
 private:
-    /*
-	GLfloat *lowerVertex;
-    GLfloat *upperVertex;
-    GLfloat *roundVertex;
-	GLint VERTEX_COUNT;*/
-
     Mesh** meshdata;
     GLint elems;
 };

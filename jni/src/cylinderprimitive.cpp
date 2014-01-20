@@ -32,15 +32,8 @@ static const int slices = 20;
  * @param upperRadius the upper radius of the cylinder.
  * @param height the cylinder height
  */
-CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height) :
-/*lowerVertex(nullptr), upperVertex(nullptr), roundVertex(nullptr),*/ meshdata(nullptr), elems(3)
+CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height) : meshdata(nullptr), elems(3)
 {
-    /*
-    const int ELEMS = (slices + 1) * 3 * 2;
-    lowerVertex = new GLfloat [ELEMS];
-    upperVertex = new GLfloat[ELEMS];
-    roundVertex = new GLfloat[ELEMS];
-    */
 
     meshdata = new Mesh*[elems];
     for (int i = 0; i < elems; i++)
@@ -100,23 +93,16 @@ void CylinderPrimitive::render ()
             meshdata[i]->render();
         }
     }
+}
 
-    /*
-    // render lower part
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, lowerVertex);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, slices);
-    glDisableClientState(GL_VERTEX_ARRAY);
 
-    // render upper part
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, upperVertex);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, slices);
-    glDisableClientState(GL_VERTEX_ARRAY);
+void CylinderPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            meshdata[i]->setColor(r, g, b, a);
+        }
+    }
 
-    // render round part
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, roundVertex);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, slices * 2);
-    glDisableClientState(GL_VERTEX_ARRAY);*/
 }

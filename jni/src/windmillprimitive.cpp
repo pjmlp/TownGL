@@ -25,6 +25,9 @@
 
 WindmillPrimitive::WindmillPrimitive() : base(1, 1, 1), roof(1, 0, 0.5f), drawAngle(0.0f)
 {
+    base.setColor(0.4f, 0.5f, 0, 0);  // brown
+    roof.setColor(1, 0, 0, 0);   // red
+
 }
 
 WindmillPrimitive::~WindmillPrimitive()
@@ -51,14 +54,12 @@ void WindmillPrimitive::render()
 
 
     // draws the base
-    glColor4f(0.4f, 0.5f, 0, 0);  // brown
     base.render();
 
     // draws the roof
-    glColor4f(1, 0, 0, 0);   // red
     glPushMatrix();
     glTranslatef(0, 1, 0);
-    roof.render();
+    //roof.render();
     glPopMatrix();
 
     // draws the sails
