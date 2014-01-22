@@ -20,12 +20,15 @@
 #ifndef PRIMITIVE_H_
 #define PRIMITIVE_H_
 
+#include <glm/fwd.hpp>
+
 #include "glos.h"
 
 class Primitive {
 public:
     virtual ~Primitive();
 
+    virtual void setTransform(const glm::mat4 &transform);
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
     virtual void update(GLfloat frame);
 	virtual void render () = 0;

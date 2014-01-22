@@ -23,6 +23,13 @@
 #include <ctime>
 #include <SDL.h>
 
+#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "world.h"
 #include "pi.h"
 #include "town.h"
@@ -236,12 +243,14 @@ void Project (GLsizei w, GLsizei h)
   GLfloat cosAngle, sinAngle;
 
   glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
+  glm::mat4 identity;
+  glm::mat4 scale;
+
   
-	if (w <= h) 
-	  glScalef (1, (GLfloat)w/(GLfloat)h, 1);
+  if (w <= h)
+      scale = glm::scale(identity, glm::vec3(1, (GLfloat)w / (GLfloat)h, 1));
 	else 
-	  glScalef ((GLfloat)h/(GLfloat)w, 1, 1);
+      scale = glm::scale(identity, glm::vec3((GLfloat)h / (GLfloat)w, 1, 1));
 
     const GLfloat aspect = 1.0f;
     const GLfloat fovy = 45;
@@ -249,7 +258,7 @@ void Project (GLsizei w, GLsizei h)
     const GLfloat zFar = 100.0f;
     const GLfloat height = zNear*tan(fovy*0.008841941282883074f);
     const GLfloat width = height * aspect;
-    glFrustum(-width, width, -height, height, zNear, zFar);
+    glm::mat4 frustum = glm::frustum(-width, width, -height, height, zNear, zFar);
 
 
   
@@ -290,10 +299,13 @@ void Project (GLsizei w, GLsizei h)
     zUpVector = 0.0;
   }
 
-  gluLookAt ( xEye,           yEye,      zEye,   
-              xTarget,     yTarget,   zTarget,   
-              xUpVector, yUpVector, zUpVector);  
+  glm::mat4 lookAt = glm::lookAt(glm::vec3(xEye, yEye, zEye),
+                                 glm::vec3(xTarget, yTarget, zTarget),
+                                 glm::vec3(xUpVector, yUpVector, zUpVector));
 
+
+  glm::mat4 camera = scale * frustum * lookAt;
+  glLoadMatrixf(glm::value_ptr(camera));
   // Objects related transformations follow this calls
 }
 

@@ -17,6 +17,11 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "boxprimitive.h"
 #include "arcprimitive.h"
 #include "roofprimitive.h"
@@ -26,12 +31,21 @@
 ArcTunnelPrimitive::ArcTunnelPrimitive():
 modelData(nullptr), elems(5)
 {
+    glm::mat4 identity;
+
+
     modelData = new Primitive*[elems];
     modelData[0] =  new ArcPrimitive(2.5);
     modelData[1] =  new ArcPrimitive(-2.5);
     modelData[2] = new RoofPrimitive();
     modelData[3] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    glm::mat4 translate = glm::translate(identity, glm::vec3(-5, 0, 0));
+    modelData[3]->setTransform(translate);
+
     modelData[4] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    translate = glm::translate(identity, glm::vec3(5, 0, 0));
+    modelData[4]->setTransform(translate);
+
 
     // Make sure all pieces have the proper color
     for (int i = 0; i < elems; i++)
@@ -54,19 +68,8 @@ ArcTunnelPrimitive::~ArcTunnelPrimitive()
 void ArcTunnelPrimitive::render()
 {
     if (modelData != nullptr) {
-        glPushMatrix();
         for (int i = 0; i < elems; i++) {
-            switch (i) {
-            case 3:  // left wall
-                glTranslatef(-5, 0, 0);
-                break;
-
-            case 4:  // right wall
-                glTranslatef(10, 0, 0);
-                break;
-            }
             modelData[i]->render();
         }
-        glPopMatrix();
     }
 }

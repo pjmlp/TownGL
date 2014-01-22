@@ -80,7 +80,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\SDL2-2.0.0\include;..\glew-1.9.0\include;..\freeglut\include;.\jni\src;$(IncludePath)</IncludePath>
+    <IncludePath>..\glm;..\SDL2-2.0.0\include;..\glew-1.9.0\include;..\freeglut\include;.\jni\src;$(IncludePath)</IncludePath>
     <LibraryPath>..\SDL2-2.0.0\lib\x86;..\freeglut\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

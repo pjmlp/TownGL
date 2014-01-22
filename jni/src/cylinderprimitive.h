@@ -20,9 +20,11 @@
 #ifndef CylinderPrimitive_H_
 #define CylinderPrimitive_H_
 
-#include "mesh.h"
 #include "primitive.h"
 #include "glos.h"
+
+// forward declarations
+class Mesh;
 
 /**
  * Mesh for rendering cylinders

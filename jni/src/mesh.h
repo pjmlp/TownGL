@@ -22,6 +22,8 @@
 
 #include "glos.h"
 
+#include <glm/mat4x4.hpp>
+
 class Mesh {
 public:
     enum class RenderMode { triangles, triangle_strip, triangle_fan };
@@ -39,6 +41,9 @@ public:
 
     void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
+
+    void setTransform(const glm::mat4 &transform);
+
 private:
     GLint coordinatesPerVertex;
     RenderMode drawMode;
@@ -48,6 +53,8 @@ private:
     GLint vertexCount;
 
     GLfloat r, g, b, a;
+
+    glm::mat4 transform;
 };
 
 #endif /* MESH_H_ */

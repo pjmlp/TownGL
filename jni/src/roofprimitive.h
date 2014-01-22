@@ -22,6 +22,9 @@
 
 #include "primitive.h"
 
+// forward declarations
+class Mesh;
+
 /**
  * Draws the tunnel roof. Used by the tunnels in rectangular form
  */
@@ -30,7 +33,12 @@ public:
     RoofPrimitive();
     virtual ~RoofPrimitive();
 
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 	virtual void render () override;
+
+private:
+    Mesh** meshdata;
+    GLint elems;
 };
 
 #endif // RoofPrimitive_H_

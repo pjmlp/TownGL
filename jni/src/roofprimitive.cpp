@@ -21,58 +21,74 @@
 
 #include "glos.h"
 #include "pi.h"
+#include "mesh.h"
+
 #include "roofprimitive.h"
 
 
 static const int ELEMS = 19 * 4 * 3;
 static GLfloat vertex[ELEMS];
 
-RoofPrimitive::RoofPrimitive()
+RoofPrimitive::RoofPrimitive(): meshdata(nullptr), elems(19)
 {
+    meshdata = new Mesh*[elems];
+    for (int i = 0; i < elems; i++)
+        meshdata[i] = nullptr;
+
+
     GLfloat lastX = 5.5;
     GLfloat lastY = 0.5;
 
-    int id = 0;
-    int idx = 0;
+    for (int i = 0; i < elems; i++) {
+        GLfloat angle = UTIL_TO_RADIANS(10.0f * (i + 1));
+        meshdata[i] = new Mesh(3, Mesh::RenderMode::triangle_fan);
+        meshdata[i]->reserveMeshSize(12);
 
-    for (int i = 10; i <= 180; i += 10) {
-        ::vertex[idx++] = lastX;
-        ::vertex[idx++] = lastY;
-        ::vertex[idx++] = 2.5;
-
-
-        ::vertex[idx++] = lastX;
-        ::vertex[idx++] = lastY;
-        ::vertex[idx++] = -2.5;
+        meshdata[i]->addVertex(lastX, lastY, 2.5);
+        meshdata[i]->addVertex(lastX, lastY, -2.5);
 
 
-        GLfloat x = 5.5f * cos(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
-        GLfloat y = 0.5f + 5.5f * sin(UTIL_TO_RADIANS(static_cast<GLfloat>(i)));
+        GLfloat x = 5.5f * cos(angle);
+        GLfloat y = 0.5f + 5.5f * sin(angle);
 
-        ::vertex[idx++] = x;
-        ::vertex[idx++] = y;
-        ::vertex[idx++] = -2.5;
-
-        ::vertex[idx++] = x;
-        ::vertex[idx++] = y;
-        ::vertex[idx++] = 2.5;
+        meshdata[i]->addVertex(x, y, -2.5);
+        meshdata[i]->addVertex(x, y, 2.5);
 
         lastX = x;
         lastY = y;
-        id++;
     }
 }
 
 RoofPrimitive::~RoofPrimitive()
 {
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            delete meshdata[i];
+            meshdata[i] = nullptr;
+        }
+        delete[] meshdata;
+    }
 }
+
+void RoofPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            meshdata[i]->setColor(r, g, b, a);
+        }
+    }
+
+}
+
 
 void RoofPrimitive::render()
 {
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, ::vertex);
-    for (int i = 0; i < 19; i++) {
-        glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            meshdata[i]->render();
+        }
     }
-    glDisableClientState(GL_VERTEX_ARRAY);
 }

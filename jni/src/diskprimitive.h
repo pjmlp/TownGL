@@ -32,6 +32,7 @@ public:
 	DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices);
 	virtual ~DiskPrimitive();
 
+    virtual void setTransform(const glm::mat4 &transform) override;
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
     virtual void render() override;
 

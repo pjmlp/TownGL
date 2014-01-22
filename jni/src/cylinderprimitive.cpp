@@ -20,9 +20,11 @@
 #include <cassert>
 #include <cmath>
 
+#include "mesh.h"
+#include "pi.h"
 
 #include "cylinderprimitive.h"
-#include "pi.h"
+
 
 
 static const int slices = 20;
@@ -34,14 +36,13 @@ static const int slices = 20;
  */
 CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height) : meshdata(nullptr), elems(3)
 {
-
     meshdata = new Mesh*[elems];
     for (int i = 0; i < elems; i++)
         meshdata[i] = nullptr;
 
     // bottom circle
     meshdata[0] = new Mesh(3, Mesh::RenderMode::triangle_fan);
-    meshdata[0]->reserveMeshSize(slices * 3);
+    meshdata[0]->reserveMeshSize((slices+1) * 3);
     meshdata[0]->addVertex(0.0f, 0.0f, 0.0f);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
@@ -51,7 +52,7 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
 
     // top circle
     meshdata[1] = new Mesh(3, Mesh::RenderMode::triangle_fan);
-    meshdata[1]->reserveMeshSize(slices * 3);
+    meshdata[1]->reserveMeshSize((slices + 1) * 3);
     meshdata[1]->addVertex(0.0f, height, 0.0f);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
@@ -61,7 +62,7 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
 
     // the rest
     meshdata[2] = new Mesh(3, Mesh::RenderMode::triangle_strip);
-    meshdata[2]->reserveMeshSize(slices * 3);
+    meshdata[2]->reserveMeshSize((slices + 1) * 3);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
 
@@ -83,6 +84,16 @@ CylinderPrimitive::~CylinderPrimitive()
     }
 }
 
+void CylinderPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+    if (meshdata != nullptr) {
+        for (int i = 0; i < elems; i++)
+        if (meshdata[i] != nullptr) {
+            meshdata[i]->setColor(r, g, b, a);
+        }
+    }
+
+}
 
 void CylinderPrimitive::render ()
 {
@@ -93,16 +104,4 @@ void CylinderPrimitive::render ()
             meshdata[i]->render();
         }
     }
-}
-
-
-void CylinderPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    if (meshdata != nullptr) {
-        for (int i = 0; i < elems; i++)
-        if (meshdata[i] != nullptr) {
-            meshdata[i]->setColor(r, g, b, a);
-        }
-    }
-
 }

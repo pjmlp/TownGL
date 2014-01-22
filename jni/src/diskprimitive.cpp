@@ -61,3 +61,8 @@ void DiskPrimitive::render()
 {
     mesh.render();
 }
+
+void DiskPrimitive::setTransform(const glm::mat4 &transform)
+{
+    mesh.setTransform(transform);
+}

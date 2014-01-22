@@ -38,7 +38,5 @@ void BuildingPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 }
 void BuildingPrimitive::render()
 {
-    glPushMatrix();
     building.render();
-    glPopMatrix();
 }

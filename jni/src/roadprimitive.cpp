@@ -17,6 +17,11 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "glos.h"
 
 #include "roadprimitive.h"
@@ -25,6 +30,12 @@
 RoadPrimitive::RoadPrimitive() : road(9, 11, 25)
 {
     road.setColor(0, 0, 0, 0);
+
+    glm::mat4 identity;
+    glm::mat4 translation = glm::translate(identity, glm::vec3(0, 0.1f, 0));
+    glm::mat4 transform = glm::rotate(translation, -90.0f, glm::vec3(1, 0, 0));
+    road.setTransform(transform);
+
 }
 
 RoadPrimitive::~RoadPrimitive()
@@ -34,11 +45,5 @@ RoadPrimitive::~RoadPrimitive()
 
 void RoadPrimitive::render()
 {
-    glPushMatrix();
-
-    glTranslatef(0, 0.1f, 0);
-    glRotatef(-90, 1, 0, 0);
     road.render();
-
-    glPopMatrix();
 }

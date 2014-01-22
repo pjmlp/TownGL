@@ -28,6 +28,10 @@ Primitive::~Primitive()
 void Primitive::update(GLfloat frame)
 {}
 
+void Primitive::setTransform(const glm::mat4 &transform)
+{
+
+}
 
 void Primitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {

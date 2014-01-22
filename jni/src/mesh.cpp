@@ -19,18 +19,25 @@
 
 #include <cassert>
 
+#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "mesh.h"
 
 //#include "SDL.h"
 //#include <iostream>
 
-Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f)
+Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f), transform(1.0f)
 {
     // nothing to do
     //SDL_Log("Hi");
 }
 
-Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f)
+Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f), transform(1.0f)
 {
     // nothing to do
     //SDL_Log("Hi");
@@ -69,6 +76,8 @@ void Mesh::render()
             assert(false);
         }
 
+        glPushMatrix();
+        glMultMatrixf(glm::value_ptr(transform));
 
         glColor4f(r, g, b, a);
 
@@ -83,6 +92,8 @@ void Mesh::render()
 
         glDisableClientState(GL_VERTEX_ARRAY);
         printOpenGLError();
+
+        glPopMatrix();
     }
 }
 
@@ -125,4 +136,10 @@ void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
     this->b = b;
     this->a = a;
 
+}
+
+
+void  Mesh::setTransform(const glm::mat4 &transform)
+{
+    this->transform = transform;
 }

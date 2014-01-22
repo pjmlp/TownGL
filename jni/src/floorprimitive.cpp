@@ -17,6 +17,11 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "glos.h"
 
 #include "floorprimitive.h"
@@ -25,6 +30,10 @@
 FloorPrimitive::FloorPrimitive() : disk(0, 50, 10)
 {
     disk.setColor(0.2f, 0.3f, 0.5f, 0.0f);
+
+    glm::mat4 identity;
+    glm::mat4 transform = glm::rotate(identity, -90.0f, glm::vec3(1, 0, 0));
+    disk.setTransform(transform);
 }
 
 FloorPrimitive::~FloorPrimitive()
@@ -34,10 +43,5 @@ FloorPrimitive::~FloorPrimitive()
 
 void FloorPrimitive::render()
 {
-    glPushMatrix();
-
-    glRotatef(-90, 1, 0, 0);
     disk.render();
-
-    glPopMatrix();
 }

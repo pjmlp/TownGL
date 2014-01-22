@@ -17,6 +17,14 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+
 #include "glos.h"
 
 #include "boxprimitive.h"
@@ -64,7 +72,7 @@ static const GLfloat vertex[] = {
 
 
 
-BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): mesh(3, Mesh::RenderMode::triangles), width(width/2), height(height/2), depth(depth/2)
+BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): mesh(3, Mesh::RenderMode::triangles), scale(width/2, height/2, depth/2)
 {
     const GLint vertexCount = 3;
     const GLint points = 12;
@@ -72,6 +80,7 @@ BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): mesh(3
 
     mesh.reserveMeshSize(size);
     mesh.addVertices(::vertex, size);
+    setTransform(glm::mat4());
 }
 
 
@@ -84,13 +93,13 @@ void BoxPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
     mesh.setColor(r, g, b, a);
 }
 
+void BoxPrimitive::setTransform(const glm::mat4 &transform)
+{
+    glm::mat4 result = glm::scale (transform, scale);
+    mesh.setTransform(result);
+}
+
 void BoxPrimitive::render()
 {
-    glPushMatrix();
-    glScalef(width, height, depth);
-
     mesh.render();
-
-    glPopMatrix();
-
 }

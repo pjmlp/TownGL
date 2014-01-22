@@ -17,6 +17,12 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+
 #include "glos.h"
 
 #include "tunnelprimitive.h"
@@ -24,9 +30,20 @@
 
 TunnelPrimitive::TunnelPrimitive()
 {
+    glm::mat4 identity;
+
     objects[0] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    glm::mat4 transform = glm::translate(identity, glm::vec3(-5, 0, 0));
+    objects[0]->setTransform(transform);
+
     objects[1] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    transform = glm::translate(identity, glm::vec3(5, 0, 0));
+    objects[1]->setTransform(transform);
+
     objects[2] = new BoxPrimitive(11, 0.10f, 5);
+    transform = glm::translate(identity, glm::vec3(0, 0.55f, 0));
+    objects[2]->setTransform(transform);
+
 
     for (int i = 0; i < elems; i++)
         objects[i]->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
@@ -40,20 +57,7 @@ TunnelPrimitive::~TunnelPrimitive()
 
 void TunnelPrimitive::render()
 {
-    glPushMatrix();
+    for (int i = 0; i < elems; i++)
+        objects[i]->render();
 
-    // Left wall
-    glTranslatef(-5, 0, 0);
-    objects[0]->render();
-
-    // Right wall
-    glTranslatef(10, 0, 0);
-    objects[1]->render();
-
-    // Ceiling
-    glTranslatef(-5, 0.55f, 0);
-    objects[2]->render();
-
-
-    glPopMatrix();
 }

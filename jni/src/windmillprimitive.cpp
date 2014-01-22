@@ -61,7 +61,7 @@ void WindmillPrimitive::render()
     glTranslatef(0, 1, 0);
     //roof.render();
     glPopMatrix();
-
+#if 0
     // draws the sails
     glColor4f(1.0f, 0.8f, 0.0f, 0.0f);
     glTranslatef(0, 1, 1);
@@ -121,5 +121,6 @@ void WindmillPrimitive::render()
     glDrawArrays(GL_LINE_STRIP, 0, idxx);
     glDisableClientState(GL_VERTEX_ARRAY);
     */
+#endif
     glPopMatrix();
 }
