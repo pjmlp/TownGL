@@ -23,19 +23,11 @@
     #include <EGL/egl.h>
     #include <GLES/gl.h>
 
-    void gluLookAt (GLfloat eyex, GLfloat eyey, GLfloat eyez,
-                    GLfloat centerx, GLfloat centery, GLfloat centerz,
-                    GLfloat upx, GLfloat upy, GLfloat upz);
-
     // No Glew on Android, always return true
     #define InitializeGlew() (true)
 
-    // OpenGL ES uses glFrustumf instead
-    #define glFrustum glFrustumf
-
 #else
     #include <GL/glew.h>
-    #include <GL/glut.h>
 
     bool InitializeGlew();
 #endif //ANDROID
