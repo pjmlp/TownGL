@@ -38,23 +38,22 @@
 
 World::World()
 {
-    objects[0] = new FloorPrimitive();
-    objects[1] = new RoadPrimitive();
-    objects[2] = new WindmillPrimitive();
-    objects[3] = new ArcTunnelPrimitive();
-    objects[4] = new TunnelPrimitive();
-    objects[5] = new BuildingPrimitive();
+    objects.push_back(std::unique_ptr<Primitive>(new FloorPrimitive()));
+    objects.push_back(std::unique_ptr<Primitive>(new RoadPrimitive()));
+    objects.push_back(std::unique_ptr<Primitive>(new WindmillPrimitive()));
+    objects.push_back(std::unique_ptr<Primitive>(new ArcTunnelPrimitive()));
+    objects.push_back(std::unique_ptr<Primitive>(new TunnelPrimitive()));
+    objects.push_back(std::unique_ptr<Primitive>(new BuildingPrimitive()));
     objects[5]->setColor(0, 0, 1, 0);
-    objects[6] = new BuildingPrimitive();
+    objects.push_back(std::unique_ptr<Primitive>(new BuildingPrimitive()));
     objects[6]->setColor(0, 1, 0, 0);
-    objects[7] = new BuildingPrimitive();
+    objects.push_back(std::unique_ptr<Primitive>(new BuildingPrimitive()));
     objects[7]->setColor(1, 0, 0, 0);
 }
 
 World::~World()
 {
-    for (int i = 0; i < elems; i++)
-        delete objects[i];
+    // Nothing to do
 }
 
 /**

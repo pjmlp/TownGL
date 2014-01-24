@@ -19,6 +19,9 @@
 #ifndef WORLD_H_
 #define WORLD_H_
 
+#include <vector>
+#include <memory>
+
 #include "glos.h"
 
 //Forward declarations
@@ -36,8 +39,7 @@ public:
     void render(GLfloat frame);
 
 private:
-    static const GLint elems = 8;
-    Primitive* objects[elems];
+    std::vector<std::unique_ptr<Primitive>> objects;
 };
 
 #endif /* WORLD_H_ */
