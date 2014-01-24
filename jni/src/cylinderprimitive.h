@@ -20,6 +20,9 @@
 #ifndef CylinderPrimitive_H_
 #define CylinderPrimitive_H_
 
+#include <vector>
+#include <memory>
+
 #include "primitive.h"
 #include "glos.h"
 
@@ -37,8 +40,7 @@ public:
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 	virtual void render () override;
 private:
-    Mesh** meshdata;
-    GLint elems;
+    std::vector<std::unique_ptr<Mesh>> meshdata;
 };
 
 #endif /* CylinderPrimitive_H_ */
