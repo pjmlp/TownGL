@@ -20,6 +20,9 @@
 #ifndef RoofPrimitive_H_
 #define RoofPrimitive_H_
 
+#include <vector>
+#include <memory>
+
 #include "primitive.h"
 
 // forward declarations
@@ -37,8 +40,7 @@ public:
 	virtual void render () override;
 
 private:
-    Mesh** meshdata;
-    GLint elems;
+    std::vector<std::unique_ptr<Mesh>> meshdata;
 };
 
 #endif // RoofPrimitive_H_

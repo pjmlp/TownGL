@@ -25,23 +25,15 @@
 
 #include "roofprimitive.h"
 
-
-static const int ELEMS = 19 * 4 * 3;
-static GLfloat vertex[ELEMS];
-
-RoofPrimitive::RoofPrimitive(): meshdata(nullptr), elems(19)
+RoofPrimitive::RoofPrimitive()
 {
-    meshdata = new Mesh*[elems];
-    for (int i = 0; i < elems; i++)
-        meshdata[i] = nullptr;
-
-
+    const GLint elems = 19;
     GLfloat lastX = 5.5;
     GLfloat lastY = 0.5;
 
     for (int i = 0; i < elems; i++) {
         GLfloat angle = UTIL_TO_RADIANS(10.0f * (i + 1));
-        meshdata[i] = new Mesh(3, Mesh::RenderMode::triangle_fan);
+        meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan)));
         meshdata[i]->reserveMeshSize(12);
 
         meshdata[i]->addVertex(lastX, lastY, 2.5);
@@ -61,34 +53,18 @@ RoofPrimitive::RoofPrimitive(): meshdata(nullptr), elems(19)
 
 RoofPrimitive::~RoofPrimitive()
 {
-    if (meshdata != nullptr) {
-        for (int i = 0; i < elems; i++)
-        if (meshdata[i] != nullptr) {
-            delete meshdata[i];
-            meshdata[i] = nullptr;
-        }
-        delete[] meshdata;
-    }
+    // Nothing to do
 }
 
 void RoofPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
-    if (meshdata != nullptr) {
-        for (int i = 0; i < elems; i++)
-        if (meshdata[i] != nullptr) {
-            meshdata[i]->setColor(r, g, b, a);
-        }
-    }
-
+    for (auto& mesh : meshdata)
+        mesh->setColor(r, g, b, a);
 }
 
 
 void RoofPrimitive::render()
 {
-    if (meshdata != nullptr) {
-        for (int i = 0; i < elems; i++)
-        if (meshdata[i] != nullptr) {
-            meshdata[i]->render();
-        }
-    }
+    for (auto& mesh : meshdata)
+        mesh->render();
 }

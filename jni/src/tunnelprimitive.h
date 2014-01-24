@@ -20,6 +20,9 @@
 #ifndef TUNNELPRIMITIVE_H_
 #define TUNNELPRIMITIVE_H_
 
+#include <vector>
+#include <memory>
+
 #include "primitive.h"
 #include "boxprimitive.h"
 
@@ -34,8 +37,7 @@ public:
 	virtual void render () override;
 
 private:
-    static const GLint elems = 3;
-    BoxPrimitive* objects[elems];
+    std::vector<std::unique_ptr<BoxPrimitive>> objects;
 };
 
 #endif /* TUNNELPRIMITIVE_H_ */

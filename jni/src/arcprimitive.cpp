@@ -18,6 +18,7 @@
 */
 
 #include <cmath>
+#include <algorithm>
 
 #include "glos.h"
 #include "pi.h"
@@ -27,30 +28,26 @@
 /**
  * @param depth How long the arch is.
  */
-ArcPrimitive::ArcPrimitive(GLfloat depth) : meshdata(nullptr), elems(19)
+ArcPrimitive::ArcPrimitive(GLfloat depth)
 {
-    meshdata = new Mesh*[elems];
-    for (int i = 0; i < elems; i++)
-        meshdata[i] = nullptr;
+    const GLint elems = 19;
 
-    
     GLfloat lastXTop = 5.5;
     GLfloat lastYTop = 0.5;
     GLfloat lastXBottom = 4.5;
     GLfloat lastYBottom = 0.5;
-
     for (int i = 0; i < elems; i++) {
         GLfloat angle = UTIL_TO_RADIANS(10.0f * (i + 1));
-        meshdata[i] = new Mesh(3, Mesh::RenderMode::triangle_fan);
-        meshdata[i]->reserveMeshSize(12);
+        auto mesh = std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan));
+        mesh->reserveMeshSize(12);
 
-        meshdata[i]->addVertex(lastXBottom, lastYBottom, depth);
-        meshdata[i]->addVertex(lastXTop, lastYTop, depth);
+        mesh->addVertex(lastXBottom, lastYBottom, depth);
+        mesh->addVertex(lastXTop, lastYTop, depth);
 
         GLfloat x = 5.5f * cos(angle);
         GLfloat y = 0.5f + 5.5f * sin(angle);
 
-        meshdata[i]->addVertex(x, y, depth);
+        mesh->addVertex(x, y, depth);
 
         lastXTop = x;
         lastYTop = y;
@@ -58,43 +55,29 @@ ArcPrimitive::ArcPrimitive(GLfloat depth) : meshdata(nullptr), elems(19)
         x = 4.5f * cos(angle);
         y = 0.5f + 4.5f * sin(angle);
 
-        meshdata[i]->addVertex(x, y, depth);
+        mesh->addVertex(x, y, depth);
 
         lastXBottom = x;
         lastYBottom = y;
+
+        meshdata.push_back(std::move(mesh));
     }
 }
 
 ArcPrimitive::~ArcPrimitive()
 {
-    if (meshdata != nullptr) {
-        for (int i = 0; i < elems; i++)
-             if (meshdata[i] != nullptr) {
-                 delete meshdata[i];
-                 meshdata[i] = nullptr;
-             }
-         delete[] meshdata;
-    }
+    // Nothing to do
 }
 
 void ArcPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
-    if (meshdata != nullptr) {
-        for (int i = 0; i < elems; i++)
-        if (meshdata[i] != nullptr) {
-            meshdata[i]->setColor(r, g, b, a);
-        }
-    }
-
+    for (auto& mesh : meshdata)
+        mesh->setColor(r, g, b, a);
 }
 
 
 void ArcPrimitive::render()
 {
-    if (meshdata != nullptr) {
-        for (int i = 0; i < elems; i++)
-        if (meshdata[i] != nullptr) {
-            meshdata[i]->render();
-        }
-    }
+    for (auto& mesh : meshdata)
+        mesh->render();
 }

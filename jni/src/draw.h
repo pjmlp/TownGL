@@ -1,5 +1,5 @@
-/* ArcPrimitive.h -  Represents an Arc that can be rendered.
-* Copyright (C) 2013 Paulo Pinto
+/* draw.h - Interface for the model drawing functions for the town
+* Copyright (C) 2012 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -16,30 +16,13 @@
 * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * Boston, MA 02111-1307, USA.
 */
+#ifndef DRAW_H_
+#define DRAW_H_
 
-#ifndef ArcPrimitive_H_
-#define ArcPrimitive_H_
-
-#include <vector>
-#include <memory>
-
-#include "glos.h"
-#include "mesh.h"
-#include "primitive.h"
-
-/**
- * Draws an arc. Used by the tunnels in arc form.
+/*
+ * Draws the world representing the town.
+ * @param frame current animation frame.
  */
-class ArcPrimitive: public Primitive {
-public:
-    ArcPrimitive(GLfloat depth);
-	virtual ~ArcPrimitive();
+void DrawWorld (GLfloat frame);
 
-    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-	virtual void render () override;
-
-private:
-    std::vector<std::unique_ptr<Mesh>> meshdata;
-};
-
-#endif /* ArcPrimitive_H_ */
+#endif /* DRAW_H_ */

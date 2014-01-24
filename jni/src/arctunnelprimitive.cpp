@@ -28,48 +28,36 @@
 
 #include "arctunnelprimitive.h"
 
-ArcTunnelPrimitive::ArcTunnelPrimitive():
-modelData(nullptr), elems(5)
+ArcTunnelPrimitive::ArcTunnelPrimitive()
 {
     glm::mat4 identity;
 
 
-    modelData = new Primitive*[elems];
-    modelData[0] =  new ArcPrimitive(2.5);
-    modelData[1] =  new ArcPrimitive(-2.5);
-    modelData[2] = new RoofPrimitive();
-    modelData[3] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    modelData.push_back(std::unique_ptr<Primitive>(new ArcPrimitive(2.5)));
+    modelData.push_back(std::unique_ptr<Primitive>(new ArcPrimitive(-2.5)));
+    modelData.push_back(std::unique_ptr<Primitive>(new RoofPrimitive()));
+    modelData.push_back(std::unique_ptr<Primitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
     glm::mat4 translate = glm::translate(identity, glm::vec3(-5, 0, 0));
     modelData[3]->setTransform(translate);
 
-    modelData[4] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    modelData.push_back(std::unique_ptr<Primitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
     translate = glm::translate(identity, glm::vec3(5, 0, 0));
     modelData[4]->setTransform(translate);
 
 
     // Make sure all pieces have the proper color
-    for (int i = 0; i < elems; i++)
-        modelData[i]->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
+    for (auto& model : modelData)
+        model->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 }
 
 ArcTunnelPrimitive::~ArcTunnelPrimitive()
 {
-    if (modelData != nullptr) {
-        for (int i = 0; i < elems; i++)
-        if (modelData[i] != nullptr) {
-            delete modelData[i];
-            modelData[i] = nullptr;
-        }
-        delete[] modelData;
-    }
+    // Nothing to do
 }
 
 
 void ArcTunnelPrimitive::render()
 {
-    if (modelData != nullptr) {
-        for (int i = 0; i < elems; i++) {
-            modelData[i]->render();
-        }
-    }
+    for (auto& model : modelData)
+        model->render();
 }

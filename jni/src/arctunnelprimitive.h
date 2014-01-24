@@ -20,6 +20,9 @@
 #ifndef ARCTUNNELPRIMITIVE_H_
 #define ARCTUNNELPRIMITIVE_H_
 
+#include <vector>
+#include <memory>
+
 #include "primitive.h"
 
 class ArcTunnelPrimitive: public Primitive {
@@ -30,8 +33,7 @@ public:
 	virtual void render () override;
 
 private:
-    Primitive** modelData;
-    int elems;
+    std::vector<std::unique_ptr<Primitive>> modelData;
 };
 
 #endif /* ARCTUNNELPRIMITIVE_H_ */

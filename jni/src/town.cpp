@@ -119,7 +119,6 @@ void MainLoop (SDL_Window *screen)
     currentFrame = duration;
     Project (lastWidth, lastHeight);
     world.render (duration);
-    glFlush ();
 
     currentTime = now;
     SDL_GL_SwapWindow(screen);

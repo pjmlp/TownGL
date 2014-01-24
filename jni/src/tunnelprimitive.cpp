@@ -32,32 +32,30 @@ TunnelPrimitive::TunnelPrimitive()
 {
     glm::mat4 identity;
 
-    objects[0] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    objects.push_back(std::unique_ptr<BoxPrimitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
     glm::mat4 transform = glm::translate(identity, glm::vec3(-5, 0, 0));
     objects[0]->setTransform(transform);
 
-    objects[1] = new BoxPrimitive(1.0f, 1.0f, 5.0f);
+    objects.push_back(std::unique_ptr<BoxPrimitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
     transform = glm::translate(identity, glm::vec3(5, 0, 0));
     objects[1]->setTransform(transform);
 
-    objects[2] = new BoxPrimitive(11, 0.10f, 5);
+    objects.push_back(std::unique_ptr<BoxPrimitive>(new BoxPrimitive(11, 0.10f, 5)));
     transform = glm::translate(identity, glm::vec3(0, 0.55f, 0));
     objects[2]->setTransform(transform);
 
 
-    for (int i = 0; i < elems; i++)
-        objects[i]->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
+    for (auto& mesh : objects)
+        mesh->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 }
 
 TunnelPrimitive::~TunnelPrimitive()
 {
-    for (int i = 0; i < elems; i++)
-        delete objects[i];
+    // Nothing to do
 }
 
 void TunnelPrimitive::render()
 {
-    for (int i = 0; i < elems; i++)
-        objects[i]->render();
-
+    for (auto& mesh : objects)
+        mesh->render();
 }
