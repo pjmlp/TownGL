@@ -38,7 +38,6 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
 {
     // bottom circle
     meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan)));
-    meshdata[0]->reserveMeshSize((slices+1) * 3);
     meshdata[0]->addVertex(0.0f, 0.0f, 0.0f);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
@@ -48,7 +47,6 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
 
     // top circle
     meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan)));
-    meshdata[1]->reserveMeshSize((slices + 1) * 3);
     meshdata[1]->addVertex(0.0f, height, 0.0f);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
@@ -58,7 +56,6 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
 
     // the rest
     meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_strip)));
-    meshdata[2]->reserveMeshSize((slices + 1) * 3);
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
 

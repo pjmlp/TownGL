@@ -34,7 +34,6 @@ RoofPrimitive::RoofPrimitive()
     for (int i = 0; i < elems; i++) {
         GLfloat angle = UTIL_TO_RADIANS(10.0f * (i + 1));
         meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan)));
-        meshdata[i]->reserveMeshSize(12);
 
         meshdata[i]->addVertex(lastX, lastY, 2.5);
         meshdata[i]->addVertex(lastX, lastY, -2.5);

@@ -33,10 +33,7 @@ DiskPrimitive::DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint sli
 {
 	assert(slices > 0);
     const GLfloat step = 2 * PI / slices;
-    GLint vertexCount = 4 * (slices + 1);
-    mesh.reserveMeshSize(vertexCount);
 
-    GLint idx = 0;
     for (int i = 0; i <= slices; i++) {
         GLfloat angle = i * step;
 

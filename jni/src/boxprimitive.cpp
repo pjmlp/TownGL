@@ -78,7 +78,6 @@ BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): mesh(3
     const GLint points = 12;
     const GLint size = 3 * points * vertexCount;
 
-    mesh.reserveMeshSize(size);
     mesh.addVertices(::vertex, size);
     setTransform(glm::mat4());
 }
