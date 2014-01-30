@@ -20,9 +20,13 @@
 #ifndef MESH_H_
 #define MESH_H_
 
-#include "glos.h"
+#include <vector>
+#include <memory>
 
 #include <glm/mat4x4.hpp>
+
+#include "glos.h"
+
 
 class Mesh {
 public:
@@ -34,7 +38,6 @@ public:
 
 	virtual void render ();
 
-    void reserveMeshSize(GLint count);
     void addVertex(GLfloat x, GLfloat y);
     void addVertex(GLfloat x, GLfloat y, GLfloat z);
     void addVertices(const GLfloat *vertices, GLint size);
@@ -48,9 +51,7 @@ private:
     GLint coordinatesPerVertex;
     RenderMode drawMode;
 
-    GLint idx;
-    GLfloat *vertex;
-    GLint vertexCount;
+    std::vector<GLfloat> vertex;
 
     GLfloat r, g, b, a;
 

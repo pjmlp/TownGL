@@ -28,48 +28,37 @@
 
 #include "mesh.h"
 
-//#include "SDL.h"
-//#include <iostream>
-
-Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f), transform(1.0f)
+Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), r(0.0f), g(0.0f), b(0.0f), transform(1.0f)
 {
-    // nothing to do
-    //SDL_Log("Hi");
 }
 
-Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), idx(0), vertex(nullptr), vertexCount(0), r(0.0f), g(0.0f), b(0.0f), transform(1.0f)
+Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), g(0.0f), b(0.0f), transform(1.0f)
 {
-    // nothing to do
-    //SDL_Log("Hi");
 }
 
 Mesh::~Mesh()
 {
-	// nothing to do
-  //  SDL_Log("Bye");
-    if (vertex) {
-        delete[] vertex;
-    }
 }
 
 void Mesh::render()
 {
-    if (vertex != nullptr && idx > 0) {
-        GLint count = idx;
+    if (vertex.size() > 0) {
+        GLint count;
         GLenum renderMode;
         switch (drawMode) {
         case RenderMode::triangles:
             renderMode = GL_TRIANGLES;
-            count = idx / coordinatesPerVertex;
+            count = vertex.size() / coordinatesPerVertex;
             break;
 
         case RenderMode::triangle_strip:
             renderMode = GL_TRIANGLE_STRIP;
+            count = vertex.size();
             break;
 
         case RenderMode::triangle_fan:
             renderMode = GL_TRIANGLE_FAN;
-            count = idx / coordinatesPerVertex;
+            count = vertex.size() / coordinatesPerVertex;
             break;
 
         default:
@@ -84,7 +73,7 @@ void Mesh::render()
         glEnableClientState(GL_VERTEX_ARRAY);
         printOpenGLError();
 
-        glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, vertex);
+        glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, &vertex[0]);
         printOpenGLError();
 
         glDrawArrays(renderMode, 0, count);
@@ -97,36 +86,23 @@ void Mesh::render()
     }
 }
 
-void Mesh::reserveMeshSize(GLint count)
-{
-    vertexCount = count;
-    vertex = new GLfloat[count];
-    idx = 0;
-}
-
 void Mesh::addVertex(GLfloat x, GLfloat y)
 {
-    if (vertex != nullptr && idx + 2 <= vertexCount) {
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-    }
+    vertex.push_back(x);
+    vertex.push_back(y);
 }
 
 void Mesh::addVertex(GLfloat x, GLfloat y, GLfloat z)
 {
-    if (vertex != nullptr && idx + 3 <= vertexCount) {
-        vertex[idx++] = x;
-        vertex[idx++] = y;
-        vertex[idx++] = z;
-    }
+    vertex.push_back(x);
+    vertex.push_back(y);
+    vertex.push_back(z);
 }
 
 void Mesh::addVertices(const GLfloat *vertices, GLint size)
 {
-    if (vertex != nullptr && size <= vertexCount) {
-        for (idx = 0; idx < size; idx++)
-            vertex[idx] = vertices[idx];
-    }
+    for (int i = 0; i < size; i++)
+        vertex.push_back(vertices[i]);
 }
 
 void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
