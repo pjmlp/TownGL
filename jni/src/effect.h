@@ -39,12 +39,15 @@ public:
     void bind();
     void unbind();
 
+    void validate();
+
     void setWorldMatrix(const glm::mat4& world);
     void setLocalMatrix(const glm::mat4& local);
 
 private:
-    void logError();
-    GLuint id;
+    GLuint compileShader(const std::string& shader, GLenum type, GLuint& shaderId);
+    void logError(const std::string& msg);
+    GLuint id, worldMatrix, localMatrix;
 };
 
 #endif /* EFFECT_H_ */

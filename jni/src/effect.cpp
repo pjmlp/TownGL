@@ -47,6 +47,41 @@ Effect::~Effect()
 
 void Effect::loadShaders(const std::string& vertexShader, const std::string& fragmentShader)
 {
+    GLuint vertex;
+    
+    GLint status = compileShader(vertexShader, GL_VERTEX_SHADER, vertex);
+    if (status != GL_TRUE) {
+        return;
+    }
+
+    GLuint fragment;
+    status = compileShader(fragmentShader, GL_FRAGMENT_SHADER, fragment);
+    if (status != GL_TRUE) {
+        return;
+    }
+    glAttachShader(id, vertex);
+    glAttachShader(id, fragment);
+
+    // bind attribute locations
+    // this needs to be done prior to linking
+    glBindAttribLocation(id, 0, "position");
+    glBindAttribLocation(id, 1, "color");
+
+    glLinkProgram(id);
+
+    GLint Success;
+    glGetProgramiv(id, GL_LINK_STATUS, &Success);
+    if (Success == 0) {
+        const int logLength = 1024;
+        auto log = std::unique_ptr<GLchar>(new GLchar[logLength]);
+
+
+        glGetProgramInfoLog(id, logLength, nullptr, log.get());
+        SDL_Log("Error linking shader program: '%s'\n", logLength);
+    }
+
+    worldMatrix = glGetUniformLocation(id, "projectionMatrix");
+    localMatrix = glGetUniformLocation(id, "modelViewMatrix");
 }
 
 GLuint Effect::getProgramId()
@@ -65,17 +100,61 @@ void Effect::unbind()
     glUseProgram(0);
 }
 
-void Effect::setWorldMatrix(const glm::mat4& world)
+
+
+GLuint Effect::compileShader(const std::string& source, GLenum type, GLuint& shaderId)
 {
 
+    const char * sources[1] = { source.c_str()  };
+    GLint lengths[1] = { source.length() };
+
+    shaderId = glCreateShader(type);				
+    glShaderSource(shaderId, 1, sources, lengths);
+    glCompileShader(shaderId);
+
+    GLint logLength;
+    glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0)
+    {
+        auto log = std::unique_ptr<GLchar>(new GLchar[logLength]);
+        glGetShaderInfoLog(shaderId, logLength, &logLength, log.get());
+        SDL_Log("Shader compile log:\n%s", log);
+    }
+
+    GLint status;
+    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &status);
+    if (status == GL_FALSE)
+    {
+        SDL_Log("Failed to compile shader: %s\n", source.c_str());
+    }
+
+    return status;
+}
+
+
+void Effect::validate()
+{
+    assert(id != 0);
+    glValidateProgram(id);
+
+    GLint status;
+    glGetProgramiv(id, GL_VALIDATE_STATUS, &status);
+    if (status == GL_FALSE)
+        logError("Programm validation failed");
+}
+
+void Effect::setWorldMatrix(const glm::mat4& world)
+{
+   glUniformMatrix4fv(worldMatrix, 1, GL_TRUE, glm::value_ptr(world));
 }
 
 void Effect::setLocalMatrix(const glm::mat4& local)
 {
-
+    glUniformMatrix4fv(localMatrix, 1, GL_TRUE, glm::value_ptr(local));
 }
 
-void Effect::logError()
+
+void Effect::logError(const std::string& msg)
 {
     GLint length;
     glGetProgramiv(id, GL_INFO_LOG_LENGTH, &length);
@@ -83,6 +162,6 @@ void Effect::logError()
     {
         auto log = std::unique_ptr<GLchar>(new GLchar[length]);
         glGetProgramInfoLog(id, length, &length, log.get());
-        SDL_Log("Program link log:\n%s", log.get());
+        SDL_Log("%s:\n%s", msg.c_str(), log.get());
     }
 }
