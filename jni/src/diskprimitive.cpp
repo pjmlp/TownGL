@@ -29,18 +29,22 @@
  * @param outerRadius the outer radius of the circle from the center.
  * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
  */
-DiskPrimitive::DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : mesh(2, Mesh::RenderMode::triangle_strip)
+DiskPrimitive::DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : mesh(3, Mesh::RenderMode::triangles)
 {
 	assert(slices > 0);
-    const GLfloat step = 2 * PI / slices;
+    const GLfloat step = 2 * PI / static_cast<GLfloat>(slices);
 
-    for (int i = 0; i <= slices; i++) {
+    for (int i = 0; i < slices; i++) {
         GLfloat angle = i * step;
+        GLfloat nextAngle = (i + 1 ) * step;
 
-        mesh.addVertex(outerRadius * cos(angle), outerRadius * sin(angle));
+        mesh.addVertex(outerRadius * cos(angle), outerRadius * sin(angle), 0);
+        mesh.addVertex(innerRadius * cos(angle), innerRadius * sin(angle), 0);
+        mesh.addVertex(outerRadius * cos(nextAngle), outerRadius * sin(nextAngle), 0);
 
-        mesh.addVertex(innerRadius * cos(angle), innerRadius * sin(angle));
-
+        mesh.addVertex(outerRadius * cos(nextAngle), outerRadius * sin(nextAngle), 0);
+        mesh.addVertex(innerRadius * cos(angle), innerRadius * sin(angle), 0);
+        mesh.addVertex(innerRadius * cos(nextAngle), innerRadius * sin(nextAngle), 0);
     }
 }
 
