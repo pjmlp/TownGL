@@ -38,7 +38,8 @@ ArcPrimitive::ArcPrimitive(GLfloat depth)
     GLfloat lastYBottom = 0.5;
     for (int i = 0; i < elems; i++) {
         GLfloat angle = UTIL_TO_RADIANS(10.0f * (i + 1));
-        auto mesh = std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan));
+        auto mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan);
+
 
         mesh->addVertex(lastXBottom, lastYBottom, depth);
         mesh->addVertex(lastXTop, lastYTop, depth);

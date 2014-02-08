@@ -32,15 +32,16 @@ ArcTunnelPrimitive::ArcTunnelPrimitive()
 {
     glm::mat4 identity;
 
+    modelData.push_back(std::make_unique<ArcPrimitive>(2.5f));
+    modelData.push_back(std::make_unique<ArcPrimitive>(-2.5f));
+    modelData.push_back(std::make_unique<RoofPrimitive>());
+    modelData.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
 
-    modelData.push_back(std::unique_ptr<Primitive>(new ArcPrimitive(2.5)));
-    modelData.push_back(std::unique_ptr<Primitive>(new ArcPrimitive(-2.5)));
-    modelData.push_back(std::unique_ptr<Primitive>(new RoofPrimitive()));
-    modelData.push_back(std::unique_ptr<Primitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
+
     glm::mat4 translate = glm::translate(identity, glm::vec3(-5, 0, 0));
     modelData[3]->setTransform(translate);
 
-    modelData.push_back(std::unique_ptr<Primitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
+    modelData.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
     translate = glm::translate(identity, glm::vec3(5, 0, 0));
     modelData[4]->setTransform(translate);
 

@@ -33,21 +33,35 @@
 #include "roadprimitive.h"
 #include "tunnelprimitive.h"
 #include "windmillprimitive.h"
+#include "effect.h"
 
 #include "world.h"
 
+
+static const char gVertexShader[] =
+"attribute vec4 vPosition;\n"
+"void main() {\n"
+"  gl_Position = vPosition;\n"
+"}\n";
+
+static const char gFragmentShader[] =
+"precision mediump float;\n"
+"void main() {\n"
+"  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
+"}\n";
+
 World::World()
 {
-    objects.push_back(std::unique_ptr<Primitive>(new FloorPrimitive()));
-    objects.push_back(std::unique_ptr<Primitive>(new RoadPrimitive()));
-    objects.push_back(std::unique_ptr<Primitive>(new WindmillPrimitive()));
-    objects.push_back(std::unique_ptr<Primitive>(new ArcTunnelPrimitive()));
-    objects.push_back(std::unique_ptr<Primitive>(new TunnelPrimitive()));
-    objects.push_back(std::unique_ptr<Primitive>(new BuildingPrimitive()));
+    objects.push_back(std::make_unique<FloorPrimitive>());
+    objects.push_back(std::make_unique<RoadPrimitive>());
+    objects.push_back(std::make_unique<WindmillPrimitive>());
+    objects.push_back(std::make_unique<ArcTunnelPrimitive>());
+    objects.push_back(std::make_unique<TunnelPrimitive>());
+    objects.push_back(std::make_unique<BuildingPrimitive>());
     objects[5]->setColor(0, 0, 1, 0);
-    objects.push_back(std::unique_ptr<Primitive>(new BuildingPrimitive()));
+    objects.push_back(std::make_unique<BuildingPrimitive>());
     objects[6]->setColor(0, 1, 0, 0);
-    objects.push_back(std::unique_ptr<Primitive>(new BuildingPrimitive()));
+    objects.push_back(std::make_unique<BuildingPrimitive>());
     objects[7]->setColor(1, 0, 0, 0);
 }
 
@@ -71,8 +85,8 @@ void World::render(GLfloat frame)
 
     // draws the road
     objects[1]->render();
-
 #if 0
+
     /* 1º Moinho */
     glPushMatrix();
     glTranslatef(4.2f, 0, 13);

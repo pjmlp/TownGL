@@ -32,15 +32,15 @@ TunnelPrimitive::TunnelPrimitive()
 {
     glm::mat4 identity;
 
-    objects.push_back(std::unique_ptr<BoxPrimitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
+    objects.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
     glm::mat4 transform = glm::translate(identity, glm::vec3(-5, 0, 0));
     objects[0]->setTransform(transform);
 
-    objects.push_back(std::unique_ptr<BoxPrimitive>(new BoxPrimitive(1.0f, 1.0f, 5.0f)));
+    objects.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
     transform = glm::translate(identity, glm::vec3(5, 0, 0));
     objects[1]->setTransform(transform);
 
-    objects.push_back(std::unique_ptr<BoxPrimitive>(new BoxPrimitive(11, 0.10f, 5)));
+    objects.push_back(std::make_unique<BoxPrimitive>(11.0f, 0.10f, 5.0f));
     transform = glm::translate(identity, glm::vec3(0, 0.55f, 0));
     objects[2]->setTransform(transform);
 
