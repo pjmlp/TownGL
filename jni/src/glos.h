@@ -19,13 +19,23 @@
 #ifndef GLOS_H_
 #define GLOS_H_
 
-#ifdef ANDROID 
+#ifdef __ANDROID__
     #include <EGL/egl.h>
     #include <GLES/gl.h>
+
+	#include <memory>
 
     // No Glew on Android, always return true
     #define InitializeGlew() (true)
 
+   // GCC still only has C++11 support, need to add make_unique();
+    namespace std {
+	template<typename T, typename ...Args>
+	std::unique_ptr<T> make_unique( Args&& ...args )
+	{
+		return std::unique_ptr<T>( new T( std::forward<Args>(args)... ) );
+	}
+    }
 #else
     #include <GL/glew.h>
 
