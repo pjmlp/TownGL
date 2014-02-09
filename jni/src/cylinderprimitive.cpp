@@ -26,9 +26,6 @@
 #include "cylinderprimitive.h"
 
 
-
-static const int slices = 20;
-
 /**
  * @param lowerRadius the lower radius of the cylinder.
  * @param upperRadius the upper radius of the cylinder.
@@ -36,28 +33,32 @@ static const int slices = 20;
  */
 CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height)
 {
+    const int slices = 20;
+
     // bottom circle
-    meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan)));
+    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan));
     meshdata[0]->addVertex(0.0f, 0.0f, 0.0f);
-    for (int i = 0; i <= slices; i++) {
-        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
+    for (int i = 0; i < slices; i++) {
+        GLfloat angle = static_cast<GLfloat>(i) / static_cast<GLfloat>(slices) * 2 * PI;
 
         meshdata[0]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
     }
+    meshdata[0]->addVertex(0.0f, 0.0f, lowerRadius);
 
     // top circle
-    meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_fan)));
+    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan));
     meshdata[1]->addVertex(0.0f, height, 0.0f);
-    for (int i = 0; i <= slices; i++) {
-        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
+    for (int i = 0; i < slices; i++) {
+        GLfloat angle = static_cast<GLfloat>(i) / static_cast<GLfloat>(slices)* 2 * PI;
 
         meshdata[1]->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
     }
+    meshdata[1]->addVertex(0.0f, height, upperRadius);
 
     // the rest
-    meshdata.push_back(std::unique_ptr<Mesh>(new Mesh(3, Mesh::RenderMode::triangle_strip)));
-    for (int i = 0; i <= slices; i++) {
-        GLfloat angle = static_cast<GLfloat>(i) / slices * 2 * PI;
+    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_strip));
+    for (int i = 0; i < slices; i++) {
+        GLfloat angle = static_cast<GLfloat>(i) / static_cast<GLfloat>(slices) * 2 * PI;
 
         meshdata[2]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
 
