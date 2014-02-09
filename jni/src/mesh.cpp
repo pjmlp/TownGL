@@ -71,16 +71,12 @@ void Mesh::render()
         glColor4f(r, g, b, a);
 
         glEnableClientState(GL_VERTEX_ARRAY);
-        printOpenGLError();
 
         glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, &vertex[0]);
-        printOpenGLError();
 
         glDrawArrays(renderMode, 0, count);
-        printOpenGLError();
 
         glDisableClientState(GL_VERTEX_ARRAY);
-        printOpenGLError();
 
         glPopMatrix();
     }
