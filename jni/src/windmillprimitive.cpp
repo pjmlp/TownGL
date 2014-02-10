@@ -19,6 +19,11 @@
 
 #include <cmath>
 
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "glos.h"
 #include "pi.h"
 #include "windmillprimitive.h"
@@ -26,6 +31,10 @@
 WindmillPrimitive::WindmillPrimitive() : base(1, 1, 1), roof(1, 0, 0.5f), drawAngle(0.0f)
 {
     base.setColor(0.4f, 0.5f, 0, 0);  // brown
+
+    glm::mat4 identity;
+    glm::mat4 transform = glm::translate (identity, glm::vec3(0, 1, 0));
+    roof.setTransform(transform);
     roof.setColor(1, 0, 0, 0);   // red
 
 }
@@ -57,10 +66,10 @@ void WindmillPrimitive::render()
     base.render();
 
     // draws the roof
-    glPushMatrix();
-    glTranslatef(0, 1, 0);
-    //roof.render();
-    glPopMatrix();
+   // glPushMatrix();
+   // glTranslatef(0, 1, 0);
+    roof.render();
+  //  glPopMatrix();
 #if 0
     // draws the sails
     glColor4f(1.0f, 0.8f, 0.0f, 0.0f);

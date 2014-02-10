@@ -56,13 +56,21 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
     meshdata[1]->addVertex(0.0f, height, upperRadius);
 
     // the rest
-    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_strip));
+    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangles));
     for (int i = 0; i < slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / static_cast<GLfloat>(slices) * 2 * PI;
+        GLfloat nextAngle = static_cast<GLfloat>(i+1) / static_cast<GLfloat>(slices)* 2 * PI;
 
-        meshdata[2]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
-
+        // first one
         meshdata[2]->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
+        meshdata[2]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
+        meshdata[2]->addVertex(cos(nextAngle)*upperRadius, height, sin(nextAngle)*upperRadius);
+
+        // second one
+        meshdata[2]->addVertex(cos(nextAngle)*upperRadius, height, sin(nextAngle)*upperRadius);
+        meshdata[2]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
+        meshdata[2]->addVertex(cos(nextAngle)*lowerRadius, 0.0f, sin(nextAngle)*lowerRadius);
+
     }
 }
 
