@@ -90,3 +90,9 @@ void CylinderPrimitive::render ()
     for (auto& mesh : meshdata)
         mesh->render();
 }
+
+void CylinderPrimitive::setTransform(const glm::mat4 &transform)
+{
+    for (auto& mesh : meshdata)
+        mesh->setTransform(transform);
+}

@@ -29,14 +29,16 @@
 */
 class WindmillPrimitive: public Primitive {
 public:
-    WindmillPrimitive();
+    WindmillPrimitive(const glm::mat4 &transform);
     virtual ~WindmillPrimitive();
 
+    virtual void setTransform(const glm::mat4 &transform) override;
     virtual void update(GLfloat frame) override;
 	virtual void render () override;
 
 private:
-    CylinderPrimitive base, roof;
+    std::vector<std::unique_ptr<Primitive>> meshdata;
+
     GLfloat drawAngle;
 };
 

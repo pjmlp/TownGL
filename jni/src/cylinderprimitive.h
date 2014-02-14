@@ -37,6 +37,7 @@ public:
     CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, GLfloat height);
     virtual ~CylinderPrimitive();
 
+    virtual void setTransform(const glm::mat4 &transform) override;
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 	virtual void render () override;
 private:

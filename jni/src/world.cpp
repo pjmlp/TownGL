@@ -19,6 +19,11 @@
 #include <cmath>
 #include <cassert>
 
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "glos.h"
 #include "pi.h"
 #include "diskprimitive.h"
@@ -52,9 +57,13 @@ static const char gFragmentShader[] =
 
 World::World()
 {
+    glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(4.2f, 0.0f, 13.0f));
+
     objects.push_back(std::make_unique<FloorPrimitive>());
     objects.push_back(std::make_unique<RoadPrimitive>());
-    objects.push_back(std::make_unique<WindmillPrimitive>());
+    objects.push_back(std::make_unique<WindmillPrimitive>(translation));
+
+
     objects.push_back(std::make_unique<ArcTunnelPrimitive>());
     objects.push_back(std::make_unique<TunnelPrimitive>());
     objects.push_back(std::make_unique<BuildingPrimitive>());
@@ -85,17 +94,12 @@ void World::render(GLfloat frame)
 
     // draws the road
     objects[1]->render();
-#if 0
 
-    /* 1º Moinho */
-    glPushMatrix();
-    glTranslatef(4.2f, 0, 13);
-    glRotatef(120, 0, 1, 0);
+
     objects[2]->update(frame);
     objects[2]->render();
-    glPopMatrix();
 
-
+#if 0
     /* 2º Moinho */
     glPushMatrix();
     glTranslatef(15, 0, -15);

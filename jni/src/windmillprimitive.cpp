@@ -28,15 +28,18 @@
 #include "pi.h"
 #include "windmillprimitive.h"
 
-WindmillPrimitive::WindmillPrimitive() : base(1, 1, 1), roof(1, 0, 0.5f), drawAngle(0.0f)
+WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0f)
 {
-    base.setColor(0.4f, 0.5f, 0, 0);  // brown
+    meshdata.push_back(std::make_unique<CylinderPrimitive>(1.0f, 1.0f, 1.0f));
+    meshdata[0]->setColor(0.4f, 0.5f, 0, 0);  // brown
+    meshdata[0]->setTransform(transform);
+    
+    
+    meshdata.push_back(std::make_unique<CylinderPrimitive>(1.0f, 0.0f, 0.5f));
 
-    glm::mat4 identity;
-    glm::mat4 transform = glm::translate (identity, glm::vec3(0, 1, 0));
-    roof.setTransform(transform);
-    roof.setColor(1, 0, 0, 0);   // red
-
+    glm::mat4 roofTransform = glm::translate(transform, glm::vec3(0.0f, 1.0f, 0.0f));
+    meshdata[1]->setTransform(roofTransform);
+    meshdata[1]->setColor(1, 0, 0, 0);   // red
 }
 
 WindmillPrimitive::~WindmillPrimitive()
@@ -61,15 +64,9 @@ void WindmillPrimitive::render()
 
     glPushMatrix();
 
+    for (auto& mesh : meshdata)
+        mesh->render();
 
-    // draws the base
-    base.render();
-
-    // draws the roof
-   // glPushMatrix();
-   // glTranslatef(0, 1, 0);
-    roof.render();
-  //  glPopMatrix();
 #if 0
     // draws the sails
     glColor4f(1.0f, 0.8f, 0.0f, 0.0f);
@@ -132,4 +129,10 @@ void WindmillPrimitive::render()
     */
 #endif
     glPopMatrix();
+}
+
+void WindmillPrimitive::setTransform(const glm::mat4 &transform)
+{
+    for (auto& mesh : meshdata)
+        mesh->setTransform(transform);
 }
