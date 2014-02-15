@@ -28,7 +28,7 @@
 #include "pi.h"
 #include "windmillprimitive.h"
 
-WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0f)
+WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0f), sails(3, Mesh::RenderMode::triangles), sailLines(3, Mesh::RenderMode::line_strip)
 {
     meshdata.push_back(std::make_unique<CylinderPrimitive>(1.0f, 1.0f, 1.0f));
     meshdata[0]->setColor(0.4f, 0.5f, 0, 0);  // brown
@@ -40,6 +40,12 @@ WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0
     glm::mat4 roofTransform = glm::translate(transform, glm::vec3(0.0f, 1.0f, 0.0f));
     meshdata[1]->setTransform(roofTransform);
     meshdata[1]->setColor(1, 0, 0, 0);   // red
+
+    createSails();
+
+    glm::mat4 sailsTransform = glm::translate(transform, glm::vec3(0.0f, 1.0f, 1.0f));
+    sails.setTransform(sailsTransform);
+    sailLines.setTransform(sailsTransform);
 }
 
 WindmillPrimitive::~WindmillPrimitive()
@@ -58,81 +64,49 @@ void WindmillPrimitive::update(GLfloat frame)
 
 void WindmillPrimitive::render()
 {
-    GLfloat length = 0.75, lastX, lastY, x, y;
-    GLint i;
-    bool isFlag = false;
-
-    glPushMatrix();
-
     for (auto& mesh : meshdata)
         mesh->render();
-
-#if 0
-    // draws the sails
-    glColor4f(1.0f, 0.8f, 0.0f, 0.0f);
-    glTranslatef(0, 1, 1);
-    glRotatef(drawAngle, 0.0f, 0.0f, 1.0f); //rotation applied to the sails
-    lastX = length;
-    lastY = 0.0;
-
-    const GLint VERTEX_COUNT = 3;
-    const GLint POINTS = 2;
-    const GLint SLICES = 12;
-    const int ELEMS = SLICES * VERTEX_COUNT * POINTS;
-    GLfloat vertex[ELEMS];
-    GLfloat countour[ELEMS];
-
-    int idxx = 0;
-    int idx = 0;
-
-    for (i = 1; i <= SLICES; i++)
-    {
-        vertex[idx++] = lastX;
-        vertex[idx++] = lastY;
-
-        GLfloat angle = 2 * i * PI / SLICES;
-        x = length * cos(angle);
-        y = length * sin(angle);
-
-        if (isFlag) {
-            vertex[idx++] = x;
-            vertex[idx++] = y;
-
-            vertex[idx++] = 0;
-            vertex[idx++] = 0;
-        }
-        else {
-            vertex[idx++] = 0;
-            vertex[idx++] = 0;
-
-            vertex[idx++] = x;
-            vertex[idx++] = y;
-        }
-
-        countour[idxx++] = lastX = x;
-        countour[idxx++] = lastY = y;
-        isFlag = !isFlag;
-    }
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(POINTS, GL_FLOAT, 0, vertex);
-    for (int i = 0; i < SLICES; i++) {
-        if (i % 2 == 0)
-            glDrawArrays(GL_TRIANGLES, i * VERTEX_COUNT, VERTEX_COUNT);
-    }
-    glDisableClientState(GL_VERTEX_ARRAY);
-    /*
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(POINTS, GL_FLOAT, 0, countour);
-    glDrawArrays(GL_LINE_STRIP, 0, idxx);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    */
-#endif
-    glPopMatrix();
+        
+    sails.render();
+    sailLines.render();
 }
 
 void WindmillPrimitive::setTransform(const glm::mat4 &transform)
 {
     for (auto& mesh : meshdata)
         mesh->setTransform(transform);
+
+    sails.setTransform(transform);
+    sailLines.setTransform(transform);
+}
+
+void WindmillPrimitive::createSails()
+{
+    GLfloat length = 0.75f;
+    bool isFlag = false;
+    const GLint elems = 12;
+ 
+    GLfloat angle;
+    GLfloat maxAngle = 2 * PI;
+    GLfloat angleSlice = maxAngle / static_cast<GLfloat>(elems);
+    for (angle = 0; angle < maxAngle; angle += angleSlice) {
+        GLfloat x = length * cos(angle);
+        GLfloat y = length * sin(angle);
+        sails.addVertex(x, y, 0.0f);
+        sails.addVertex(0.0f, 0.0f, 0.0f);
+
+        sailLines.addVertex(x, y, 0.0f);
+
+        angle += angleSlice;
+        x = length * cos(angle);
+        y = length * sin(angle);
+
+        sails.addVertex(x, y, 0.0f);
+
+        sailLines.addVertex(x, y, 0.0f);
+    }
+    sailLines.addVertex(length * cos(angle), length * sin(angle), 0.0f);
+
+    sails.setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
+    sailLines.setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 }

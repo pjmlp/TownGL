@@ -21,6 +21,7 @@
 #define WINDMILLPRIMITIVE_H_
 
 #include "primitive.h"
+#include "mesh.h"
 #include "cylinderprimitive.h"
 
 /**
@@ -37,7 +38,11 @@ public:
 	virtual void render () override;
 
 private:
+    void createSails();
+
     std::vector<std::unique_ptr<Primitive>> meshdata;
+
+    Mesh sails, sailLines;
 
     GLfloat drawAngle;
 };
