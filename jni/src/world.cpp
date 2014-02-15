@@ -57,14 +57,15 @@ static const char gFragmentShader[] =
 
 World::World()
 {
-    // for the first windmill
     glm::mat4 identity;
     glm::mat4 translation = glm::translate(identity, glm::vec3(4.2f, 0.0f, 13.0f));
 
 
-
     objects.push_back(std::make_unique<FloorPrimitive>());
     objects.push_back(std::make_unique<RoadPrimitive>());
+    objects.push_back(std::make_unique<WindmillPrimitive>(translation));
+
+    translation = glm::translate(identity, glm::vec3(15.0f, 0.0f, -15.0f));
     objects.push_back(std::make_unique<WindmillPrimitive>(translation));
 
     translation = glm::translate(identity, glm::vec3(0.0f, 0.0f, -10.0f));
@@ -76,15 +77,19 @@ World::World()
     scale = glm::scale(translation, glm::vec3(0.5f, 2.0f, 0.5f));
     rotation = glm::rotate(scale, 60.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 
-
-
     objects.push_back(std::make_unique<TunnelPrimitive>(rotation));
-    objects.push_back(std::make_unique<BuildingPrimitive>());
-    objects[5]->setColor(0, 0, 1, 0);
-    objects.push_back(std::make_unique<BuildingPrimitive>());
-    objects[6]->setColor(0, 1, 0, 0);
-    objects.push_back(std::make_unique<BuildingPrimitive>());
-    objects[7]->setColor(1, 0, 0, 0);
+
+    translation = glm::translate(identity, glm::vec3(10.0f, 4.0f, -17.0f));
+    objects.push_back(std::make_unique<BuildingPrimitive>(translation));
+    objects.back()->setColor(0, 0, 1, 0);
+
+    translation = glm::translate(identity, glm::vec3(-15.0f, 4.0f, -10.0f));
+    objects.push_back(std::make_unique<BuildingPrimitive>(translation));
+    objects.back()->setColor(0, 1, 0, 0);
+
+    translation = glm::translate(identity, glm::vec3(13.0f, 4.0f, 8.0f));
+    objects.push_back(std::make_unique<BuildingPrimitive>(translation));
+    objects.back()->setColor(1, 0, 0, 0);
 }
 
 World::~World()
@@ -102,47 +107,8 @@ void World::render(GLfloat frame)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // draws the floor
-    objects[0]->render();
-
-    // draws the road
-    objects[1]->render();
-
-
-    objects[2]->render();
-
-#if 0
-    /* 2º Moinho */
-    glPushMatrix();
-    glTranslatef(15, 0, -15);
-    objects[2]->render();
-    
-    glPopMatrix();
-#endif
-
-    objects[3]->render();
-
-    objects[4]->render();
-
-
-
-    /* 1º Edifício */
-    glPushMatrix();
-    glTranslatef(10, 4, -17);
-    objects[5]->render();
-    glPopMatrix();
-
-    /* 2º Edifício */
-    glPushMatrix();
-    glTranslatef(-15, 4, -10);
-    objects[6]->render();
-    glPopMatrix();
-
-    /* 3º Edifício */
-    glPushMatrix();
-    glTranslatef(13, 4, 8);
-    objects[7]->render();
-    glPopMatrix();
-
+    for (auto& obj : objects) {
+        obj->render();
+    }
 
 }

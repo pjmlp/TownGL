@@ -22,9 +22,9 @@
 #include "buildingprimitive.h"
 
 
-BuildingPrimitive::BuildingPrimitive(): building(2.0f, 8.0f, 2.0f)
+BuildingPrimitive::BuildingPrimitive(const glm::mat4 &transform) : building(2.0f, 8.0f, 2.0f)
 {
-    // nothing else to do
+    building.setTransform(transform);
 }
 
 BuildingPrimitive::~BuildingPrimitive()

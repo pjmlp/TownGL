@@ -25,7 +25,7 @@
 
 class BuildingPrimitive: public Primitive {
 public:
-    BuildingPrimitive();
+    BuildingPrimitive(const glm::mat4 &transform);
     virtual ~BuildingPrimitive();
 
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
