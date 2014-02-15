@@ -71,7 +71,14 @@ World::World()
     glm::mat4 scale = glm::scale(translation, glm::vec3(1.0f, 0.5f, 0.5f));
     glm::mat4 rotation = glm::rotate(scale, 90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
     objects.push_back(std::make_unique<ArcTunnelPrimitive>(rotation));
-    objects.push_back(std::make_unique<TunnelPrimitive>());
+
+    translation = glm::translate(identity, glm::vec3(-6.0f, 0.0f, 8.0f));
+    scale = glm::scale(translation, glm::vec3(0.5f, 2.0f, 0.5f));
+    rotation = glm::rotate(scale, 60.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+
+    objects.push_back(std::make_unique<TunnelPrimitive>(rotation));
     objects.push_back(std::make_unique<BuildingPrimitive>());
     objects[5]->setColor(0, 0, 1, 0);
     objects.push_back(std::make_unique<BuildingPrimitive>());
@@ -115,13 +122,8 @@ void World::render(GLfloat frame)
 
     objects[3]->render();
 
-    /* 2º Túnel */
-    glPushMatrix();
-    glTranslatef(-6, 0, 8);
-    glScalef(0.5, 2, 0.5);
-    glRotatef(60, 0, 1, 0);
     objects[4]->render();
-    glPopMatrix();
+
 
 
     /* 1º Edifício */

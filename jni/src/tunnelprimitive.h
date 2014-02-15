@@ -31,7 +31,7 @@
 */
 class TunnelPrimitive: public Primitive {
 public:
-    TunnelPrimitive();
+    TunnelPrimitive(const glm::mat4 &transform);
     virtual ~TunnelPrimitive();
 
 	virtual void render () override;

@@ -28,21 +28,19 @@
 #include "tunnelprimitive.h"
 
 
-TunnelPrimitive::TunnelPrimitive()
+TunnelPrimitive::TunnelPrimitive(const glm::mat4 &transform)
 {
-    glm::mat4 identity;
+    objects.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
+    glm::mat4 transformTunnel = glm::translate(transform, glm::vec3(-5.0f, 0.0f, 0.0f));
+    objects[0]->setTransform(transformTunnel);
 
     objects.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
-    glm::mat4 transform = glm::translate(identity, glm::vec3(-5, 0, 0));
-    objects[0]->setTransform(transform);
-
-    objects.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
-    transform = glm::translate(identity, glm::vec3(5, 0, 0));
-    objects[1]->setTransform(transform);
+    transformTunnel = glm::translate(transform, glm::vec3(5, 0, 0));
+    objects[1]->setTransform(transformTunnel);
 
     objects.push_back(std::make_unique<BoxPrimitive>(11.0f, 0.10f, 5.0f));
-    transform = glm::translate(identity, glm::vec3(0, 0.55f, 0));
-    objects[2]->setTransform(transform);
+    transformTunnel = glm::translate(transform, glm::vec3(0, 0.55f, 0));
+    objects[2]->setTransform(transformTunnel);
 
 
     for (auto& mesh : objects)
