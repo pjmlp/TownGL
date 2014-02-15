@@ -81,6 +81,7 @@ int main (int argc, char** argv)
 		return -1;
 	}
 
+    // Query the window mode
 	SDL_DisplayMode mode;
 	if (SDL_GetDisplayMode(0, 0, &mode) < 0) {
 		SDL_Log("Couldn't not query display modes: %s\n", SDL_GetError());
@@ -103,7 +104,7 @@ int main (int argc, char** argv)
 		//SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
 		SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
-	if ( screen == NULL ) {
+	if ( screen == nullptr ) {
 		SDL_Log("Couldn't set GL mode: %s\n", SDL_GetError());
 		return -1;
 	}
