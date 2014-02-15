@@ -68,3 +68,9 @@ void RoofPrimitive::render()
     for (auto& mesh : meshdata)
         mesh->render();
 }
+
+void RoofPrimitive::setTransform(const glm::mat4 &transform)
+{
+    for (auto& mesh : meshdata)
+        mesh->setTransform(transform);
+}

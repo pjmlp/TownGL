@@ -57,14 +57,20 @@ static const char gFragmentShader[] =
 
 World::World()
 {
-    glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(4.2f, 0.0f, 13.0f));
+    // for the first windmill
+    glm::mat4 identity;
+    glm::mat4 translation = glm::translate(identity, glm::vec3(4.2f, 0.0f, 13.0f));
+
+
 
     objects.push_back(std::make_unique<FloorPrimitive>());
     objects.push_back(std::make_unique<RoadPrimitive>());
     objects.push_back(std::make_unique<WindmillPrimitive>(translation));
 
-
-    objects.push_back(std::make_unique<ArcTunnelPrimitive>());
+    translation = glm::translate(identity, glm::vec3(0.0f, 0.0f, -10.0f));
+    glm::mat4 scale = glm::scale(translation, glm::vec3(1.0f, 0.5f, 0.5f));
+    glm::mat4 rotation = glm::rotate(scale, 90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    objects.push_back(std::make_unique<ArcTunnelPrimitive>(rotation));
     objects.push_back(std::make_unique<TunnelPrimitive>());
     objects.push_back(std::make_unique<BuildingPrimitive>());
     objects[5]->setColor(0, 0, 1, 0);
@@ -96,7 +102,6 @@ void World::render(GLfloat frame)
     objects[1]->render();
 
 
-    objects[2]->update(frame);
     objects[2]->render();
 
 #if 0
@@ -108,14 +113,7 @@ void World::render(GLfloat frame)
     glPopMatrix();
 #endif
 
-    /* 1º Túnel */
-    glPushMatrix();
-    glTranslatef(0, 0, -10);
-    glScalef(1, 0.5, 0.5);
-    glRotatef(90, 0, 1, 0);
     objects[3]->render();
-    
-    glPopMatrix();
 
     /* 2º Túnel */
     glPushMatrix();

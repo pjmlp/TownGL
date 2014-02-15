@@ -35,6 +35,7 @@ public:
     ArcPrimitive(GLfloat depth);
 	virtual ~ArcPrimitive();
 
+    virtual void setTransform(const glm::mat4 &transform);
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 	virtual void render () override;
 

@@ -27,7 +27,7 @@
 
 class ArcTunnelPrimitive: public Primitive {
 public:
-    ArcTunnelPrimitive();
+    ArcTunnelPrimitive(const glm::mat4 &transform);
     virtual ~ArcTunnelPrimitive();
 
 	virtual void render () override;

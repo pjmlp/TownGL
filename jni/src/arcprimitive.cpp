@@ -69,6 +69,12 @@ ArcPrimitive::~ArcPrimitive()
     // Nothing to do
 }
 
+void ArcPrimitive::setTransform(const glm::mat4 &transform)
+{
+    for (auto& mesh : meshdata)
+        mesh->setTransform(transform);
+}
+
 void ArcPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
     for (auto& mesh : meshdata)
