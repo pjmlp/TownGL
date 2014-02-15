@@ -30,7 +30,7 @@
 
 class Mesh {
 public:
-    enum class RenderMode { triangles, triangle_strip, triangle_fan };
+    enum class RenderMode { triangles, triangle_strip, triangle_fan, line_strip };
 
     explicit Mesh();
     explicit Mesh(GLint coordinatesPerVertex, RenderMode mode);

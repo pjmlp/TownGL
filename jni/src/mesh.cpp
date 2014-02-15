@@ -61,6 +61,11 @@ void Mesh::render()
             count = vertex.size() / coordinatesPerVertex;
             break;
 
+        case RenderMode::line_strip:
+            renderMode = GL_LINE_STRIP;
+            count = vertex.size() / coordinatesPerVertex;
+            break;
+
         default:
             assert(false);
         }
