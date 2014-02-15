@@ -71,7 +71,7 @@ void Mesh::render()
         }
 
         glPushMatrix();
-        glMultMatrixf(glm::value_ptr(transform));
+        glLoadMatrixf(glm::value_ptr(transform));
 
         glColor4f(r, g, b, a);
 
