@@ -22,6 +22,8 @@
 #include <vector>
 #include <memory>
 
+#include <glm/fwd.hpp>
+
 #include "glos.h"
 
 //Forward declarations
@@ -38,8 +40,12 @@ public:
 
     void render(GLfloat frame);
 
+    void setWorldMatrix(const glm::mat4 &matrix);
+
 private:
     std::vector<std::unique_ptr<Primitive>> objects;
+
+    glm::mat4 worldMatrix;
 };
 
 #endif /* WORLD_H_ */

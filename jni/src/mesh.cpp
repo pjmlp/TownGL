@@ -75,13 +75,17 @@ void Mesh::render()
 
         glColor4f(r, g, b, a);
 
-        glEnableClientState(GL_VERTEX_ARRAY);
+        //glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableVertexAttribArray(0);
 
-        glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, &vertex[0]);
+        //glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, &vertex[0]);
+        glVertexAttribPointer(0, coordinatesPerVertex, GL_FLOAT, false, 0, &vertex[0]);
+
 
         glDrawArrays(renderMode, 0, count);
 
-        glDisableClientState(GL_VERTEX_ARRAY);
+        //glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableVertexAttribArray(0);
 
         glPopMatrix();
     }

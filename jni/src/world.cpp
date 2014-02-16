@@ -43,17 +43,8 @@
 #include "world.h"
 
 
-static const char gVertexShader[] =
-"attribute vec4 vPosition;\n"
-"void main() {\n"
-"  gl_Position = vPosition;\n"
-"}\n";
+extern std::unique_ptr<Effect> effect;
 
-static const char gFragmentShader[] =
-"precision mediump float;\n"
-"void main() {\n"
-"  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
-"}\n";
 
 World::World()
 {
@@ -104,10 +95,24 @@ World::~World()
 void World::render(GLfloat frame)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
+
+    effect->bind();
+    effect->setWorldMatrix(worldMatrix);
+
 
     for (auto& obj : objects) {
         obj->render();
     }
 
+    effect->unbind();
+
+}
+
+/**
+ * Sets the world matrix to be given to the shaders when calculating the objects location.
+ */
+void World::setWorldMatrix(const glm::mat4 &matrix)
+{
+    worldMatrix = matrix;
 }

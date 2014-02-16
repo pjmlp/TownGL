@@ -30,6 +30,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "effect.h"
 #include "world.h"
 #include "pi.h"
 #include "town.h"
@@ -88,9 +89,25 @@ static clock_t currentTime = 0;
 /** Frame value in terms of time. */
 static GLfloat currentFrame = 0.0f;
 
+static const char gVertexShader[] =
+"uniform mat4 modelview;\n"
+"attribute vec4 position;\n"
+"attribute vec3 color;\n"
+"void main() {\n"
+"  gl_Position = position;\n"
+"}\n";
+
+static const char gFragmentShader[] =
+"precision mediump float;\n"
+"uniform vec3 color;;\n"
+"void main() {\n"
+"  gl_FragColor = vec4(color.x, color.y, color.z, 1.0);\n"
+"}\n";
+
 
 static World world;
 
+std::unique_ptr<Effect> effect;
 
 /**
  * Sets the initial configuration of the demo.
@@ -101,6 +118,9 @@ void InitializeGL ()
 
   glClearColor (0, 0, 0.5, 0);
   glLineWidth(3);
+
+  effect = std::make_unique<Effect>();
+  effect->loadShaders(gVertexShader, gFragmentShader);
 
   currentTime = clock();
 }
@@ -241,7 +261,7 @@ void Project (GLsizei w, GLsizei h)
   static GLfloat angle = 0.0f;
   GLfloat cosAngle, sinAngle;
 
-  glMatrixMode(GL_PROJECTION);
+  //glMatrixMode(GL_PROJECTION);
   glm::mat4 identity;
   glm::mat4 scale;
 
@@ -304,8 +324,9 @@ void Project (GLsizei w, GLsizei h)
 
 
   glm::mat4 camera = scale * frustum * lookAt;
-  glLoadMatrixf(glm::value_ptr(camera));
+  //glLoadMatrixf(glm::value_ptr(camera));
   // Objects related transformations follow this calls
+  world.setWorldMatrix(camera);
 }
 
 
