@@ -44,6 +44,8 @@ public:
     void setWorldMatrix(const glm::mat4& world);
     void setLocalMatrix(const glm::mat4& local);
 
+    void setUniform(const std::string& name, const glm::vec3& data);
+
 private:
     GLuint compileShader(const std::string& shader, GLenum type, GLuint& shaderId);
     void logError(const std::string& msg);

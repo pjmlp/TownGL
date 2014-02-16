@@ -153,6 +153,14 @@ void Effect::setLocalMatrix(const glm::mat4& local)
     glUniformMatrix4fv(localMatrix, 1, GL_TRUE, glm::value_ptr(local));
 }
 
+void Effect::setUniform(const std::string& name, const glm::vec3& data)
+{
+    GLint  uniform = glGetUniformLocation(id, name.c_str());
+    if (uniform == -1) {
+        SDL_Log("Could not bind uniform %s\n", name.c_str());
+    }
+    glUniform3f(uniform, data.x, data.y, data.z);
+}
 
 void Effect::logError(const std::string& msg)
 {
