@@ -1,11 +1,7 @@
-#version 120
+#version 330
 
-uniform sampler2D texture0;
-varying vec4 outcolor;
-varying vec2 outtexture;
-
+layout(location = 0) in vec4 position;
 void main()
 {
-	vec4 color = texture2D(texture0,outtexture);
-	gl_FragColor = outcolor * color;
+    gl_Position = position;
 }
