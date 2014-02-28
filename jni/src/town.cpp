@@ -30,7 +30,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "effect.h"
 #include "world.h"
 #include "pi.h"
 #include "town.h"
@@ -39,9 +38,6 @@
 
 // Global constant declarations
 
-
-/** circle radius */
-static const GLfloat RADIUS = 9.5f;
 
 /** Maximum altitude allowed for the view from above.*/
 static const GLint MAX_ALTITUDE = 100;
@@ -55,18 +51,8 @@ static const GLfloat INC_ALTITUDE = 0.5f;
 /** Starting altitude when the user changes view mode. */
 static const GLint DEFAULT_ALTITUDE = 53;
 
-/** Maximum speed */
-static const GLint MAX_INC_FRAME = 10;
-
-/** Minimum speed */
-static const GLint MIN_INC_FRAME = 1;
-
-
 
 // Module global variables
-
-/** Is the animation paused. */
-static bool isPaused = false;
 
 /** Using the overhead view. */
 static bool isAbove = false;
@@ -77,9 +63,6 @@ static GLsizei lastWidth, lastHeight;
 /** Current altitude */
 static GLfloat altitude = 0.5;
 
-/** Current speed in terms of frame rate increments. */
-static GLuint incFrame = 1;
-
 /** Is the lightning enabled. */
 static bool isLightOn = true;
 
@@ -89,25 +72,10 @@ static clock_t currentTime = 0;
 /** Frame value in terms of time. */
 static GLfloat currentFrame = 0.0f;
 
-static const char gVertexShader[] =
-"uniform mat4 modelview;\n"
-"attribute vec4 position;\n"
-"attribute vec3 color;\n"
-"void main() {\n"
-"  gl_Position = position;\n"
-"}\n";
-
-static const char gFragmentShader[] =
-"precision mediump float;\n"
-"uniform vec3 color;;\n"
-"void main() {\n"
-"  gl_FragColor = vec4(color.x, color.y, color.z, 1.0);\n"
-"}\n";
-
+// The object graph of the 3d World
 
 static World world;
 
-std::unique_ptr<Effect> effect;
 
 /**
  * Sets the initial configuration of the demo.
@@ -119,9 +87,6 @@ void InitializeGL ()
   glClearColor (0, 0, 0.5, 0);
   glLineWidth(3);
 
-  effect = std::make_unique<Effect>();
-  effect->loadShaders(gVertexShader, gFragmentShader);
-
   currentTime = clock();
 }
 
@@ -130,9 +95,8 @@ void InitializeGL ()
 /**
  * Updates the application's state
  */
-void MainLoop (SDL_Window *screen)
+void MainLoop ()
 {
-  if (!isPaused) {
     clock_t now = clock();
     GLfloat duration = (now - currentTime) / (GLfloat)CLOCKS_PER_SEC;
   
@@ -141,21 +105,8 @@ void MainLoop (SDL_Window *screen)
     world.render (duration);
 
     currentTime = now;
-    SDL_GL_SwapWindow(screen);
-  }
 }
 
-
-/**
- * Stops/starts the application.
- */
-void ChangePauseMode ()
-{
-  isPaused = !isPaused;
-  if (!isPaused) {
-	  currentTime = clock();
-  }
-}
 
 /**
  * Changes the user's viewpoint
@@ -163,12 +114,7 @@ void ChangePauseMode ()
 void ChangeViewPoint ()
 {
   isAbove = !isAbove;
-  if (isAbove) {
-    altitude = DEFAULT_ALTITUDE;
-  }
-  else {
-    altitude = MIN_ALTITUDE;
-  }
+  altitude = isAbove ? DEFAULT_ALTITUDE : MIN_ALTITUDE;
 }
 
 /**
@@ -192,7 +138,6 @@ void ResetSettings ()
   isLightOn = true;
   isAbove = true;
   altitude = DEFAULT_ALTITUDE;
-  incFrame = MIN_INC_FRAME;
   glEnable (GL_LIGHTING);
 }
 
@@ -214,25 +159,6 @@ void DecreaseAltitude ()
   if (altitude > MIN_ALTITUDE)
     altitude -= INC_ALTITUDE; 
 }
-
-/**
- * Increases the viewer's speed.
- */
-void IncreaseSpeed ()
-{
-  if (incFrame < MAX_INC_FRAME)
-    incFrame++; 
-}
-
-/**
- * Decreases the viewer's speed.
- */
-void DecreaseSpeed ()
-{
-  if (incFrame > MIN_INC_FRAME)
-    incFrame--; 
-}
-
 
 /**
  * Handles the window resize by the user.
@@ -261,7 +187,7 @@ void Project (GLsizei w, GLsizei h)
   static GLfloat angle = 0.0f;
   GLfloat cosAngle, sinAngle;
 
-  //glMatrixMode(GL_PROJECTION);
+  glMatrixMode(GL_PROJECTION);
   glm::mat4 identity;
   glm::mat4 scale;
 
@@ -304,9 +230,10 @@ void Project (GLsizei w, GLsizei h)
     zUpVector = -1.0;
   }
   else { /* normal route */
-    xEye = RADIUS * cosAngle;
+    const GLfloat radius = 9.5f;
+    xEye = radius * cosAngle;
     yEye = altitude;
-    zEye = RADIUS * sinAngle;
+    zEye = radius * sinAngle;
 
     xTarget = xEye + cos (UTIL_TO_RADIANS (98 + angle));
     yTarget = altitude;
@@ -324,9 +251,8 @@ void Project (GLsizei w, GLsizei h)
 
 
   glm::mat4 camera = scale * frustum * lookAt;
-  //glLoadMatrixf(glm::value_ptr(camera));
+  glLoadMatrixf(glm::value_ptr(camera));
   // Objects related transformations follow this calls
-  world.setWorldMatrix(camera);
 }
 
 
