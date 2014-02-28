@@ -23,16 +23,12 @@
 #include "glos.h"
 #include <SDL.h>
 
-void DescribeProgram ();
-void MainLoop (SDL_Window *screen);
-void ChangePauseMode ();
+void MainLoop ();
 void ChangeViewPoint ();
 void ChangeLighting ();
 void ResetSettings ();
 void IncreaseAltitude ();
 void DecreaseAltitude ();
-void IncreaseSpeed ();
-void DecreaseSpeed ();
 void OnResize (GLsizei w, GLsizei h);
 void Project (GLsizei w, GLsizei h);
 void TurnOnLighting ();

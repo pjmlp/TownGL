@@ -18,6 +18,7 @@
 */
 
 #include <cstdlib>
+#include <cstring>
 #include <SDL.h>
 
 #include "glos.h"
@@ -29,11 +30,13 @@
 /**
 * Handles keyboard notifications
 * @param sym key code
+* @param paused the current pause state.
+* @param done out parameter to let the application know it is time to finish execution
 */
-static void HandleKeys(SDL_Keycode sym)
+static void HandleKeys(SDL_Keycode sym, bool &paused, bool &done)
 {
 	switch (sym) {
-	case SDLK_p : ChangePauseMode ();
+    case SDLK_p: paused = !paused;
 		break;
 
 	case SDLK_v : ChangeViewPoint ();
@@ -42,23 +45,14 @@ static void HandleKeys(SDL_Keycode sym)
 	case SDLK_l : ChangeLighting ();
 		break;
 
-	case SDLK_a : IncreaseSpeed ();
-		break;
-
-	case SDLK_z : DecreaseSpeed ();
-		break;
-
 	case SDLK_UP : IncreaseAltitude ();
 		break;
 
 	case SDLK_DOWN : DecreaseAltitude ();
 		break;
 
-	case SDLK_ESCAPE : // Ask nicely to close the window
-		SDL_Event ev;
-		ev.type = SDL_WINDOWEVENT;
-		ev.window.event = SDL_WINDOWEVENT_CLOSE;
-		SDL_PushEvent(&ev);
+	case SDLK_ESCAPE :
+        done = true;
 		break;
 	}
 }
@@ -95,18 +89,25 @@ int main (int argc, char** argv)
 	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    
-        
 
-	SDL_Window *screen = SDL_CreateWindow("TownGL",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		//mode.w, mode.h,
-		800, 600,
-		//SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
-		SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+    int width, height;
+    Uint32 flags;
+
+    if (argc > 1 && strncmp(argv[1], "-w", 2) == 0) {
+        width = 800;
+        height = 600;
+        flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
+    }
+    else {
+        width = mode.w;
+        height = mode.h;
+        flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL;
+    }
+
+    SDL_Window *screen = SDL_CreateWindow("TownGL",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        width, height, flags);
 
 	if ( screen == nullptr ) {
 		SDL_Log("Couldn't set GL mode: %s\n", SDL_GetError());
@@ -124,6 +125,7 @@ int main (int argc, char** argv)
 	OnResize (mode.w, mode.h);
 
 	bool done = false;
+    bool paused = false;
 	while (!done) {
 		SDL_Event ev;
 		while (!done && SDL_PollEvent(&ev)) {
@@ -140,12 +142,9 @@ int main (int argc, char** argv)
 				}
 			}
 			else if (ev.type == SDL_KEYDOWN) {
-				HandleKeys(ev.key.keysym.sym);
-			}
-			else if (ev.type == SDL_KEYDOWN) {
-				HandleKeys(ev.key.keysym.sym);
+				HandleKeys(ev.key.keysym.sym, paused, done);
 			} else if (ev.type == SDL_FINGERDOWN) {
-				ChangePauseMode();
+                paused = !paused;
 			} else if (ev.type == SDL_FINGERMOTION) {
 				if (ev.tfinger.dy > 0) {
 					IncreaseAltitude();
@@ -156,8 +155,10 @@ int main (int argc, char** argv)
 				done = true;
 			}
 		}
-
-		MainLoop(screen);
+        if (!paused) {
+            MainLoop();
+            SDL_GL_SwapWindow(screen);
+        }
 	}
 	SDL_GL_DeleteContext(glcontext);
 
