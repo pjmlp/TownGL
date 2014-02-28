@@ -19,6 +19,9 @@
 
 #include <cassert>
 #include <cmath>
+#include <memory>
+
+#include "glos.h"
 
 #include "mesh.h"
 #include "pi.h"
@@ -36,63 +39,48 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
     const int slices = 20;
 
     // bottom circle
-    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan));
-    meshdata[0]->addVertex(0.0f, 0.0f, 0.0f);
+    auto mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan);
+    mesh->addVertex(0.0f, 0.0f, 0.0f);
     for (int i = 0; i < slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / static_cast<GLfloat>(slices) * 2 * PI;
 
-        meshdata[0]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
+        mesh->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
     }
-    meshdata[0]->addVertex(0.0f, 0.0f, lowerRadius);
+    mesh->addVertex(0.0f, 0.0f, lowerRadius);
+    addChild(std::move(mesh));
 
     // top circle
-    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan));
-    meshdata[1]->addVertex(0.0f, height, 0.0f);
+    mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan);
+    mesh->addVertex(0.0f, height, 0.0f);
     for (int i = 0; i < slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / static_cast<GLfloat>(slices)* 2 * PI;
 
-        meshdata[1]->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
+        mesh->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
     }
-    meshdata[1]->addVertex(0.0f, height, upperRadius);
+    mesh->addVertex(0.0f, height, upperRadius);
+    addChild(std::move(mesh));
 
     // the rest
-    meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangles));
+    mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangles);
     for (int i = 0; i < slices; i++) {
         GLfloat angle = static_cast<GLfloat>(i) / static_cast<GLfloat>(slices) * 2 * PI;
         GLfloat nextAngle = static_cast<GLfloat>(i+1) / static_cast<GLfloat>(slices)* 2 * PI;
 
         // first one
-        meshdata[2]->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
-        meshdata[2]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
-        meshdata[2]->addVertex(cos(nextAngle)*upperRadius, height, sin(nextAngle)*upperRadius);
+        mesh->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
+        mesh->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
+        mesh->addVertex(cos(nextAngle)*upperRadius, height, sin(nextAngle)*upperRadius);
 
         // second one
-        meshdata[2]->addVertex(cos(nextAngle)*upperRadius, height, sin(nextAngle)*upperRadius);
-        meshdata[2]->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
-        meshdata[2]->addVertex(cos(nextAngle)*lowerRadius, 0.0f, sin(nextAngle)*lowerRadius);
+        mesh->addVertex(cos(nextAngle)*upperRadius, height, sin(nextAngle)*upperRadius);
+        mesh->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
+        mesh->addVertex(cos(nextAngle)*lowerRadius, 0.0f, sin(nextAngle)*lowerRadius);
 
     }
+    addChild(std::move(mesh));
 }
 
 CylinderPrimitive::~CylinderPrimitive()
 {
     // Nothing to do
-}
-
-void CylinderPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    for (auto& mesh : meshdata)
-        mesh->setColor(r, g, b, a);
-}
-
-void CylinderPrimitive::render ()
-{
-    for (auto& mesh : meshdata)
-        mesh->render();
-}
-
-void CylinderPrimitive::setTransform(const glm::mat4 &transform)
-{
-    for (auto& mesh : meshdata)
-        mesh->setTransform(transform);
 }

@@ -20,8 +20,7 @@
 #ifndef ARCTUNNELPRIMITIVE_H_
 #define ARCTUNNELPRIMITIVE_H_
 
-#include <vector>
-#include <memory>
+#pragma once
 
 #include "primitive.h"
 
@@ -29,11 +28,6 @@ class ArcTunnelPrimitive: public Primitive {
 public:
     ArcTunnelPrimitive(const glm::mat4 &transform);
     virtual ~ArcTunnelPrimitive();
-
-	virtual void render () override;
-
-private:
-    std::vector<std::unique_ptr<Primitive>> modelData;
 };
 
 #endif /* ARCTUNNELPRIMITIVE_H_ */

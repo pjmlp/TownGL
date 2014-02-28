@@ -20,9 +20,10 @@
 #ifndef BoxPrimitive_H_
 #define BoxPrimitive_H_
 
+#pragma once
+
 #include <glm/vec3.hpp>
 
-#include "mesh.h"
 #include "primitive.h"
 
 class BoxPrimitive :	public Primitive
@@ -32,10 +33,7 @@ public:
 	virtual ~BoxPrimitive();
 
     virtual void setTransform(const glm::mat4 &transform) override;
-    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-	virtual void render() override;
 private:
-    Mesh mesh;
 
     glm::vec3 scale;
 };

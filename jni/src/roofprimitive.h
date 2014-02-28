@@ -20,13 +20,9 @@
 #ifndef RoofPrimitive_H_
 #define RoofPrimitive_H_
 
-#include <vector>
-#include <memory>
+#pragma once
 
 #include "primitive.h"
-
-// forward declarations
-class Mesh;
 
 /**
  * Draws the tunnel roof. Used by the tunnels in rectangular form
@@ -35,13 +31,6 @@ class RoofPrimitive: public Primitive {
 public:
     RoofPrimitive();
     virtual ~RoofPrimitive();
-
-    virtual void setTransform(const glm::mat4 &transform);
-    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-	virtual void render () override;
-
-private:
-    std::vector<std::unique_ptr<Mesh>> meshdata;
 };
 
 #endif // RoofPrimitive_H_

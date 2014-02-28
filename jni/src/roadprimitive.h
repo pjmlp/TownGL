@@ -20,6 +20,8 @@
 #ifndef ROADPRIMITIVE_H_
 #define ROADPRIMITIVE_H_
 
+#pragma once
+
 #include "primitive.h"
 #include "diskprimitive.h"
 
@@ -30,11 +32,6 @@ class RoadPrimitive: public Primitive {
 public:
     RoadPrimitive();
     virtual ~RoadPrimitive();
-
-	virtual void render () override;
-
-private:
-    DiskPrimitive road;
 };
 
 #endif /* ROADPRIMITIVE_H_ */

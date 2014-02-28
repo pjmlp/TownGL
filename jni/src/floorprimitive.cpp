@@ -17,6 +17,8 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <memory>
+
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
@@ -27,21 +29,18 @@
 #include "floorprimitive.h"
 
 
-FloorPrimitive::FloorPrimitive() : disk(0, 50, 10)
+FloorPrimitive::FloorPrimitive()
 {
-    disk.setColor(0.2f, 0.3f, 0.5f, 0.0f);
+    auto disk = std::make_unique<DiskPrimitive>(0.0f, 50.0f, 10);
+    disk->setColor(0.2f, 0.3f, 0.5f, 0.0f);
 
     glm::mat4 identity;
     glm::mat4 transform = glm::rotate(identity, -90.0f, glm::vec3(1, 0, 0));
-    disk.setTransform(transform);
+    disk->setTransform(transform);
+    addChild(std::move(disk));
 }
 
 FloorPrimitive::~FloorPrimitive()
 {
     // nothing to do
-}
-
-void FloorPrimitive::render()
-{
-    disk.render();
 }

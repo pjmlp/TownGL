@@ -20,6 +20,8 @@
 #ifndef BUILDINGPRIMITIVE_H_
 #define BUILDINGPRIMITIVE_H_
 
+#pragma once
+
 #include "primitive.h"
 #include "boxprimitive.h"
 
@@ -27,12 +29,6 @@ class BuildingPrimitive: public Primitive {
 public:
     BuildingPrimitive(const glm::mat4 &transform);
     virtual ~BuildingPrimitive();
-
-    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-	virtual void render () override;
-
-private:
-    BoxPrimitive building;
 };
 
 #endif /* BUILDINGPRIMITIVE_H_ */

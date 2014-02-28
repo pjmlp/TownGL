@@ -17,6 +17,8 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <memory>
+
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
@@ -27,23 +29,19 @@
 #include "roadprimitive.h"
 
 
-RoadPrimitive::RoadPrimitive() : road(9, 11, 25)
+RoadPrimitive::RoadPrimitive()
 {
-    road.setColor(0, 0, 0, 0);
+    auto road = std::make_unique<DiskPrimitive>(9.0f, 11.0f, 25);
+    road->setColor(0, 0, 0, 0);
 
     glm::mat4 identity;
     glm::mat4 translation = glm::translate(identity, glm::vec3(0, 0.1f, 0));
     glm::mat4 transform = glm::rotate(translation, -90.0f, glm::vec3(1, 0, 0));
-    road.setTransform(transform);
-
+    road->setTransform(transform);
+    addChild(std::move(road));
 }
 
 RoadPrimitive::~RoadPrimitive()
 {
     // nothing to do
-}
-
-void RoadPrimitive::render()
-{
-    road.render();
 }

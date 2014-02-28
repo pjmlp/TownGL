@@ -17,6 +17,8 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <memory>
+
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
@@ -30,30 +32,26 @@
 
 TunnelPrimitive::TunnelPrimitive(const glm::mat4 &transform)
 {
-    objects.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
+    auto box = std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f);
     glm::mat4 transformTunnel = glm::translate(transform, glm::vec3(-5.0f, 0.0f, 0.0f));
-    objects[0]->setTransform(transformTunnel);
+    box->setTransform(transformTunnel);
+    addChild(std::move(box));
 
-    objects.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
+    box = std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f);
     transformTunnel = glm::translate(transform, glm::vec3(5, 0, 0));
-    objects[1]->setTransform(transformTunnel);
+    box->setTransform(transformTunnel);
+    addChild(std::move(box));
 
-    objects.push_back(std::make_unique<BoxPrimitive>(11.0f, 0.10f, 5.0f));
+    box = std::make_unique<BoxPrimitive>(11.0f, 0.10f, 5.0f);
     transformTunnel = glm::translate(transform, glm::vec3(0, 0.55f, 0));
-    objects[2]->setTransform(transformTunnel);
+    box->setTransform(transformTunnel);
+    addChild(std::move(box));
 
+    setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 
-    for (auto& mesh : objects)
-        mesh->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 }
 
 TunnelPrimitive::~TunnelPrimitive()
 {
     // Nothing to do
-}
-
-void TunnelPrimitive::render()
-{
-    for (auto& mesh : objects)
-        mesh->render();
 }

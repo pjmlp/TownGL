@@ -20,6 +20,8 @@
 #ifndef FLOORPRIMITIVE_H_
 #define FLOORPRIMITIVE_H_
 
+#pragma once
+
 #include "primitive.h"
 #include "diskprimitive.h"
 
@@ -31,11 +33,6 @@ class FloorPrimitive: public Primitive {
 public:
     FloorPrimitive();
     virtual ~FloorPrimitive();
-
-	virtual void render () override;
-
-private:
-    DiskPrimitive disk;
 };
 
 #endif /* FLOORPRIMITIVE_H_ */

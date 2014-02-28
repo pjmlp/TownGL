@@ -20,7 +20,8 @@
 #ifndef DiskPrimitive_H_
 #define DiskPrimitive_H_
 
-#include "mesh.h"
+#pragma once
+
 #include "primitive.h"
 #include "glos.h"
 
@@ -31,13 +32,6 @@ class DiskPrimitive: public Primitive {
 public:
 	DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices);
 	virtual ~DiskPrimitive();
-
-    virtual void setTransform(const glm::mat4 &transform) override;
-    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-    virtual void render() override;
-
-private:
-    Mesh mesh;
 };
 
 #endif /* DiskPrimitive_H_ */

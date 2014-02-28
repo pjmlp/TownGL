@@ -20,18 +20,34 @@
 #ifndef PRIMITIVE_H_
 #define PRIMITIVE_H_
 
+#pragma once
+
+#include <vector>
+#include <memory>
+
 #include <glm/fwd.hpp>
 
 #include "glos.h"
 
-class Primitive {
+#include "node.h"
+
+/**
+ * A 3D geometry object to be drawn.
+ * Similar to nodes in 3D scene graphs
+ */
+class Primitive: public Node {
 public:
     virtual ~Primitive();
 
-    virtual void setTransform(const glm::mat4 &transform);
-    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+    virtual void setTransform(const glm::mat4 &transform) override;
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
     virtual void update(GLfloat frame);
-	virtual void render () = 0;
+    virtual void render() override;
+
+    void addChild(std::unique_ptr<Node> child);
+
+private:
+    std::vector<std::unique_ptr<Node>> children;
 };
 
 #endif /* PRIMITIVE_H_ */

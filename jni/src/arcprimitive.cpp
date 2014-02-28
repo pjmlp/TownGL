@@ -19,9 +19,11 @@
 
 #include <cmath>
 #include <algorithm>
+#include <memory>
 
 #include "glos.h"
 #include "pi.h"
+#include "mesh.h"
 #include "arcprimitive.h"
 
 
@@ -60,30 +62,11 @@ ArcPrimitive::ArcPrimitive(GLfloat depth)
         lastXBottom = x;
         lastYBottom = y;
 
-        meshdata.push_back(std::move(mesh));
+        addChild(std::move(mesh));
     }
 }
 
 ArcPrimitive::~ArcPrimitive()
 {
     // Nothing to do
-}
-
-void ArcPrimitive::setTransform(const glm::mat4 &transform)
-{
-    for (auto& mesh : meshdata)
-        mesh->setTransform(transform);
-}
-
-void ArcPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    for (auto& mesh : meshdata)
-        mesh->setColor(r, g, b, a);
-}
-
-
-void ArcPrimitive::render()
-{
-    for (auto& mesh : meshdata)
-        mesh->render();
 }

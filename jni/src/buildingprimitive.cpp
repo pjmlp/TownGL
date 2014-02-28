@@ -17,26 +17,21 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <memory>
+
 #include "glos.h"
 
 #include "buildingprimitive.h"
 
 
-BuildingPrimitive::BuildingPrimitive(const glm::mat4 &transform) : building(2.0f, 8.0f, 2.0f)
+BuildingPrimitive::BuildingPrimitive(const glm::mat4 &transform)
 {
-    building.setTransform(transform);
+    auto building = std::make_unique<BoxPrimitive>(2.0f, 8.0f, 2.0f);
+    building->setTransform(transform);
+    addChild(std::move(building));
 }
 
 BuildingPrimitive::~BuildingPrimitive()
 {
     // nothing to do
-}
-
-void BuildingPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    building.setColor(r, g, b, a);
-}
-void BuildingPrimitive::render()
-{
-    building.render();
 }

@@ -20,8 +20,7 @@
 #ifndef TUNNELPRIMITIVE_H_
 #define TUNNELPRIMITIVE_H_
 
-#include <vector>
-#include <memory>
+#pragma once
 
 #include "primitive.h"
 #include "boxprimitive.h"
@@ -33,11 +32,6 @@ class TunnelPrimitive: public Primitive {
 public:
     TunnelPrimitive(const glm::mat4 &transform);
     virtual ~TunnelPrimitive();
-
-	virtual void render () override;
-
-private:
-    std::vector<std::unique_ptr<BoxPrimitive>> objects;
 };
 
 #endif /* TUNNELPRIMITIVE_H_ */

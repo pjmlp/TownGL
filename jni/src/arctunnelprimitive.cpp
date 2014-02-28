@@ -17,6 +17,8 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <memory>
+
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
@@ -30,36 +32,25 @@
 
 ArcTunnelPrimitive::ArcTunnelPrimitive(const glm::mat4 &transform)
 {
-    modelData.push_back(std::make_unique<ArcPrimitive>(2.5f));
-    modelData.push_back(std::make_unique<ArcPrimitive>(-2.5f));
-    modelData.push_back(std::make_unique<RoofPrimitive>());
-    modelData.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
-    for (auto& model : modelData) {
-        model->setTransform(transform);
-    }
+    addChild(std::make_unique<ArcPrimitive>(2.5f));
+    addChild(std::make_unique<ArcPrimitive>(-2.5f));
+    addChild(std::make_unique<RoofPrimitive>());
+    setTransform(transform);
 
-
+    auto modelData = std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f);
     glm::mat4 translate = glm::translate(transform, glm::vec3(-5, 0, 0));
-    modelData[3]->setTransform(translate);
+    modelData->setTransform(translate);
+    addChild(std::move(modelData));
 
-    modelData.push_back(std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f));
+    modelData = std::make_unique<BoxPrimitive>(1.0f, 1.0f, 5.0f);
     translate = glm::translate(transform, glm::vec3(5, 0, 0));
-    modelData[4]->setTransform(translate);
+    modelData->setTransform(translate);
+    addChild(std::move(modelData));
 
-
-    // Make sure all pieces have the proper color
-    for (auto& model : modelData)
-        model->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
+    setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
 }
 
 ArcTunnelPrimitive::~ArcTunnelPrimitive()
 {
     // Nothing to do
-}
-
-
-void ArcTunnelPrimitive::render()
-{
-    for (auto& model : modelData)
-        model->render();
 }

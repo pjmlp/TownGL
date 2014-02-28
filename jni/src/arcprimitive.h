@@ -20,11 +20,9 @@
 #ifndef ArcPrimitive_H_
 #define ArcPrimitive_H_
 
-#include <vector>
-#include <memory>
+#pragma once
 
 #include "glos.h"
-#include "mesh.h"
 #include "primitive.h"
 
 /**
@@ -34,13 +32,6 @@ class ArcPrimitive: public Primitive {
 public:
     ArcPrimitive(GLfloat depth);
 	virtual ~ArcPrimitive();
-
-    virtual void setTransform(const glm::mat4 &transform);
-    virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-	virtual void render () override;
-
-private:
-    std::vector<std::unique_ptr<Mesh>> meshdata;
 };
 
 #endif /* ArcPrimitive_H_ */

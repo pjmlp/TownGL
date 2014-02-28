@@ -18,6 +18,7 @@
 */
 
 #include <cmath>
+#include <memory>
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -26,26 +27,27 @@
 
 #include "glos.h"
 #include "pi.h"
+#include "mesh.h"
+#include "cylinderprimitive.h"
 #include "windmillprimitive.h"
 
-WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0f), sails(3, Mesh::RenderMode::triangles), sailLines(3, Mesh::RenderMode::line_strip)
+WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0f)
 {
-    meshdata.push_back(std::make_unique<CylinderPrimitive>(1.0f, 1.0f, 1.0f));
-    meshdata[0]->setColor(0.4f, 0.5f, 0, 0);  // brown
-    meshdata[0]->setTransform(transform);
+    auto base = std::make_unique<CylinderPrimitive>(1.0f, 1.0f, 1.0f);
+    base->setColor(0.4f, 0.5f, 0, 0);  // brown
+    base->setTransform(transform);
+    addChild(std::move(base));
     
     
-    meshdata.push_back(std::make_unique<CylinderPrimitive>(1.0f, 0.0f, 0.5f));
+    auto roof = std::make_unique<CylinderPrimitive>(1.0f, 0.0f, 0.5f);
 
     glm::mat4 roofTransform = glm::translate(transform, glm::vec3(0.0f, 1.0f, 0.0f));
-    meshdata[1]->setTransform(roofTransform);
-    meshdata[1]->setColor(1, 0, 0, 0);   // red
-
-    createSails();
+    roof->setTransform(roofTransform);
+    roof->setColor(1, 0, 0, 0);   // red
+    addChild(std::move(roof));
 
     glm::mat4 sailsTransform = glm::translate(transform, glm::vec3(0.0f, 1.0f, 1.0f));
-    sails.setTransform(sailsTransform);
-    sailLines.setTransform(sailsTransform);
+    createSails(sailsTransform);
 }
 
 WindmillPrimitive::~WindmillPrimitive()
@@ -62,25 +64,7 @@ void WindmillPrimitive::update(GLfloat frame)
 
 }
 
-void WindmillPrimitive::render()
-{
-    for (auto& mesh : meshdata)
-        mesh->render();
-        
-    sails.render();
-    sailLines.render();
-}
-
-void WindmillPrimitive::setTransform(const glm::mat4 &transform)
-{
-    for (auto& mesh : meshdata)
-        mesh->setTransform(transform);
-
-    sails.setTransform(transform);
-    sailLines.setTransform(transform);
-}
-
-void WindmillPrimitive::createSails()
+void WindmillPrimitive::createSails(const glm::mat4 &transform)
 {
     GLfloat length = 0.75f;
     bool isFlag = false;
@@ -89,24 +73,33 @@ void WindmillPrimitive::createSails()
     GLfloat angle;
     GLfloat maxAngle = 2 * PI;
     GLfloat angleSlice = maxAngle / static_cast<GLfloat>(elems);
+
+    auto sails = std::make_unique<Mesh>(3, Mesh::RenderMode::triangles);
+    auto sailLines = std::make_unique<Mesh>(3, Mesh::RenderMode::line_strip);
     for (angle = 0; angle < maxAngle; angle += angleSlice) {
         GLfloat x = length * cos(angle);
         GLfloat y = length * sin(angle);
-        sails.addVertex(x, y, 0.0f);
-        sails.addVertex(0.0f, 0.0f, 0.0f);
+        sails->addVertex(x, y, 0.0f);
+        sails->addVertex(0.0f, 0.0f, 0.0f);
 
-        sailLines.addVertex(x, y, 0.0f);
+        sailLines->addVertex(x, y, 0.0f);
 
         angle += angleSlice;
         x = length * cos(angle);
         y = length * sin(angle);
 
-        sails.addVertex(x, y, 0.0f);
+        sails->addVertex(x, y, 0.0f);
 
-        sailLines.addVertex(x, y, 0.0f);
+        sailLines->addVertex(x, y, 0.0f);
     }
-    sailLines.addVertex(length * cos(angle), length * sin(angle), 0.0f);
+    sailLines->addVertex(length * cos(angle), length * sin(angle), 0.0f);
 
-    sails.setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
-    sailLines.setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
+    sails->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
+    sailLines->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
+
+    sails->setTransform(transform);
+    sailLines->setTransform(transform);
+
+    addChild(std::move(sails));
+    addChild(std::move(sailLines));
 }

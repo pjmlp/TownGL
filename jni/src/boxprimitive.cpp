@@ -17,6 +17,8 @@
 * Boston, MA 02111-1307, USA.
 */
 
+#include <memory>
+
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -27,6 +29,7 @@
 
 #include "glos.h"
 
+#include "mesh.h"
 #include "boxprimitive.h"
 
 
@@ -72,14 +75,16 @@ static const GLfloat vertex[] = {
 
 
 
-BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): mesh(3, Mesh::RenderMode::triangles), scale(width/2, height/2, depth/2)
+BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): scale(width/2, height/2, depth/2)
 {
+    auto mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangles);
     const GLint vertexCount = 3;
     const GLint points = 12;
     const GLint size = 3 * points * vertexCount;
 
-    mesh.addVertices(::vertex, size);
-    setTransform(glm::mat4());
+    mesh->addVertices(::vertex, size);
+    mesh->setTransform(glm::mat4());
+    addChild(std::move(mesh));
 }
 
 
@@ -87,18 +92,8 @@ BoxPrimitive::~BoxPrimitive()
 {
 }
 
-void BoxPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    mesh.setColor(r, g, b, a);
-}
-
 void BoxPrimitive::setTransform(const glm::mat4 &transform)
 {
-    glm::mat4 result = glm::scale (transform, scale);
-    mesh.setTransform(result);
-}
-
-void BoxPrimitive::render()
-{
-    mesh.render();
+    glm::mat4 result = glm::scale(transform, scale);
+    Primitive::setTransform(result);
 }

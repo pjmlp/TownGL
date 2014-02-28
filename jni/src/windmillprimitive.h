@@ -20,29 +20,22 @@
 #ifndef WINDMILLPRIMITIVE_H_
 #define WINDMILLPRIMITIVE_H_
 
+#pragma once
+
 #include "primitive.h"
-#include "mesh.h"
-#include "cylinderprimitive.h"
 
 /**
-* Draws a windmill
-* @param frame the current animation frame
+* A windmill object.
 */
 class WindmillPrimitive: public Primitive {
 public:
     WindmillPrimitive(const glm::mat4 &transform);
     virtual ~WindmillPrimitive();
 
-    virtual void setTransform(const glm::mat4 &transform) override;
     virtual void update(GLfloat frame) override;
-	virtual void render () override;
 
 private:
-    void createSails();
-
-    std::vector<std::unique_ptr<Primitive>> meshdata;
-
-    Mesh sails, sailLines;
+    void createSails(const glm::mat4 &transform);
 
     GLfloat drawAngle;
 };

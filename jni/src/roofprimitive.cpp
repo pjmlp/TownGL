@@ -18,6 +18,7 @@
 */
 
 #include <cmath>
+#include <memory>
 
 #include "glos.h"
 #include "pi.h"
@@ -33,44 +34,27 @@ RoofPrimitive::RoofPrimitive()
 
     for (int i = 0; i < elems; i++) {
         GLfloat angle = UTIL_TO_RADIANS(10.0f * (i + 1));
-        meshdata.push_back(std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan));
+        auto mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan);
 
 
-        meshdata[i]->addVertex(lastX, lastY, 2.5);
-        meshdata[i]->addVertex(lastX, lastY, -2.5);
+        mesh->addVertex(lastX, lastY, 2.5);
+        mesh->addVertex(lastX, lastY, -2.5);
 
 
         GLfloat x = 5.5f * cos(angle);
         GLfloat y = 0.5f + 5.5f * sin(angle);
 
-        meshdata[i]->addVertex(x, y, -2.5);
-        meshdata[i]->addVertex(x, y, 2.5);
+        mesh->addVertex(x, y, -2.5);
+        mesh->addVertex(x, y, 2.5);
 
         lastX = x;
         lastY = y;
+
+        addChild(std::move(mesh));
     }
 }
 
 RoofPrimitive::~RoofPrimitive()
 {
     // Nothing to do
-}
-
-void RoofPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    for (auto& mesh : meshdata)
-        mesh->setColor(r, g, b, a);
-}
-
-
-void RoofPrimitive::render()
-{
-    for (auto& mesh : meshdata)
-        mesh->render();
-}
-
-void RoofPrimitive::setTransform(const glm::mat4 &transform)
-{
-    for (auto& mesh : meshdata)
-        mesh->setTransform(transform);
 }

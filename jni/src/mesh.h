@@ -20,6 +20,8 @@
 #ifndef MESH_H_
 #define MESH_H_
 
+#pragma once
+
 #include <vector>
 #include <memory>
 
@@ -27,8 +29,9 @@
 
 #include "glos.h"
 
+#include "node.h"
 
-class Mesh {
+class Mesh : public Node {
 public:
     enum class RenderMode { triangles, triangle_strip, triangle_fan, line_strip };
 
@@ -36,16 +39,16 @@ public:
     explicit Mesh(GLint coordinatesPerVertex, RenderMode mode);
 	virtual ~Mesh();
 
-	virtual void render ();
+	virtual void render () override;
 
     void addVertex(GLfloat x, GLfloat y);
     void addVertex(GLfloat x, GLfloat y, GLfloat z);
     void addVertices(const GLfloat *vertices, GLint size);
 
-    void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+    void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 
 
-    void setTransform(const glm::mat4 &transform);
+    void setTransform(const glm::mat4 &transform) override;
 
 private:
     GLint coordinatesPerVertex;

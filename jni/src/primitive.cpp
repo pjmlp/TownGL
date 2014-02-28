@@ -28,11 +28,44 @@ Primitive::~Primitive()
 void Primitive::update(GLfloat frame)
 {}
 
+/**
+ * Applies the transformation matrix to the primitive.
+ * Affects all imeditate children.
+ *
+ * @param transform The matrix in column major format, as expected by OpenGL
+ */
 void Primitive::setTransform(const glm::mat4 &transform)
 {
-
+    for (auto& child : children)
+        child->setTransform(transform);
 }
 
+/**
+ * Sets the primitive color. Affects all imeditate children. The standard RGBA values.
+ *
+ */
 void Primitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
+    for (auto& child : children)
+        child->setColor(r, g, b, a);
+}
+
+
+/**
+ * Renders all imeditate children.
+ *
+ */
+void Primitive::render()
+{
+    for (auto& child : children)
+        child->render();
+}
+
+
+/**
+ * Adds a new node to the group
+ */
+void Primitive::addChild(std::unique_ptr<Node> child)
+{
+    children.push_back(std::move(child));
 }

@@ -19,51 +19,41 @@
 
 #include <cassert>
 #include <cmath>
+#include <memory>
 
-
-#include "diskprimitive.h"
+#include "glos.h"
 #include "pi.h"
+#include "mesh.h"
+#include "diskprimitive.h"
+
 
 /**
  * @param innerRadius the inner radius of the circle from the center.
  * @param outerRadius the outer radius of the circle from the center.
  * @param slices the amount of slices to cut the circle when calculating the vertices. Must be at least 1.
  */
-DiskPrimitive::DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices) : mesh(3, Mesh::RenderMode::triangles)
+DiskPrimitive::DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint slices)
 {
 	assert(slices > 0);
     const GLfloat step = 2 * PI / static_cast<GLfloat>(slices);
 
+    auto mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangles);
     for (int i = 0; i < slices; i++) {
         GLfloat angle = i * step;
         GLfloat nextAngle = (i + 1 ) * step;
 
-        mesh.addVertex(outerRadius * cos(angle), outerRadius * sin(angle), 0);
-        mesh.addVertex(innerRadius * cos(angle), innerRadius * sin(angle), 0);
-        mesh.addVertex(outerRadius * cos(nextAngle), outerRadius * sin(nextAngle), 0);
+        mesh->addVertex(outerRadius * cos(angle), outerRadius * sin(angle), 0);
+        mesh->addVertex(innerRadius * cos(angle), innerRadius * sin(angle), 0);
+        mesh->addVertex(outerRadius * cos(nextAngle), outerRadius * sin(nextAngle), 0);
 
-        mesh.addVertex(outerRadius * cos(nextAngle), outerRadius * sin(nextAngle), 0);
-        mesh.addVertex(innerRadius * cos(angle), innerRadius * sin(angle), 0);
-        mesh.addVertex(innerRadius * cos(nextAngle), innerRadius * sin(nextAngle), 0);
+        mesh->addVertex(outerRadius * cos(nextAngle), outerRadius * sin(nextAngle), 0);
+        mesh->addVertex(innerRadius * cos(angle), innerRadius * sin(angle), 0);
+        mesh->addVertex(innerRadius * cos(nextAngle), innerRadius * sin(nextAngle), 0);
     }
+    addChild(std::move(mesh));
 }
 
 DiskPrimitive::~DiskPrimitive()
 {
 
-}
-
-void DiskPrimitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
-    mesh.setColor(r, g, b, a);
-}
-
-void DiskPrimitive::render()
-{
-    mesh.render();
-}
-
-void DiskPrimitive::setTransform(const glm::mat4 &transform)
-{
-    mesh.setTransform(transform);
 }
