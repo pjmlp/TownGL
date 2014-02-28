@@ -17,7 +17,6 @@
     <ClInclude Include="jni\src\buildingprimitive.h" />
     <ClInclude Include="jni\src\cylinderprimitive.h" />
     <ClInclude Include="jni\src\diskprimitive.h" />
-    <ClInclude Include="jni\src\effect.h" />
     <ClInclude Include="jni\src\world.h" />
     <ClInclude Include="jni\src\floorprimitive.h" />
     <ClInclude Include="jni\src\glos.h" />
@@ -37,7 +36,6 @@
     <ClCompile Include="jni\src\buildingprimitive.cpp" />
     <ClCompile Include="jni\src\cylinderprimitive.cpp" />
     <ClCompile Include="jni\src\diskprimitive.cpp" />
-    <ClCompile Include="jni\src\effect.cpp" />
     <ClCompile Include="jni\src\world.cpp" />
     <ClCompile Include="jni\src\floorprimitive.cpp" />
     <ClCompile Include="jni\src\glos_win.cpp" />
