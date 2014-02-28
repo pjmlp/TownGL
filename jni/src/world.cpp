@@ -43,9 +43,6 @@
 #include "world.h"
 
 
-extern std::unique_ptr<Effect> effect;
-
-
 World::World()
 {
     glm::mat4 identity;
@@ -95,24 +92,10 @@ World::~World()
 void World::render(GLfloat frame)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glMatrixMode(GL_MODELVIEW);
-
-    effect->bind();
-    effect->setWorldMatrix(worldMatrix);
-
+    glMatrixMode(GL_MODELVIEW);
 
     for (auto& obj : objects) {
         obj->render();
     }
 
-    effect->unbind();
-
-}
-
-/**
- * Sets the world matrix to be given to the shaders when calculating the objects location.
- */
-void World::setWorldMatrix(const glm::mat4 &matrix)
-{
-    worldMatrix = matrix;
 }
