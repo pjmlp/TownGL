@@ -30,19 +30,3 @@ bool InitializeGlew()
 	GLenum err = glewInit();
 	return (GLEW_OK == err);
 }
-
-GLint showOpenGLError(const char *file, const GLint line)
-{
-
-    GLenum glErr;
-    GLint    retCode = 0;
-
-    glErr = glGetError();
-    if (glErr != GL_NO_ERROR)
-    {
-        SDL_Log("glError in file %s @ line %d: %s\n",
-            file, line, gluErrorString(glErr));
-        retCode = 1;
-    }
-    return retCode;
-}
