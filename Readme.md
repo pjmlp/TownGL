@@ -6,7 +6,7 @@
 
 This demo application was originally developed in C, around 1999 with OpenGL 1.1 and targed Windows systems.
 
-I have recoded it as a means to keep myself updated with C++11 changes, how to use shaders in OpenGL and use Android NDK.
+I have recoded it as a means to keep myself updated with C++11 changes, how to use OpenGL ES and target Android with the NDK.
 
 The graphics were kept as simple as the original one, because the main goal was to learn the said technologies.
 
@@ -62,13 +62,13 @@ For building TownGL with the NDK, a few steps are required:
 ### Building with Eclipse/ADT/CDT
 
 1. Start Eclipse;
-2. Use _import ????_ for adding the project into the workspace;
+2. Use _import existing project_ for adding the project into the workspace;
 3. Verify that you have a valid path for the NDK at _Preferences->Android->NDK_ settings panel;
 4. Switch to the CDT perspective
 5. Build the project
 6. Finally deploy it either to the emulator or plugged device
 
-Since the demo makes use of OpenGL ES 2.0, it will only work in the emulator if the requirements are fullfiled:
+Since the demo makes use of OpenGL ES, it will only work in the emulator if the requirements are fullfiled:
 
 - HAXM is installed
 - The emulator is configured with an Intel CPU
