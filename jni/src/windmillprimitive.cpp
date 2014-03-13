@@ -67,7 +67,6 @@ void WindmillPrimitive::update(GLfloat frame)
 void WindmillPrimitive::createSails(const glm::mat4 &transform)
 {
     GLfloat length = 0.75f;
-    bool isFlag = false;
     const GLint elems = 12;
  
     GLfloat angle;

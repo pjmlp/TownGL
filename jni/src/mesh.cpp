@@ -43,8 +43,8 @@ Mesh::~Mesh()
 void Mesh::render()
 {
     if (vertex.size() > 0) {
-        GLint count;
-        GLenum renderMode;
+        GLint count = 0;
+        GLenum renderMode = GL_TRIANGLES;
         switch (drawMode) {
         case RenderMode::triangles:
             renderMode = GL_TRIANGLES;
