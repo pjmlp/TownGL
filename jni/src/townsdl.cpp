@@ -24,7 +24,7 @@
 #include "glos.h"
 
 
-#include "town.h"
+#include "app.h"
 
 
 /**
@@ -33,22 +33,22 @@
 * @param paused the current pause state.
 * @param done out parameter to let the application know it is time to finish execution
 */
-static void HandleKeys(SDL_Keycode sym, bool &paused, bool &done)
+static void handleKeys(Application &app, SDL_Keycode sym, bool &paused, bool &done)
 {
 	switch (sym) {
     case SDLK_p: paused = !paused;
 		break;
 
-	case SDLK_v : ChangeViewPoint ();
+	case SDLK_v : app.changeViewPoint ();
 		break;
 
-	case SDLK_l : ChangeLighting ();
+	case SDLK_l : app.changeLighting ();
 		break;
 
-	case SDLK_UP : IncreaseAltitude ();
+	case SDLK_UP : app.increaseAltitude ();
 		break;
 
-	case SDLK_DOWN : DecreaseAltitude ();
+	case SDLK_DOWN : app.decreaseAltitude ();
 		break;
 
 	case SDLK_ESCAPE :
@@ -63,6 +63,7 @@ static void HandleKeys(SDL_Keycode sym, bool &paused, bool &done)
 int main (int argc, char** argv)
 {
 	atexit(SDL_Quit); // Make sure SDL is always properly terminated
+    Application app;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < -1) {
 		SDL_Log("Error initializing SDL %s\n", SDL_GetError());
@@ -121,8 +122,8 @@ int main (int argc, char** argv)
 		return -1;
 	}
     
-	InitializeGL ();
-	OnResize (mode.w, mode.h);
+	app.initializeGL ();
+	app.onResize (mode.w, mode.h);
 
 	bool done = false;
     bool paused = false;
@@ -133,7 +134,7 @@ int main (int argc, char** argv)
 				switch(ev.window.event){
 				case SDL_WINDOWEVENT_SIZE_CHANGED:
 				case SDL_WINDOWEVENT_RESIZED:
-					OnResize (ev.window.data1, ev.window.data2);
+                    app.onResize(ev.window.data1, ev.window.data2);
 					break;
 
 				case SDL_WINDOWEVENT_CLOSE:
@@ -142,21 +143,21 @@ int main (int argc, char** argv)
 				}
 			}
 			else if (ev.type == SDL_KEYDOWN) {
-				HandleKeys(ev.key.keysym.sym, paused, done);
+				handleKeys(app, ev.key.keysym.sym, paused, done);
 			} else if (ev.type == SDL_FINGERDOWN) {
                 paused = !paused;
 			} else if (ev.type == SDL_FINGERMOTION) {
 				if (ev.tfinger.dy > 0) {
-					IncreaseAltitude();
+					app.increaseAltitude();
 				} else if (ev.tfinger.dy < 0) {
-					DecreaseAltitude();
+					app.decreaseAltitude();
 				}
 			} else if (ev.type == SDL_QUIT) {
 				done = true;
 			}
 		}
         if (!paused) {
-            MainLoop();
+            app.mainLoop();
             SDL_GL_SwapWindow(screen);
         }
 	}

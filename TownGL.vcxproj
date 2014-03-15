@@ -11,39 +11,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="jni\src\app.h" />
     <ClInclude Include="jni\src\arcprimitive.h" />
     <ClInclude Include="jni\src\arctunnelprimitive.h" />
     <ClInclude Include="jni\src\boxprimitive.h" />
-    <ClInclude Include="jni\src\buildingprimitive.h" />
     <ClInclude Include="jni\src\cylinderprimitive.h" />
     <ClInclude Include="jni\src\diskprimitive.h" />
     <ClInclude Include="jni\src\world.h" />
-    <ClInclude Include="jni\src\floorprimitive.h" />
     <ClInclude Include="jni\src\glos.h" />
     <ClInclude Include="jni\src\mesh.h" />
     <ClInclude Include="jni\src\pi.h" />
     <ClInclude Include="jni\src\primitive.h" />
-    <ClInclude Include="jni\src\roadprimitive.h" />
     <ClInclude Include="jni\src\roofprimitive.h" />
-    <ClInclude Include="jni\src\town.h" />
     <ClInclude Include="jni\src\tunnelprimitive.h" />
     <ClInclude Include="jni\src\windmillprimitive.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="jni\src\app.cpp" />
     <ClCompile Include="jni\src\arcprimitive.cpp" />
     <ClCompile Include="jni\src\arctunnelprimitive.cpp" />
     <ClCompile Include="jni\src\boxprimitive.cpp" />
-    <ClCompile Include="jni\src\buildingprimitive.cpp" />
     <ClCompile Include="jni\src\cylinderprimitive.cpp" />
     <ClCompile Include="jni\src\diskprimitive.cpp" />
     <ClCompile Include="jni\src\world.cpp" />
-    <ClCompile Include="jni\src\floorprimitive.cpp" />
     <ClCompile Include="jni\src\glos_win.cpp" />
     <ClCompile Include="jni\src\mesh.cpp" />
     <ClCompile Include="jni\src\primitive.cpp" />
-    <ClCompile Include="jni\src\roadprimitive.cpp" />
     <ClCompile Include="jni\src\roofprimitive.cpp" />
-    <ClCompile Include="jni\src\town.cpp" />
     <ClCompile Include="jni\src\townsdl.cpp" />
     <ClCompile Include="jni\src\tunnelprimitive.cpp" />
     <ClCompile Include="jni\src\windmillprimitive.cpp" />
