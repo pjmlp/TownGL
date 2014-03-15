@@ -28,10 +28,6 @@
 
 #include "mesh.h"
 
-Mesh::Mesh() : coordinatesPerVertex(2), drawMode(RenderMode::triangle_strip), r(0.0f), g(0.0f), b(0.0f), transform(1.0f)
-{
-}
-
 Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), g(0.0f), b(0.0f), transform(1.0f)
 {
 }
@@ -40,6 +36,9 @@ Mesh::~Mesh()
 {
 }
 
+/**
+ * Renders the current mesh.
+ */
 void Mesh::render()
 {
     if (vertex.size() > 0) {
@@ -70,29 +69,28 @@ void Mesh::render()
             assert(false);
         }
 
-        glPushMatrix();
-        glLoadMatrixf(glm::value_ptr(transform));
+        if (count > 0) {
+            glPushMatrix();
+            glLoadMatrixf(glm::value_ptr(transform));
 
-        glColor4f(r, g, b, a);
+            glColor4f(r, g, b, a);
 
-        glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_VERTEX_ARRAY);
 
-        glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, &vertex[0]);
+            glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, &vertex[0]);
 
-        glDrawArrays(renderMode, 0, count);
+            glDrawArrays(renderMode, 0, count);
 
-        glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_VERTEX_ARRAY);
 
-        glPopMatrix();
+            glPopMatrix();
+        }
     }
 }
 
-void Mesh::addVertex(GLfloat x, GLfloat y)
-{
-    vertex.push_back(x);
-    vertex.push_back(y);
-}
-
+/**
+ *  Adds a vertex to the mesh with the usual set of (x, y, z) coordinates.
+ */
 void Mesh::addVertex(GLfloat x, GLfloat y, GLfloat z)
 {
     vertex.push_back(x);
@@ -100,12 +98,18 @@ void Mesh::addVertex(GLfloat x, GLfloat y, GLfloat z)
     vertex.push_back(z);
 }
 
+/**
+ *  Add a vertex vector where the entries are expected to be of the form (x, y, z) coordinates.
+ */
 void Mesh::addVertices(const GLfloat *vertices, GLint size)
 {
     for (int i = 0; i < size; i++)
         vertex.push_back(vertices[i]);
 }
 
+/**
+ * Set the global color for the whole mesh.
+ */
 void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
     this->r = r;
@@ -115,7 +119,9 @@ void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 
 }
 
-
+/**
+ * Local transformation to be used by the mesh when rendering.
+ */
 void  Mesh::setTransform(const glm::mat4 &transform)
 {
     this->transform = transform;

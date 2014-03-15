@@ -31,17 +31,18 @@
 
 #include "node.h"
 
+/**
+ * Represents a generic mesh object.
+ */
 class Mesh : public Node {
 public:
     enum class RenderMode { triangles, triangle_strip, triangle_fan, line_strip };
 
-    explicit Mesh();
     explicit Mesh(GLint coordinatesPerVertex, RenderMode mode);
 	virtual ~Mesh();
 
 	virtual void render () override;
 
-    void addVertex(GLfloat x, GLfloat y);
     void addVertex(GLfloat x, GLfloat y, GLfloat z);
     void addVertices(const GLfloat *vertices, GLint size);
 

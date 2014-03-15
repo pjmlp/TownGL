@@ -33,9 +33,6 @@
 #include "cylinderprimitive.h"
 #include "primitive.h"
 #include "arctunnelprimitive.h"
-#include "buildingprimitive.h"
-#include "floorprimitive.h"
-#include "roadprimitive.h"
 #include "tunnelprimitive.h"
 #include "windmillprimitive.h"
 #include "effect.h"
@@ -46,16 +43,29 @@
 World::World()
 {
     glm::mat4 identity;
-    glm::mat4 translation = glm::translate(identity, glm::vec3(4.2f, 0.0f, 13.0f));
+    glm::mat4 translation = glm::rotate(identity, -90.0f, glm::vec3(1, 0, 0));
 
+    // sets the floor
+    objects.push_back(std::make_unique<DiskPrimitive>(0.0f, 50.0f, 10));
+    objects.back()->setColor(0.2f, 0.3f, 0.5f, 0.0f);
+    objects.back()->setTransform(translation);
 
-    objects.push_back(std::make_unique<FloorPrimitive>());
-    objects.push_back(std::make_unique<RoadPrimitive>());
+    // sets the road
+    objects.push_back(std::make_unique<DiskPrimitive>(9.0f, 11.0f, 25));
+    objects.back()->setColor(0, 0, 0, 0);
+ 
+    translation = glm::translate(identity, glm::vec3(0, 0.1f, 0));
+    glm::mat4 transform = glm::rotate(translation, -90.0f, glm::vec3(1, 0, 0));
+    objects.back()->setTransform(transform);
+
+    // creates the windmills
+    translation = glm::translate(identity, glm::vec3(4.2f, 0.0f, 13.0f));
     objects.push_back(std::make_unique<WindmillPrimitive>(translation));
 
     translation = glm::translate(identity, glm::vec3(15.0f, 0.0f, -15.0f));
     objects.push_back(std::make_unique<WindmillPrimitive>(translation));
 
+    // creates the tunnels
     translation = glm::translate(identity, glm::vec3(0.0f, 0.0f, -10.0f));
     glm::mat4 scale = glm::scale(translation, glm::vec3(1.0f, 0.5f, 0.5f));
     glm::mat4 rotation = glm::rotate(scale, 90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -68,15 +78,20 @@ World::World()
     objects.push_back(std::make_unique<TunnelPrimitive>(rotation));
 
     translation = glm::translate(identity, glm::vec3(10.0f, 4.0f, -17.0f));
-    objects.push_back(std::make_unique<BuildingPrimitive>(translation));
+
+    // creates the buildings
+    objects.push_back(std::make_unique<BoxPrimitive>(2.0f, 8.0f, 2.0f));
+    objects.back()->setTransform(translation);
     objects.back()->setColor(0, 0, 1, 0);
 
     translation = glm::translate(identity, glm::vec3(-15.0f, 4.0f, -10.0f));
-    objects.push_back(std::make_unique<BuildingPrimitive>(translation));
+    objects.push_back(std::make_unique<BoxPrimitive>(2.0f, 8.0f, 2.0f));
+    objects.back()->setTransform(translation);
     objects.back()->setColor(0, 1, 0, 0);
 
     translation = glm::translate(identity, glm::vec3(13.0f, 4.0f, 8.0f));
-    objects.push_back(std::make_unique<BuildingPrimitive>(translation));
+    objects.push_back(std::make_unique<BoxPrimitive>(2.0f, 8.0f, 2.0f));
+    objects.back()->setTransform(translation);
     objects.back()->setColor(1, 0, 0, 0);
 }
 
