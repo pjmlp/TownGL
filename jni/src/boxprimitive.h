@@ -26,6 +26,9 @@
 
 #include "primitive.h"
 
+/**
+ * Represents a box, cube.
+ */
 class BoxPrimitive :	public Primitive
 {
 public:
