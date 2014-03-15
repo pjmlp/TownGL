@@ -27,6 +27,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "c++14.h"
 
 #include "glos.h"
 
@@ -79,9 +80,6 @@ static const std::vector<GLfloat> vertex = {
 BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): scale(width/2, height/2, depth/2)
 {
     auto mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangles);
-    const GLint vertexCount = 3;
-    const GLint points = 12;
-    const GLint size = 3 * points * vertexCount;
 
     mesh->addVertices(::vertex);
     mesh->setTransform(glm::mat4());
