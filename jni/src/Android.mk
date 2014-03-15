@@ -12,10 +12,9 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include $(LOCAL_PATH)/$(GLM_PATH)
 
 # Application files
 LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
-	townsdl.cpp town.cpp world.cpp mesh.cpp diskprimitive.cpp boxprimitive.cpp \
-	arcprimitive.cpp roofprimitive.cpp arctunnelprimitive.cpp buildingprimitive.cpp \
-	primitive.cpp floorprimitive.cpp tunnelprimitive.cpp roadprimitive.cpp windmillprimitive.cpp \
-	cylinderprimitive.cpp
+	townsdl.cpp app.cpp world.cpp mesh.cpp diskprimitive.cpp boxprimitive.cpp \
+	arcprimitive.cpp roofprimitive.cpp arctunnelprimitive.cpp primitive.cpp \
+	tunnelprimitive.cpp windmillprimitive.cpp cylinderprimitive.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2
 
