@@ -33,7 +33,7 @@
 #include "boxprimitive.h"
 
 
-
+// Pre-defined set of vertices for a 1x1x1 cube.
 static const GLfloat vertex[] = {
 	-1.0f, -1.0f, -1.0f,
 	-1.0f, -1.0f, 1.0f,

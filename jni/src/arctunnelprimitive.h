@@ -24,6 +24,9 @@
 
 #include "primitive.h"
 
+/**
+ * A tunnel in an arch form.
+ */
 class ArcTunnelPrimitive: public Primitive {
 public:
     ArcTunnelPrimitive(const glm::mat4 &transform);
