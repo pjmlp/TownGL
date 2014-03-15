@@ -43,7 +43,7 @@
 World::World()
 {
     glm::mat4 identity;
-    glm::mat4 translation = glm::rotate(identity, -90.0f, glm::vec3(1, 0, 0));
+    glm::mat4 translation = glm::rotate(identity, toRadians(- 90.0f), glm::vec3(1, 0, 0));
 
     // sets the floor
     objects.push_back(std::make_unique<DiskPrimitive>(0.0f, 50.0f, 10));
@@ -55,7 +55,7 @@ World::World()
     objects.back()->setColor(0, 0, 0, 0);
  
     translation = glm::translate(identity, glm::vec3(0, 0.1f, 0));
-    glm::mat4 transform = glm::rotate(translation, -90.0f, glm::vec3(1, 0, 0));
+    glm::mat4 transform = glm::rotate(translation, toRadians(-90.0f), glm::vec3(1, 0, 0));
     objects.back()->setTransform(transform);
 
     // creates the windmills
@@ -73,7 +73,7 @@ World::World()
 
     translation = glm::translate(identity, glm::vec3(-6.0f, 0.0f, 8.0f));
     scale = glm::scale(translation, glm::vec3(0.5f, 2.0f, 0.5f));
-    rotation = glm::rotate(scale, 60.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    rotation = glm::rotate(scale, toRadians(60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
     objects.push_back(std::make_unique<TunnelPrimitive>(rotation));
 

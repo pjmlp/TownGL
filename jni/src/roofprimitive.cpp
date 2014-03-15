@@ -33,7 +33,7 @@ RoofPrimitive::RoofPrimitive()
     GLfloat lastY = 0.5;
 
     for (int i = 0; i < elems; i++) {
-        GLfloat angle = UTIL_TO_RADIANS(10.0f * (i + 1));
+        GLfloat angle = toRadians(10.0f * (i + 1));
         auto mesh = std::make_unique<Mesh>(3, Mesh::RenderMode::triangle_fan);
 
 

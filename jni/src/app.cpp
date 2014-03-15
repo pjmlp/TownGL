@@ -189,8 +189,8 @@ void Application::project(GLsizei w, GLsizei h)
     if (angle > 360)
         angle -= 360;
 
-    cosAngle = cos(UTIL_TO_RADIANS(angle));
-    sinAngle = sin(UTIL_TO_RADIANS(angle));
+    cosAngle = cos(toRadians(angle));
+    sinAngle = sin(toRadians(angle));
 
     if (isAbove) { /* view from above */
         xTarget = 0;
@@ -211,9 +211,9 @@ void Application::project(GLsizei w, GLsizei h)
         yEye = altitude;
         zEye = radius * sinAngle;
 
-        xTarget = xEye + cos(UTIL_TO_RADIANS(98 + angle));
+        xTarget = xEye + cos(toRadians(98 + angle));
         yTarget = altitude;
-        zTarget = zEye + sin(UTIL_TO_RADIANS(98 + angle));
+        zTarget = zEye + sin(toRadians(98 + angle));
 
 
         xUpVector = 0.0;
