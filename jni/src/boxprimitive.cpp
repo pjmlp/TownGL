@@ -18,6 +18,7 @@
 */
 
 #include <memory>
+#include <vector>
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
@@ -34,7 +35,7 @@
 
 
 // Pre-defined set of vertices for a 1x1x1 cube.
-static const GLfloat vertex[] = {
+static const std::vector<GLfloat> vertex = {
 	-1.0f, -1.0f, -1.0f,
 	-1.0f, -1.0f, 1.0f,
 	-1.0f, 1.0f, 1.0f,
@@ -82,7 +83,7 @@ BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): scale(
     const GLint points = 12;
     const GLint size = 3 * points * vertexCount;
 
-    mesh->addVertices(::vertex, size);
+    mesh->addVertices(::vertex);
     mesh->setTransform(glm::mat4());
     addChild(std::move(mesh));
 }

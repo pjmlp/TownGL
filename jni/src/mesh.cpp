@@ -18,6 +18,7 @@
 */
 
 #include <cassert>
+#include <algorithm>
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
@@ -28,7 +29,7 @@
 
 #include "mesh.h"
 
-Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), g(0.0f), b(0.0f), transform(1.0f)
+Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), g(0.0f), b(0.0f), a(0.0f), transform(1.0f)
 {
 }
 
@@ -99,12 +100,12 @@ void Mesh::addVertex(GLfloat x, GLfloat y, GLfloat z)
 }
 
 /**
- *  Add a vertex vector where the entries are expected to be of the form (x, y, z) coordinates.
- */
-void Mesh::addVertices(const GLfloat *vertices, GLint size)
+*  Add a vertex vector where the entries are expected to be of the form (x, y, z) coordinates.
+*/
+void Mesh::addVertices(const std::vector<GLfloat> &vertices)
 {
-    for (int i = 0; i < size; i++)
-        vertex.push_back(vertices[i]);
+    vertex.reserve(vertex.size() + vertices.size()); // preallocate memory
+    vertex.insert(end(vertex), begin(vertices), end(vertices));
 }
 
 /**

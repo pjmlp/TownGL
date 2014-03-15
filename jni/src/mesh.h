@@ -44,7 +44,7 @@ public:
 	virtual void render () override;
 
     void addVertex(GLfloat x, GLfloat y, GLfloat z);
-    void addVertices(const GLfloat *vertices, GLint size);
+    void addVertices(const std::vector<GLfloat> &vertices);
 
     void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
 
