@@ -6,10 +6,9 @@
 
 This demo application was originally developed in C, around 1999 with OpenGL 1.1 and targed Windows systems.
 
-I have recoded it as a means to keep myself updated with C++11 changes, how to use OpenGL ES and target Android with the NDK.
+I have recoded it as a means to keep myself updated with the C++11/C++14 changes and how to use to target Android systems with NDK and Open GL ES.
 
-The graphics were kept as simple as the original one, because the main goal was to learn the said technologies.
-
+The graphics were kept as simple as the original one, because the main goal was to learn the said technologies and not to write a game engine.
 
 # Dependencies
 
@@ -49,14 +48,14 @@ For building TownGL with the NDK, a few steps are required:
 
 1. Download SDL from http://www.libsdl.org/
 2. Expand the package contents
-3. Copy SDL source code into _src/jni_ location
-4. Copy the Java code .... into _src_
+3. Copy the full SDL source code into _src/jni_ location
+4. Copy the Java code from _android-project/src_ into _src_
 5. Download GLM from http://glm.g-truc.net
 6. Copy GLM source code into _src/jni_ location
 
 ### Building on the command line
 
-1. ndk-build
+1. Make sure ndk-build is on the PATH
 2. ant compile
 
 ### Building with Eclipse/ADT/CDT
