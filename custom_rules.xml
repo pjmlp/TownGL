@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TownGL-ndk" default="-pre-build">
+    <target name="-pre-build">
+        <exec executable="ndk-build.cmd" failonerror="true" >
+            <!-- arg value="NDK_DEBUG=1"/>
+            <arg value="V=1"/ -->
+        </exec>
+    </target>
+
+    <target name="clean" depends="android_rules.clean">
+        <exec executable="ndk-build.cmd" failonerror="true">
+            <arg value="clean"/>
+        </exec>
+    </target>    
+</project>
