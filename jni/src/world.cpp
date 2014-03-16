@@ -69,7 +69,7 @@ World::World()
     // creates the tunnels
     translation = glm::translate(identity, glm::vec3(0.0f, 0.0f, -10.0f));
     glm::mat4 scale = glm::scale(translation, glm::vec3(1.0f, 0.5f, 0.5f));
-    glm::mat4 rotation = glm::rotate(scale, 90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 rotation = glm::rotate(scale, toRadians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     objects.push_back(std::make_unique<ArcTunnelPrimitive>(rotation));
 
     translation = glm::translate(identity, glm::vec3(-6.0f, 0.0f, 8.0f));
