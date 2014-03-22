@@ -15,8 +15,11 @@
     <ClInclude Include="jni\src\arcprimitive.h" />
     <ClInclude Include="jni\src\arctunnelprimitive.h" />
     <ClInclude Include="jni\src\boxprimitive.h" />
+    <ClInclude Include="jni\src\c++14.h" />
     <ClInclude Include="jni\src\cylinderprimitive.h" />
     <ClInclude Include="jni\src\diskprimitive.h" />
+    <ClInclude Include="jni\src\node.h" />
+    <ClInclude Include="jni\src\sailprimitive.h" />
     <ClInclude Include="jni\src\world.h" />
     <ClInclude Include="jni\src\glos.h" />
     <ClInclude Include="jni\src\mesh.h" />
@@ -33,6 +36,7 @@
     <ClCompile Include="jni\src\boxprimitive.cpp" />
     <ClCompile Include="jni\src\cylinderprimitive.cpp" />
     <ClCompile Include="jni\src\diskprimitive.cpp" />
+    <ClCompile Include="jni\src\sailprimitive.cpp" />
     <ClCompile Include="jni\src\world.cpp" />
     <ClCompile Include="jni\src\glos_win.cpp" />
     <ClCompile Include="jni\src\mesh.cpp" />

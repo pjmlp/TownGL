@@ -25,8 +25,17 @@ Primitive::~Primitive()
     // nothing to do
 }
 
+/**
+* Updates the state of each element.
+* Affects all imeditate children.
+*
+* @param frame The current time
+*/
 void Primitive::update(GLfloat frame)
-{}
+{
+    for (auto& child : children)
+        child->update(frame);
+}
 
 /**
  * Applies the transformation matrix to the primitive.

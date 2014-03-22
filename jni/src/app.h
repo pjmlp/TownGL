@@ -20,13 +20,14 @@
 #ifndef APP_H_
 #define APP_H_
 
+// for the compilers that support it. a bit faster than include guards
+#pragma once
+
 #include <ctime>
 
 #include "glos.h"
 
 #include "world.h"
-
-
 
 
 /**

@@ -35,6 +35,7 @@ public:
 
     virtual void setTransform(const glm::mat4 &transform) = 0;
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) = 0;
+    virtual void update(GLfloat frame) = 0;
 	virtual void render () = 0;
 };
 

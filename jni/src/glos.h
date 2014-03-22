@@ -19,6 +19,9 @@
 #ifndef GLOS_H_
 #define GLOS_H_
 
+// for the compilers that support it. a bit faster than include guards
+#pragma once
+
 #ifdef __ANDROID__
     #include <EGL/egl.h>
     #include <GLES/gl.h>

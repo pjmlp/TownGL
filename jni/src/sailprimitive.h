@@ -1,4 +1,4 @@
-/* BoxPrimitive.h -  Represents a box
+/* sails.h -  Represents sails used by Windmills.
 * Copyright (C) 2013 Paulo Pinto
 *
 * This library is free software; you can redistribute it and/or
@@ -17,29 +17,30 @@
 * Boston, MA 02111-1307, USA.
 */
 
-#ifndef BoxPrimitive_H_
-#define BoxPrimitive_H_
+#ifndef SAILS_H_
+#define SAILS_H_
 
 // for the compilers that support it. a bit faster than include guards
 #pragma once
 
-#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 
 #include "primitive.h"
 
 /**
- * Represents a box, cube.
- */
-class BoxPrimitive :	public Primitive
-{
+* A sail object.
+*/
+class Sail: public Primitive {
 public:
-	BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth);
-	virtual ~BoxPrimitive();
+    Sail(const glm::mat4 &transform);
+    virtual ~Sail();
 
-    virtual void setTransform(const glm::mat4 &transform) override;
+    virtual void update(GLfloat frame) override;
+
 private:
 
-    glm::vec3 scale;
+    GLfloat drawAngle;
+    glm::mat4 sailsTransform;
 };
 
-#endif /* BoxPrimitive_H_ */
+#endif /* SAILS_H_ */

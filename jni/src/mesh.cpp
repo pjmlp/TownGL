@@ -121,6 +121,13 @@ void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 }
 
 /**
+ * Allows for mesh updates that depend on the current frame.
+ */
+void  Mesh::update(GLfloat frame)
+{
+}
+
+/**
  * Local transformation to be used by the mesh when rendering.
  */
 void  Mesh::setTransform(const glm::mat4 &transform)

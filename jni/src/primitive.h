@@ -20,6 +20,7 @@
 #ifndef PRIMITIVE_H_
 #define PRIMITIVE_H_
 
+// for the compilers that support it. a bit faster than include guards
 #pragma once
 
 #include <vector>
@@ -41,7 +42,7 @@ public:
 
     virtual void setTransform(const glm::mat4 &transform) override;
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-    virtual void update(GLfloat frame);
+    virtual void update(GLfloat frame) override;
     virtual void render() override;
 
     void addChild(std::unique_ptr<Node> child);

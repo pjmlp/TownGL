@@ -86,11 +86,12 @@ void Application::initializeGL()
 void Application::mainLoop()
 {
     clock_t now = clock();
-    GLfloat duration = (now - currentTime) / (GLfloat)CLOCKS_PER_SEC;
+    GLfloat duration = (now - currentTime) / static_cast<GLfloat>(CLOCKS_PER_SEC);
 
     currentFrame = duration;
     project(lastWidth, lastHeight);
-    world.render(duration);
+    world.update(duration);
+    world.render();
 
     currentTime = now;
 }
@@ -169,9 +170,9 @@ void Application::project(GLsizei w, GLsizei h)
 
 
     if (w <= h)
-        scale = glm::scale(identity, glm::vec3(1, (GLfloat)w / (GLfloat)h, 1));
+        scale = glm::scale(identity, glm::vec3(1, static_cast<GLfloat>(w) / static_cast<GLfloat>(h), 1));
     else
-        scale = glm::scale(identity, glm::vec3((GLfloat)h / (GLfloat)w, 1, 1));
+        scale = glm::scale(identity, glm::vec3(static_cast<GLfloat>(h) / static_cast<GLfloat>(w), 1, 1));
 
     const GLfloat aspect = 1.0f;
     const GLfloat fovy = 45;

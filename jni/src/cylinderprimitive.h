@@ -20,6 +20,7 @@
 #ifndef CylinderPrimitive_H_
 #define CylinderPrimitive_H_
 
+// for the compilers that support it. a bit faster than include guards
 #pragma once
 
 #include "primitive.h"

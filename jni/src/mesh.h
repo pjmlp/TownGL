@@ -20,6 +20,7 @@
 #ifndef MESH_H_
 #define MESH_H_
 
+// for the compilers that support it. a bit faster than include guards
 #pragma once
 
 #include <vector>
@@ -47,7 +48,7 @@ public:
     void addVertices(const std::vector<GLfloat> &vertices);
 
     void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
-
+    virtual void update(GLfloat frame) override;
 
     void setTransform(const glm::mat4 &transform) override;
 

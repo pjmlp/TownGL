@@ -20,6 +20,7 @@
 #ifndef WINDMILLPRIMITIVE_H_
 #define WINDMILLPRIMITIVE_H_
 
+// for the compilers that support it. a bit faster than include guards
 #pragma once
 
 #include "primitive.h"
@@ -31,13 +32,6 @@ class WindmillPrimitive: public Primitive {
 public:
     WindmillPrimitive(const glm::mat4 &transform);
     virtual ~WindmillPrimitive();
-
-    virtual void update(GLfloat frame) override;
-
-private:
-    void createSails(const glm::mat4 &transform);
-
-    GLfloat drawAngle;
 };
 
 #endif /* WINDMILLPRIMITIVE_H_ */

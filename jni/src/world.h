@@ -19,6 +19,9 @@
 #ifndef WORLD_H_
 #define WORLD_H_
 
+// for the compilers that support it. a bit faster than include guards
+#pragma once
+
 #include <vector>
 #include <memory>
 
@@ -36,7 +39,8 @@ public:
     World();
     ~World();
 
-    void render(GLfloat frame);
+    void update(GLfloat frame);
+    void render();
 
 private:
     std::vector<std::unique_ptr<Primitive>> objects;

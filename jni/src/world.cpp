@@ -102,10 +102,22 @@ World::~World()
 }
 
 /**
+* Allows all objects to update their state for the current frame
+* @param frame current animation frame.
+*/
+void World::update(GLfloat frame)
+{
+    for (auto& obj : objects) {
+        obj->update(frame);
+    }
+
+}
+
+/**
 * Draws the world representing the town.
 * @param frame current animation frame.
 */
-void World::render(GLfloat frame)
+void World::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);

@@ -20,6 +20,7 @@
 #ifndef ArcPrimitive_H_
 #define ArcPrimitive_H_
 
+// for the compilers that support it. a bit faster than include guards
 #pragma once
 
 #include "glos.h"

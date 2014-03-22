@@ -19,6 +19,8 @@
 #ifndef PI_H_
 #define PI_H_
 
+// for the compilers that support it. a bit faster than include guards
+#pragma once
 
 const GLfloat PI = 3.1415926535897932384626433832795f;
 

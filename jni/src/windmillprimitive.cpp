@@ -30,9 +30,10 @@
 #include "pi.h"
 #include "mesh.h"
 #include "cylinderprimitive.h"
+#include "sailprimitive.h"
 #include "windmillprimitive.h"
 
-WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0f)
+WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform)
 {
     auto base = std::make_unique<CylinderPrimitive>(1.0f, 1.0f, 1.0f);
     base->setColor(0.4f, 0.5f, 0, 0);  // brown
@@ -47,59 +48,12 @@ WindmillPrimitive::WindmillPrimitive(const glm::mat4 &transform) : drawAngle(0.0
     roof->setColor(1, 0, 0, 0);   // red
     addChild(std::move(roof));
 
-    glm::mat4 sailsTransform = glm::translate(transform, glm::vec3(0.0f, 1.0f, 1.0f));
-    createSails(sailsTransform);
+    auto sailsTransform = glm::translate(transform, glm::vec3(0.0f, 1.0f, -1.0f));
+    auto sails = std::make_unique<Sail>(sailsTransform);
+    addChild(std::move(sails));
 }
 
 WindmillPrimitive::~WindmillPrimitive()
 {
-
-}
-
-void WindmillPrimitive::update(GLfloat frame)
-{
-    /* temporary move here, this code should be removed when the framerate is fixed */
-    drawAngle += 10 * frame;
-    if (drawAngle > 360)
-        drawAngle -= 360;
-
-}
-
-void WindmillPrimitive::createSails(const glm::mat4 &transform)
-{
-    GLfloat length = 0.75f;
-    const GLint elems = 12;
- 
-    GLfloat angle;
-    GLfloat maxAngle = 2 * PI;
-    GLfloat angleSlice = maxAngle / static_cast<GLfloat>(elems);
-
-    auto sails = std::make_unique<Mesh>(3, Mesh::RenderMode::triangles);
-    auto sailLines = std::make_unique<Mesh>(3, Mesh::RenderMode::line_strip);
-    for (angle = 0; angle < maxAngle; angle += angleSlice) {
-        GLfloat x = length * cos(angle);
-        GLfloat y = length * sin(angle);
-        sails->addVertex(x, y, 0.0f);
-        sails->addVertex(0.0f, 0.0f, 0.0f);
-
-        sailLines->addVertex(x, y, 0.0f);
-
-        angle += angleSlice;
-        x = length * cos(angle);
-        y = length * sin(angle);
-
-        sails->addVertex(x, y, 0.0f);
-
-        sailLines->addVertex(x, y, 0.0f);
-    }
-    sailLines->addVertex(length * cos(angle), length * sin(angle), 0.0f);
-
-    sails->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
-    sailLines->setColor(1.0f, 0.8f, 0.0f, 0.0f); //yellow
-
-    sails->setTransform(transform);
-    sailLines->setTransform(transform);
-
-    addChild(std::move(sails));
-    addChild(std::move(sailLines));
+    // nothing to do
 }

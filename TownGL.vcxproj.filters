@@ -57,6 +57,15 @@
     <ClInclude Include="jni\src\app.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\src\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\src\c++14.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\src\sailprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\src\glos_win.cpp">
@@ -99,6 +108,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jni\src\app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\src\sailprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

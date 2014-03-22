@@ -20,6 +20,7 @@
 #ifndef ARCTUNNELPRIMITIVE_H_
 #define ARCTUNNELPRIMITIVE_H_
 
+// for the compilers that support it. a bit faster than include guards
 #pragma once
 
 #include "primitive.h"
