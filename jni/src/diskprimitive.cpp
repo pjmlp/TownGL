@@ -51,6 +51,7 @@ DiskPrimitive::DiskPrimitive(GLfloat innerRadius, GLfloat outerRadius, GLint sli
         mesh->addVertex(innerRadius * cos(angle), innerRadius * sin(angle), 0);
         mesh->addVertex(innerRadius * cos(nextAngle), innerRadius * sin(nextAngle), 0);
     }
+    mesh->upload();
     addChild(std::move(mesh));
 }
 

@@ -83,6 +83,7 @@ BoxPrimitive::BoxPrimitive(GLfloat width, GLfloat height, GLfloat depth): scale(
 
     mesh->addVertices(::vertex);
     mesh->setTransform(glm::mat4());
+    mesh->upload();
     addChild(std::move(mesh));
 }
 

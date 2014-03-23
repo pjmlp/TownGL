@@ -40,6 +40,7 @@ public:
     void unbind();
 
     void validate();
+    bool isValid() const;
 
     void setWorldMatrix(const glm::mat4& world);
     void setLocalMatrix(const glm::mat4& local);
@@ -48,8 +49,11 @@ public:
 
 private:
     GLuint compileShader(const std::string& shader, GLenum type, GLuint& shaderId);
+    std::string readShaderFile(const std::string& filename);
+
     void logError(const std::string& msg);
     GLuint id, worldMatrix, localMatrix;
+    bool valid;
 };
 
 #endif /* EFFECT_H_ */

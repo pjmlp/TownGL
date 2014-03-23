@@ -25,10 +25,13 @@
 #include <vector>
 #include <memory>
 
+#include <glm/glm.hpp>
+#include <glm/mat4x4.hpp>
+
 #include "glos.h"
 
-//Forward declarations
-class Primitive;
+#include "primitive.h"
+#include "effect.h"
 
 /**
  * Represents the 3D world being shown.
@@ -36,14 +39,17 @@ class Primitive;
 class World
 {
 public:
-    World();
-    ~World();
+    void createScene();
 
     void update(GLfloat frame);
     void render();
 
+    void setWorldMatrix(const glm::mat4& world);
+
 private:
+    glm::mat4 worldMatrix;
     std::vector<std::unique_ptr<Primitive>> objects;
+    Effect shaders;
 };
 
 #endif /* WORLD_H_ */

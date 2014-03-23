@@ -43,7 +43,7 @@ public:
     virtual void setTransform(const glm::mat4 &transform) override;
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) override;
     virtual void update(GLfloat frame) override;
-    virtual void render() override;
+    virtual void render(Effect& shaders) override;
 
     void addChild(std::unique_ptr<Node> child);
 

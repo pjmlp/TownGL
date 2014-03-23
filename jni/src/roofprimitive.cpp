@@ -52,6 +52,7 @@ RoofPrimitive::RoofPrimitive()
         lastX = x;
         lastY = y;
 
+        mesh->upload();
         addChild(std::move(mesh));
     }
 }

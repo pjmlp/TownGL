@@ -26,6 +26,9 @@
 
 #include "glos.h"
 
+// forward declarations
+class Effect;
+
 /**
  * An interface for 3D objects
  */
@@ -36,7 +39,7 @@ public:
     virtual void setTransform(const glm::mat4 &transform) = 0;
     virtual void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) = 0;
     virtual void update(GLfloat frame) = 0;
-	virtual void render () = 0;
+	virtual void render (Effect& shaders) = 0;
 };
 
 #endif /* NODE_H_ */

@@ -41,10 +41,10 @@
 #include "world.h"
 
 
-World::World()
+void World::createScene()
 {
     glm::mat4 identity;
-    glm::mat4 translation = glm::rotate(identity, toRadians(- 90.0f), glm::vec3(1, 0, 0));
+    glm::mat4 translation = glm::rotate(identity, toRadians(-90.0f), glm::vec3(1, 0, 0));
 
     // sets the floor
     objects.push_back(std::make_unique<DiskPrimitive>(0.0f, 50.0f, 10));
@@ -54,7 +54,7 @@ World::World()
     // sets the road
     objects.push_back(std::make_unique<DiskPrimitive>(9.0f, 11.0f, 25));
     objects.back()->setColor(0, 0, 0, 0);
- 
+
     translation = glm::translate(identity, glm::vec3(0, 0.1f, 0));
     glm::mat4 transform = glm::rotate(translation, toRadians(-90.0f), glm::vec3(1, 0, 0));
     objects.back()->setTransform(transform);
@@ -94,11 +94,10 @@ World::World()
     objects.push_back(std::make_unique<BoxPrimitive>(2.0f, 8.0f, 2.0f));
     objects.back()->setTransform(translation);
     objects.back()->setColor(1, 0, 0, 0);
-}
 
-World::~World()
-{
-    // Nothing to do
+    // now load the respective shaders
+    shaders.loadShaders(VERTEX_SHADER, FRAGMENT_SHADER);
+    shaders.validate();
 }
 
 /**
@@ -120,10 +119,24 @@ void World::update(GLfloat frame)
 void World::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_MODELVIEW);
 
-    for (auto& obj : objects) {
-        obj->render();
+    if (shaders.isValid()) {
+        shaders.bind();
+
+        shaders.setWorldMatrix(worldMatrix);
+
+        for (auto& obj : objects) {
+            obj->render(shaders);
+        }
+
+        shaders.unbind();
     }
 
+}
+
+
+void World::setWorldMatrix(const glm::mat4& world)
+{
+    worldMatrix = world;
 }

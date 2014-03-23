@@ -64,10 +64,10 @@ void Primitive::setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
  * Renders all imeditate children.
  *
  */
-void Primitive::render()
+void Primitive::render(Effect& shaders)
 {
     for (auto& child : children)
-        child->render();
+        child->render(shaders);
 }
 
 

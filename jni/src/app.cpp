@@ -76,6 +76,8 @@ void Application::initializeGL()
 
     glClearColor(0, 0, 0.5, 0);
     glLineWidth(3);
+
+    world.createScene();
 }
 
 
@@ -228,6 +230,7 @@ void Application::project(GLsizei w, GLsizei h)
 
 
     glm::mat4 camera = scale * frustum * lookAt;
-    glLoadMatrixf(glm::value_ptr(camera));
+    //glLoadMatrixf(glm::value_ptr(camera));
+    world.setWorldMatrix(camera);
     // Objects related transformations follow this calls
 }

@@ -27,22 +27,29 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "effect.h"
 #include "mesh.h"
 
-Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode) : coordinatesPerVertex(coordinatesPerVertex), drawMode(mode), g(0.0f), b(0.0f), a(0.0f), transform(1.0f)
+Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode):
+coordinatesPerVertex(coordinatesPerVertex), drawMode(mode),
+g(0.0f), b(0.0f), a(0.0f), transform(1.0f), uploaded(false),
+bufferObject(0)
 {
 }
 
 Mesh::~Mesh()
 {
+    if (bufferObject) {
+       // glDeleteBuffer
+    }
 }
 
 /**
  * Renders the current mesh.
  */
-void Mesh::render()
+void Mesh::render(Effect& shaders)
 {
-    if (vertex.size() > 0) {
+    if (uploaded && (vertex.size() > 0)) {
         GLint count = 0;
         GLenum renderMode = GL_TRIANGLES;
         switch (drawMode) {
@@ -71,6 +78,7 @@ void Mesh::render()
         }
 
         if (count > 0) {
+#if 0
             glPushMatrix();
             glLoadMatrixf(glm::value_ptr(transform));
 
@@ -85,6 +93,20 @@ void Mesh::render()
             glDisableClientState(GL_VERTEX_ARRAY);
 
             glPopMatrix();
+#else
+            shaders.setUniform("color", glm::vec3(r, g, b));
+            shaders.setLocalMatrix(transform);
+            
+            glEnableVertexAttribArray(0);
+            glBindBuffer(GL_ARRAY_BUFFER, bufferObject);
+
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            glDrawArrays(renderMode, 0, count);
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glDisableVertexAttribArray(0);
+
+#endif
         }
     }
 }
@@ -94,6 +116,7 @@ void Mesh::render()
  */
 void Mesh::addVertex(GLfloat x, GLfloat y, GLfloat z)
 {
+    assert(!uploaded);
     vertex.push_back(x);
     vertex.push_back(y);
     vertex.push_back(z);
@@ -104,6 +127,7 @@ void Mesh::addVertex(GLfloat x, GLfloat y, GLfloat z)
 */
 void Mesh::addVertices(const std::vector<GLfloat> &vertices)
 {
+    assert(!uploaded);
     vertex.reserve(vertex.size() + vertices.size()); // preallocate memory
     vertex.insert(end(vertex), begin(vertices), end(vertices));
 }
@@ -133,4 +157,20 @@ void  Mesh::update(GLfloat frame)
 void  Mesh::setTransform(const glm::mat4 &transform)
 {
     this->transform = transform;
+}
+
+
+/**
+ * Uploads the mesh data to the graphics card. After the data is
+ * loaded any attempt to add more vertices will terminate the application.
+ */
+void  Mesh::upload()
+{
+    glGenBuffers(1, &bufferObject);
+
+    glBindBuffer(GL_ARRAY_BUFFER, bufferObject);
+    glBufferData(GL_ARRAY_BUFFER, vertex.size() * sizeof(GLfloat), &vertex[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    uploaded = true;
 }

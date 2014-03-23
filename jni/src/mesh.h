@@ -42,7 +42,7 @@ public:
     explicit Mesh(GLint coordinatesPerVertex, RenderMode mode);
 	virtual ~Mesh();
 
-	virtual void render () override;
+    virtual void render(Effect& shaders) override;
 
     void addVertex(GLfloat x, GLfloat y, GLfloat z);
     void addVertices(const std::vector<GLfloat> &vertices);
@@ -51,6 +51,8 @@ public:
     virtual void update(GLfloat frame) override;
 
     void setTransform(const glm::mat4 &transform) override;
+
+    void upload();
 
 private:
     GLint coordinatesPerVertex;
@@ -61,6 +63,10 @@ private:
     GLfloat r, g, b, a;
 
     glm::mat4 transform;
+
+    bool uploaded;
+
+    GLuint bufferObject;
 };
 
 #endif /* MESH_H_ */

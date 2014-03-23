@@ -19,6 +19,7 @@
 
 #include <cassert>
 #include <memory>
+#include <cstdlib>
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
@@ -33,9 +34,8 @@
 #include "effect.h"
 
 
-Effect::Effect()
+Effect::Effect() : id(0), valid(false)
 {
-    id = glCreateProgram();
 }
 
 Effect::~Effect()
@@ -47,15 +47,18 @@ Effect::~Effect()
 
 void Effect::loadShaders(const std::string& vertexShader, const std::string& fragmentShader)
 {
+    assert(id == 0);
+    id = glCreateProgram();
+
     GLuint vertex;
     
-    GLint status = compileShader(vertexShader, GL_VERTEX_SHADER, vertex);
+    GLint status = compileShader(readShaderFile(vertexShader), GL_VERTEX_SHADER, vertex);
     if (status != GL_TRUE) {
         return;
     }
 
     GLuint fragment;
-    status = compileShader(fragmentShader, GL_FRAGMENT_SHADER, fragment);
+    status = compileShader(readShaderFile(fragmentShader), GL_FRAGMENT_SHADER, fragment);
     if (status != GL_TRUE) {
         return;
     }
@@ -65,13 +68,12 @@ void Effect::loadShaders(const std::string& vertexShader, const std::string& fra
     // bind attribute locations
     // this needs to be done prior to linking
     glBindAttribLocation(id, 0, "position");
-    glBindAttribLocation(id, 1, "color");
 
     glLinkProgram(id);
 
-    GLint Success;
-    glGetProgramiv(id, GL_LINK_STATUS, &Success);
-    if (Success == 0) {
+    GLint success;
+    glGetProgramiv(id, GL_LINK_STATUS, &success);
+    if (success == GL_FALSE) {
         const int logLength = 1024;
         auto log = std::unique_ptr<GLchar>(new GLchar[logLength]);
 
@@ -141,6 +143,12 @@ void Effect::validate()
     glGetProgramiv(id, GL_VALIDATE_STATUS, &status);
     if (status == GL_FALSE)
         logError("Programm validation failed");
+    valid = (status == GL_TRUE);
+}
+
+bool Effect::isValid() const
+{
+    return valid;
 }
 
 void Effect::setWorldMatrix(const glm::mat4& world)
@@ -172,4 +180,27 @@ void Effect::logError(const std::string& msg)
         glGetProgramInfoLog(id, length, &length, log.get());
         SDL_Log("%s:\n%s", msg.c_str(), log.get());
     }
+}
+
+std::string Effect::readShaderFile(const std::string& filename)
+{
+    std::string result;
+    SDL_RWops *file = SDL_RWFromFile(filename.c_str(), "r");
+    if (file == nullptr) {
+        SDL_Log("Could not open shader file %s", filename.c_str());
+    }
+    
+    const GLint BUFFER_SIZE = 256;
+    char buffer[BUFFER_SIZE + 1];
+    memset(buffer, 0, BUFFER_SIZE);
+    
+    while (SDL_RWread(file, buffer, BUFFER_SIZE, 1) > 0) {
+        result.append(buffer);
+    }
+    result.append(buffer);
+
+    SDL_RWclose(file);
+
+    // Success!
+    return result;
 }

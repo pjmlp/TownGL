@@ -67,6 +67,8 @@ Sail::Sail(const glm::mat4 &transform) : drawAngle(0.0f), sailsTransform(transfo
     sails->setTransform(transform);
     sailLines->setTransform(transform);
 
+    sails->upload();
+    sailLines->upload();
     addChild(std::move(sails));
     addChild(std::move(sailLines));
 }

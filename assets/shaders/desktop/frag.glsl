@@ -1,7 +1,10 @@
 #version 330
+ 
+uniform vec3 color;
 
-out vec4 outputColor;
+out vec4 colorOut;
+ 
 void main()
 {
-   outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    colorOut = vec4(color,1.0);
 }

@@ -66,6 +66,9 @@
     <ClInclude Include="jni\src\sailprimitive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jni\src\effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\src\glos_win.cpp">
@@ -113,5 +116,12 @@
     <ClCompile Include="jni\src\sailprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jni\src\effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\desktop\frag.glsl" />
+    <None Include="assets\shaders\desktop\vertex.glsl" />
   </ItemGroup>
 </Project>

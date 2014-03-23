@@ -33,6 +33,10 @@
     #include <GL/glew.h>
 
     bool InitializeGlew();
+
+    // shader paths
+    #define VERTEX_SHADER  R"(D:\TownGL\TownGL\assets\shaders\desktop\vertex.glsl)"
+    #define FRAGMENT_SHADER  R"(D:\TownGL\TownGL\assets\shaders\desktop\frag.glsl)"
 #endif //ANDROID
 
 #endif /* GLOS_H_ */

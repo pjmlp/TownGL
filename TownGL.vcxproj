@@ -18,6 +18,7 @@
     <ClInclude Include="jni\src\c++14.h" />
     <ClInclude Include="jni\src\cylinderprimitive.h" />
     <ClInclude Include="jni\src\diskprimitive.h" />
+    <ClInclude Include="jni\src\effect.h" />
     <ClInclude Include="jni\src\node.h" />
     <ClInclude Include="jni\src\sailprimitive.h" />
     <ClInclude Include="jni\src\world.h" />
@@ -36,6 +37,7 @@
     <ClCompile Include="jni\src\boxprimitive.cpp" />
     <ClCompile Include="jni\src\cylinderprimitive.cpp" />
     <ClCompile Include="jni\src\diskprimitive.cpp" />
+    <ClCompile Include="jni\src\effect.cpp" />
     <ClCompile Include="jni\src\sailprimitive.cpp" />
     <ClCompile Include="jni\src\world.cpp" />
     <ClCompile Include="jni\src\glos_win.cpp" />
@@ -45,6 +47,14 @@
     <ClCompile Include="jni\src\townsdl.cpp" />
     <ClCompile Include="jni\src\tunnelprimitive.cpp" />
     <ClCompile Include="jni\src\windmillprimitive.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\desktop\frag.glsl">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="assets\shaders\desktop\vertex.glsl">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C7C78A8A-084B-4A75-AD0E-E33D5CE70E87}</ProjectGuid>

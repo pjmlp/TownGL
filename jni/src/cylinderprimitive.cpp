@@ -49,6 +49,7 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
         mesh->addVertex(cos(angle)*lowerRadius, 0.0f, sin(angle)*lowerRadius);
     }
     mesh->addVertex(0.0f, 0.0f, lowerRadius);
+    mesh->upload();
     addChild(std::move(mesh));
 
     // top circle
@@ -60,6 +61,7 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
         mesh->addVertex(cos(angle)*upperRadius, height, sin(angle)*upperRadius);
     }
     mesh->addVertex(0.0f, height, upperRadius);
+    mesh->upload();
     addChild(std::move(mesh));
 
     // the rest
@@ -79,6 +81,7 @@ CylinderPrimitive::CylinderPrimitive(GLfloat lowerRadius, GLfloat upperRadius, G
         mesh->addVertex(cos(nextAngle)*lowerRadius, 0.0f, sin(nextAngle)*lowerRadius);
 
     }
+    mesh->upload();
     addChild(std::move(mesh));
 }
 
