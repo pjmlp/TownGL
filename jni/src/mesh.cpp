@@ -40,7 +40,7 @@ bufferObject(0)
 Mesh::~Mesh()
 {
     if (bufferObject) {
-       // glDeleteBuffer
+        glDeleteBuffers(1, &bufferObject);
     }
 }
 
@@ -78,22 +78,6 @@ void Mesh::render(Effect& shaders)
         }
 
         if (count > 0) {
-#if 0
-            glPushMatrix();
-            glLoadMatrixf(glm::value_ptr(transform));
-
-            glColor4f(r, g, b, a);
-
-            glEnableClientState(GL_VERTEX_ARRAY);
-
-            glVertexPointer(coordinatesPerVertex, GL_FLOAT, 0, &vertex[0]);
-
-            glDrawArrays(renderMode, 0, count);
-
-            glDisableClientState(GL_VERTEX_ARRAY);
-
-            glPopMatrix();
-#else
             shaders.setUniform("color", glm::vec3(r, g, b));
             shaders.setLocalMatrix(transform);
             
@@ -105,8 +89,6 @@ void Mesh::render(Effect& shaders)
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glDisableVertexAttribArray(0);
-
-#endif
         }
     }
 }

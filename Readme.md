@@ -6,7 +6,7 @@
 
 This demo application was originally developed in C, around 1999 with OpenGL 1.1 and targed Windows systems.
 
-I have recoded it as a means to keep myself updated with the C++11/C++14 changes and how to use to target Android systems with NDK and Open GL ES.
+I have recoded it as a means to keep myself updated with the C++11/C++14 changes and how to use to target Android systems with NDK and Open GL ES 2.0.
 
 The graphics were kept as simple as the original one, because the main goal was to learn the said technologies and not to write a game engine.
 

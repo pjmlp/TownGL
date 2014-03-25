@@ -153,12 +153,12 @@ bool Effect::isValid() const
 
 void Effect::setWorldMatrix(const glm::mat4& world)
 {
-   glUniformMatrix4fv(worldMatrix, 1, GL_TRUE, glm::value_ptr(world));
+   glUniformMatrix4fv(worldMatrix, 1, GL_FALSE, glm::value_ptr(world));
 }
 
 void Effect::setLocalMatrix(const glm::mat4& local)
 {
-    glUniformMatrix4fv(localMatrix, 1, GL_TRUE, glm::value_ptr(local));
+    glUniformMatrix4fv(localMatrix, 1, GL_FALSE, glm::value_ptr(local));
 }
 
 void Effect::setUniform(const std::string& name, const glm::vec3& data)
