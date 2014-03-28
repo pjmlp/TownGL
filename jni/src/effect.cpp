@@ -107,8 +107,8 @@ void Effect::unbind()
 GLuint Effect::compileShader(const std::string& source, GLenum type, GLuint& shaderId)
 {
 
-    const char * sources[1] = { source.c_str()  };
-    GLint lengths[1] = { source.length() };
+    const char * sources[] = { source.c_str()  };
+    GLint lengths[] = { static_cast<GLint>(source.length()) };
 
     shaderId = glCreateShader(type);				
     glShaderSource(shaderId, 1, sources, lengths);
@@ -118,9 +118,9 @@ GLuint Effect::compileShader(const std::string& source, GLenum type, GLuint& sha
     glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
     if (logLength > 0)
     {
-        auto log = std::unique_ptr<GLchar>(new GLchar[logLength]);
+        auto log = std::unique_ptr<GLchar[]>(new GLchar[logLength]);
         glGetShaderInfoLog(shaderId, logLength, &logLength, log.get());
-        SDL_Log("Shader compile log:\n%s", log);
+        SDL_Log("Shader compile log:\n%s", log.get());
     }
 
     GLint status;
