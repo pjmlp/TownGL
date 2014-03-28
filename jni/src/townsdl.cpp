@@ -90,7 +90,11 @@ int main (int argc, char** argv)
 	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-
+    
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, OPEN_GL_PROFILE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, OPEN_GL_PROFILE_MAJOR);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, OPEN_GL_PROFILE_MINOR);
+    
     int width, height;
     Uint32 flags;
 

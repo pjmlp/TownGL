@@ -24,10 +24,19 @@
 
 #ifdef __ANDROID__
     #include <EGL/egl.h>
-    #include <GLES/gl.h>
+    #include <GLES2/gl2.h>
 
     // No Glew on Android, always return true
     #define InitializeGlew() (true)
+
+    // shader paths
+    #define VERTEX_SHADER  R"(shaders/mobile/vertex.glsl)"
+    #define FRAGMENT_SHADER  R"(shaders/mobile/frag.glsl)"
+
+    // OpenGL version
+    #define OPEN_GL_PROFILE        SDL_GL_CONTEXT_PROFILE_ES
+    #define OPEN_GL_PROFILE_MAJOR  2
+    #define OPEN_GL_PROFILE_MINOR  0
 
 #else
     #include <GL/glew.h>
@@ -35,8 +44,14 @@
     bool InitializeGlew();
 
     // shader paths
-    #define VERTEX_SHADER  R"(D:\TownGL\TownGL\assets\shaders\desktop\vertex.glsl)"
-    #define FRAGMENT_SHADER  R"(D:\TownGL\TownGL\assets\shaders\desktop\frag.glsl)"
+    #define VERTEX_SHADER  R"(\TownGL\TownGL\assets\shaders\desktop\vertex.glsl)"
+    #define FRAGMENT_SHADER  R"(\TownGL\TownGL\assets\shaders\desktop\frag.glsl)"
+
+    // OpenGL version
+    #define OPEN_GL_PROFILE        SDL_GL_CONTEXT_PROFILE_COMPATIBILITY
+    #define OPEN_GL_PROFILE_MAJOR  3
+    #define OPEN_GL_PROFILE_MINOR  3
+
 #endif //ANDROID
 
 #endif /* GLOS_H_ */
