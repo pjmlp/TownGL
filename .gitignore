@@ -221,3 +221,7 @@ pip-log.txt
 jni/SDL
 jni/glm
 src/org/libsdl/app/SDLActivity.java
+gen/org/progtools/towngl/BuildConfig.java
+gen/org/progtools/towngl/R.java
+libs/x86/libSDL2.so
+libs/x86/libmain.so
