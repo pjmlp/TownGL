@@ -61,19 +61,6 @@ Application::~Application()
  */
 void Application::initializeGL()
 {
-    GLfloat position[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat ambient[] = { 1.0, 1.0, 1.0, 1.0 };
-
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_COLOR_MATERIAL);
-
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
-
     glClearColor(0, 0, 0.5, 0);
     glLineWidth(3);
 
@@ -113,11 +100,6 @@ void Application::changeViewPoint()
  */
 void Application::changeLighting()
 {
-    if (isLightOn)
-        glDisable(GL_LIGHTING);
-    else
-        glEnable(GL_LIGHTING);
-
     isLightOn = !isLightOn;
 }
 
@@ -166,7 +148,6 @@ void Application::project(GLsizei w, GLsizei h)
     static GLfloat angle = 0.0f;
     GLfloat cosAngle, sinAngle;
 
-    glMatrixMode(GL_PROJECTION);
     glm::mat4 identity;
     glm::mat4 scale;
 
