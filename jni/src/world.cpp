@@ -134,7 +134,10 @@ void World::render()
 
 }
 
-
+/**
+* Updates the world projection matrix.
+* @param world The matrix representing the world view in column major order.
+*/
 void World::setWorldMatrix(const glm::mat4& world)
 {
     worldMatrix = world;
