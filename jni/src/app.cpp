@@ -61,8 +61,11 @@ Application::~Application()
  */
 void Application::initializeGL()
 {
-    glClearColor(0, 0, 0.5, 0);
-    glLineWidth(3);
+     glDepthFunc(GL_LESS);
+     glEnable(GL_DEPTH_TEST);
+
+     glClearColor(0, 0, 0.5, 0);
+     glLineWidth(3);
 
     world.createScene();
 }

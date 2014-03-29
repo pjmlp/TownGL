@@ -44,8 +44,8 @@
     bool InitializeGlew();
 
     // shader paths
-    #define VERTEX_SHADER  R"(\TownGL\TownGL\assets\shaders\desktop\vertex.glsl)"
-    #define FRAGMENT_SHADER  R"(\TownGL\TownGL\assets\shaders\desktop\frag.glsl)"
+    #define VERTEX_SHADER  R"(vertex.glsl)"
+    #define FRAGMENT_SHADER  R"(frag.glsl)"
 
     // OpenGL version
     #define OPEN_GL_PROFILE        SDL_GL_CONTEXT_PROFILE_COMPATIBILITY

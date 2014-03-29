@@ -1,8 +1,8 @@
-#version 330
+#version 101
  
 uniform mat4 modelViewMatrix, projectionMatrix;
  
-layout (location = 0) in vec4 position;
+attribute vec4 position;
  
 void main()
 {
