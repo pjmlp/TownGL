@@ -189,18 +189,18 @@ std::string Effect::readShaderFile(const std::string& filename)
     if (file == nullptr) {
         SDL_Log("Could not open shader file %s", filename.c_str());
     }
-    
-    const GLint BUFFER_SIZE = 256;
-    char buffer[BUFFER_SIZE + 1];
-    memset(buffer, 0, BUFFER_SIZE);
-    
-    while (SDL_RWread(file, buffer, BUFFER_SIZE, 1) > 0) {
+    else {
+        const GLint BUFFER_SIZE = 256;
+        char buffer[BUFFER_SIZE + 1];
+        memset(buffer, 0, BUFFER_SIZE);
+
+        while (SDL_RWread(file, buffer, BUFFER_SIZE, 1) > 0) {
+            result.append(buffer);
+        }
         result.append(buffer);
+
+        SDL_RWclose(file);
     }
-    result.append(buffer);
-
-    SDL_RWclose(file);
-
     // Success!
     return result;
 }
