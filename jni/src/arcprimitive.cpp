@@ -21,7 +21,6 @@
 #include <algorithm>
 #include <memory>
 
-#include "c++14.h"
 #include "glos.h"
 #include "pi.h"
 #include "mesh.h"

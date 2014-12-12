@@ -24,7 +24,6 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "c++14.h"
 #include "glos.h"
 #include "pi.h"
 #include "diskprimitive.h"
