@@ -48,24 +48,23 @@ For building TownGL with the NDK, a few steps are required:
 
 1. Download SDL from http://www.libsdl.org/
 2. Expand the package contents
-3. Copy the full SDL source code into _src/jni_ location
-4. Copy the Java code from _android-project/src_ into _src_
+3. Copy the full SDL source code into _app/jni_ location
+4. Copy the Java code from _android-project/src_ into _app/src/main/java_
 5. Download GLM from http://glm.g-truc.net
-6. Copy GLM source code into _src/jni_ location
+6. Copy GLM source code into _app/jni_ location
 
 ### Building on the command line
 
 1. Make sure ndk-build is on the PATH
-2. ant compile
+2. gradlew assembleDebug
 
-### Building with Eclipse/ADT/CDT
+### Building with Android Studio
 
-1. Start Eclipse;
+1. Start Android Studio;
 2. Use _import existing project_ for adding the project into the workspace;
-3. Verify that you have a valid path for the NDK at _Preferences->Android->NDK_ settings panel;
-4. Switch to the CDT perspective
-5. Build the project
-6. Finally deploy it either to the emulator or plugged device
+3. Verify that you have a valid path for the NDK at _File->Project Structure->Android NDK location_ settings panel;
+4. Build the project
+5. Finally deploy it either to the emulator or plugged device
 
 Since the demo makes use of OpenGL ES, it will only work in the emulator if the requirements are fullfiled:
 
