@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,70 +11,66 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="jni\src\app.h" />
-    <ClInclude Include="jni\src\arcprimitive.h" />
-    <ClInclude Include="jni\src\arctunnelprimitive.h" />
-    <ClInclude Include="jni\src\boxprimitive.h" />
-    <ClInclude Include="jni\src\c++14.h" />
-    <ClInclude Include="jni\src\cylinderprimitive.h" />
-    <ClInclude Include="jni\src\diskprimitive.h" />
-    <ClInclude Include="jni\src\effect.h" />
-    <ClInclude Include="jni\src\node.h" />
-    <ClInclude Include="jni\src\sailprimitive.h" />
-    <ClInclude Include="jni\src\world.h" />
-    <ClInclude Include="jni\src\glos.h" />
-    <ClInclude Include="jni\src\mesh.h" />
-    <ClInclude Include="jni\src\pi.h" />
-    <ClInclude Include="jni\src\primitive.h" />
-    <ClInclude Include="jni\src\roofprimitive.h" />
-    <ClInclude Include="jni\src\tunnelprimitive.h" />
-    <ClInclude Include="jni\src\windmillprimitive.h" />
+    <None Include="app\src\main\assets\shaders\desktop\frag.glsl" />
+    <None Include="app\src\main\assets\shaders\desktop\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jni\src\app.cpp" />
-    <ClCompile Include="jni\src\arcprimitive.cpp" />
-    <ClCompile Include="jni\src\arctunnelprimitive.cpp" />
-    <ClCompile Include="jni\src\boxprimitive.cpp" />
-    <ClCompile Include="jni\src\cylinderprimitive.cpp" />
-    <ClCompile Include="jni\src\diskprimitive.cpp" />
-    <ClCompile Include="jni\src\effect.cpp" />
-    <ClCompile Include="jni\src\sailprimitive.cpp" />
-    <ClCompile Include="jni\src\world.cpp" />
-    <ClCompile Include="jni\src\glos_win.cpp" />
-    <ClCompile Include="jni\src\mesh.cpp" />
-    <ClCompile Include="jni\src\primitive.cpp" />
-    <ClCompile Include="jni\src\roofprimitive.cpp" />
-    <ClCompile Include="jni\src\townsdl.cpp" />
-    <ClCompile Include="jni\src\tunnelprimitive.cpp" />
-    <ClCompile Include="jni\src\windmillprimitive.cpp" />
+    <ClCompile Include="app\jni\src\app.cpp" />
+    <ClCompile Include="app\jni\src\arcprimitive.cpp" />
+    <ClCompile Include="app\jni\src\arctunnelprimitive.cpp" />
+    <ClCompile Include="app\jni\src\boxprimitive.cpp" />
+    <ClCompile Include="app\jni\src\cylinderprimitive.cpp" />
+    <ClCompile Include="app\jni\src\diskprimitive.cpp" />
+    <ClCompile Include="app\jni\src\effect.cpp" />
+    <ClCompile Include="app\jni\src\glos_win.cpp" />
+    <ClCompile Include="app\jni\src\mesh.cpp" />
+    <ClCompile Include="app\jni\src\primitive.cpp" />
+    <ClCompile Include="app\jni\src\roofprimitive.cpp" />
+    <ClCompile Include="app\jni\src\sailprimitive.cpp" />
+    <ClCompile Include="app\jni\src\townsdl.cpp" />
+    <ClCompile Include="app\jni\src\tunnelprimitive.cpp" />
+    <ClCompile Include="app\jni\src\windmillprimitive.cpp" />
+    <ClCompile Include="app\jni\src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\desktop\frag.glsl">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="assets\shaders\desktop\vertex.glsl">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
+    <ClInclude Include="app\jni\src\app.h" />
+    <ClInclude Include="app\jni\src\arcprimitive.h" />
+    <ClInclude Include="app\jni\src\arctunnelprimitive.h" />
+    <ClInclude Include="app\jni\src\boxprimitive.h" />
+    <ClInclude Include="app\jni\src\cylinderprimitive.h" />
+    <ClInclude Include="app\jni\src\diskprimitive.h" />
+    <ClInclude Include="app\jni\src\effect.h" />
+    <ClInclude Include="app\jni\src\glos.h" />
+    <ClInclude Include="app\jni\src\mesh.h" />
+    <ClInclude Include="app\jni\src\node.h" />
+    <ClInclude Include="app\jni\src\pi.h" />
+    <ClInclude Include="app\jni\src\primitive.h" />
+    <ClInclude Include="app\jni\src\roofprimitive.h" />
+    <ClInclude Include="app\jni\src\sailprimitive.h" />
+    <ClInclude Include="app\jni\src\tunnelprimitive.h" />
+    <ClInclude Include="app\jni\src\windmillprimitive.h" />
+    <ClInclude Include="app\jni\src\world.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C7C78A8A-084B-4A75-AD0E-E33D5CE70E87}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TownGL</RootNamespace>
     <ProjectName>TownGL</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -88,8 +84,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\glm;..\SDL2-2.0.0\include;..\glew-1.9.0\include;.\jni\src;$(IncludePath)</IncludePath>
-    <LibraryPath>..\SDL2-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>libs\glm;libs\SDL2-2.0.9\include;libs\glew-2.1.0\include;app\jni\src;$(IncludePath)</IncludePath>
+    <LibraryPath>libs\SDL2-2.0.9\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,7 +106,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32.lib;OpenGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\SDL2-2.0.0\lib\x86;..\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>libs\SDL2-2.0.9\lib\x86;libs\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

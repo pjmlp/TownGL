@@ -15,113 +15,110 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="jni\src\glos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\pi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\primitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\arctunnelprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\tunnelprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\windmillprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\world.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\arcprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\boxprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\roofprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\diskprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\cylinderprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\app.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\node.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\c++14.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\sailprimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jni\src\effect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="app\src\main\assets\shaders\desktop\frag.glsl" />
+    <None Include="app\src\main\assets\shaders\desktop\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jni\src\glos_win.cpp">
+    <ClCompile Include="app\jni\src\app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\mesh.cpp">
+    <ClCompile Include="app\jni\src\arcprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\townsdl.cpp">
+    <ClCompile Include="app\jni\src\arctunnelprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\primitive.cpp">
+    <ClCompile Include="app\jni\src\boxprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\arctunnelprimitive.cpp">
+    <ClCompile Include="app\jni\src\cylinderprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\tunnelprimitive.cpp">
+    <ClCompile Include="app\jni\src\diskprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\windmillprimitive.cpp">
+    <ClCompile Include="app\jni\src\effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\world.cpp">
+    <ClCompile Include="app\jni\src\glos_win.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\arcprimitive.cpp">
+    <ClCompile Include="app\jni\src\mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\boxprimitive.cpp">
+    <ClCompile Include="app\jni\src\primitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\roofprimitive.cpp">
+    <ClCompile Include="app\jni\src\roofprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\diskprimitive.cpp">
+    <ClCompile Include="app\jni\src\sailprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\cylinderprimitive.cpp">
+    <ClCompile Include="app\jni\src\townsdl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\app.cpp">
+    <ClCompile Include="app\jni\src\tunnelprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\sailprimitive.cpp">
+    <ClCompile Include="app\jni\src\windmillprimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jni\src\effect.cpp">
+    <ClCompile Include="app\jni\src\world.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\desktop\frag.glsl" />
-    <None Include="assets\shaders\desktop\vertex.glsl" />
+    <ClInclude Include="app\jni\src\app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\arcprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\arctunnelprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\boxprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\cylinderprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\diskprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\glos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\pi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\primitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\roofprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\sailprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\tunnelprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\windmillprimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app\jni\src\world.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
