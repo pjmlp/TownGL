@@ -1,4 +1,4 @@
-#version 101
+#version 100
  
 uniform mat4 modelViewMatrix, projectionMatrix;
  

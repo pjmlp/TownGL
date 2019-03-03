@@ -79,7 +79,7 @@ void Effect::loadShaders(const std::string& vertexShader, const std::string& fra
 
 
         glGetProgramInfoLog(id, logLength, nullptr, log.get());
-        SDL_Log("Error linking shader program: '%s'\n", logLength);
+        SDL_Log("Error linking shader program: '%s'\n", log.get());
     }
 
     worldMatrix = glGetUniformLocation(id, "projectionMatrix");
