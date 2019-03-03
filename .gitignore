@@ -218,10 +218,14 @@ pip-log.txt
 ## Android Libraries
 #################
 
-jni/SDL
-jni/glm
-src/org/libsdl/app/SDLActivity.java
+.gradle
+.idea
+app/jni/SDL
+app/jni/SDL2
+app/jni/glm
+app/src/main/java/org/libsdl/app
 gen/org/progtools/towngl/BuildConfig.java
 gen/org/progtools/towngl/R.java
+gen/org/progtools/towngl/Manifest.java
 libs/x86/libSDL2.so
 libs/x86/libmain.so
