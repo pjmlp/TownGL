@@ -220,6 +220,7 @@ pip-log.txt
 
 .gradle
 .idea
+.vs
 app/jni/SDL
 app/jni/SDL2
 app/jni/glm
@@ -229,3 +230,4 @@ gen/org/progtools/towngl/R.java
 gen/org/progtools/towngl/Manifest.java
 libs/x86/libSDL2.so
 libs/x86/libmain.so
+libs
