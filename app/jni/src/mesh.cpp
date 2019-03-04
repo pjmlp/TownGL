@@ -32,7 +32,7 @@
 
 Mesh::Mesh(GLint coordinatesPerVertex, RenderMode mode):
 coordinatesPerVertex(coordinatesPerVertex), drawMode(mode),
-g(0.0f), b(0.0f), a(0.0f), transform(1.0f), uploaded(false),
+r(0.0f), g(0.0f), b(0.0f), a(0.0f), transform(1.0f), uploaded(false),
 bufferObject(0)
 {
 }

@@ -34,7 +34,7 @@
 #include "effect.h"
 
 
-Effect::Effect() : id(0), valid(false)
+Effect::Effect() : id(0), valid(false), worldMatrix(), localMatrix()
 {
 }
 
@@ -75,7 +75,7 @@ void Effect::loadShaders(const std::string& vertexShader, const std::string& fra
     glGetProgramiv(id, GL_LINK_STATUS, &success);
     if (success == GL_FALSE) {
         const int logLength = 1024;
-        auto log = std::unique_ptr<GLchar>(new GLchar[logLength]);
+        auto log = std::make_unique<GLchar[]>(logLength);
 
 
         glGetProgramInfoLog(id, logLength, nullptr, log.get());
@@ -118,7 +118,7 @@ GLuint Effect::compileShader(const std::string& source, GLenum type, GLuint& sha
     glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
     if (logLength > 0)
     {
-        auto log = std::unique_ptr<GLchar[]>(new GLchar[logLength]);
+		auto log = std::make_unique<GLchar[]>(logLength);
         glGetShaderInfoLog(shaderId, logLength, &logLength, log.get());
         SDL_Log("Shader compile log:\n%s", log.get());
     }
@@ -176,7 +176,7 @@ void Effect::logError(const std::string& msg)
     glGetProgramiv(id, GL_INFO_LOG_LENGTH, &length);
     if (length > 0)
     {
-        auto log = std::unique_ptr<GLchar>(new GLchar[length]);
+        auto log = std::make_unique<GLchar[]>(length);
         glGetProgramInfoLog(id, length, &length, log.get());
         SDL_Log("%s:\n%s", msg.c_str(), log.get());
     }
@@ -193,8 +193,10 @@ std::string Effect::readShaderFile(const std::string& filename)
         const GLint BUFFER_SIZE = 256;
         char buffer[BUFFER_SIZE + 1];
         memset(buffer, 0, BUFFER_SIZE);
+		buffer[BUFFER_SIZE] = '\0'; // Visual C++ static analyser is not happy only with memset() being called.
 
         while (SDL_RWread(file, buffer, BUFFER_SIZE, 1) > 0) {
+			buffer[BUFFER_SIZE] = '\0';
             result.append(buffer);
         }
         result.append(buffer);

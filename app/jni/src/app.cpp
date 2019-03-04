@@ -47,7 +47,7 @@ const GLfloat Application::INC_ALTITUDE = 0.5f;
 // Starting altitude when the user changes view mode.
 const GLint Application::DEFAULT_ALTITUDE = 53;
 
-Application::Application() : currentTime(clock())
+Application::Application() : currentTime(clock()), lastWidth(0), lastHeight(0)
 {
 }
 

@@ -39,6 +39,8 @@
 class World
 {
 public:
+	World();
+
     void createScene();
 
     void update(GLfloat frame);

@@ -39,6 +39,10 @@
 
 #include "world.h"
 
+World::World(): worldMatrix()
+{
+
+}
 
 void World::createScene()
 {
